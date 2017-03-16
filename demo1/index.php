@@ -3,8 +3,8 @@ $mod = 755;
 $mod = octdec('0'.$mod);
 
 /**
- * пч╦днд╪Ч║╒нд╪Ч╪пх╗оч
- * @param  $path нд╪Ч(╪п)д©б╪
+ * Д©╝Ф■╧Ф√┤Д╩╤Ц─│Ф√┤Д╩╤Е╓╧Ф²┐И≥░
+ * @param  $path Ф√┤Д╩╤(Е╓╧)Г⌡╝Е╫∙
  * @return :string
  */
 function chmod_path($path,$mod){
