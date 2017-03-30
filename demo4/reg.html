@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<script type="text/javascript">
+var reg = /^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+var result = reg.test("192.168.1.88");
+console.log(result);
+
+/*
+function queryDev(ipvalue){  
+	var isIpv6 = false;  
+	if(ipvalue.match(/:/g).length<=7&&/::/.test(ipvalue)?/^([\da-f]{1,4}(:|::)){1,6}[\da-f]{1,4}$/i.test(ipvalue):/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(ipvalue)){  
+	        isIpv6 = true;  
+	}  
+	if(isIpv6){  
+	   return true;  
+	} else {  
+	  return false;  
+	}  
+}
+console.log(queryDev("127"));
+*/
+
+function isIPv6(str)//IPV6地址判断 
+{ 
+ return /:/.test(str) 
+ &&str.match(/:/g).length<8
+ &&/::/.test(str)
+ ?(str.match(/::/g).length==1
+ &&/^::$|^(::)?([\da-f]{1,4}(:|::))*[\da-f]{1,4}(:|::)?$/i.test(str))
+ :/^([\da-f]{1,4}:){7}[\da-f]{1,4}$/i.test(str);
+}
+
+console.log(isIPv6("0:0:0:0:0:0:7f00:1"));
+</script>
+</body>
+</html>
