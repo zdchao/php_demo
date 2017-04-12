@@ -6,4 +6,3 @@
 4:常用正则匹配 demo4
 
 6:增长工程师修炼之道 demo5
-7:animate.css demo7
