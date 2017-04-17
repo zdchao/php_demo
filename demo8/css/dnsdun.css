@@ -116,12 +116,13 @@ input[type="text"]{
 	position: relative;
   display: inline-block;
 }
+
 .dropdown-btn .btn{
+	padding:5px 10px;
+	font-size:14px;
 	display: inline-block;
   margin-bottom: 0;
-  padding: 5px 10px;
   vertical-align: middle;
-  font-size: 16px;
   font-weight: normal;
   line-height: 1.2;
   text-align: center;
@@ -138,12 +139,14 @@ input[type="text"]{
           user-select: none;
   -webkit-transition: background-color 300ms ease-out, border-color 300ms ease-out;
   transition: background-color 300ms ease-out, border-color 300ms ease-out;
-  background:#0d7377;
+  color: #fff;
+  background-color: #0099cc;
 }
 .dropdown-btn .btn.user{
 	background:#373d41;
 }
 .dropdown-btn .content{
+	display:none;
 	position: absolute;
   top: 100%;
   right: 0;
@@ -162,6 +165,9 @@ input[type="text"]{
   -webkit-animation-duration: .15s;
           animation-duration: .15s;
           list-style: none;
+}
+.dropdown-btn .content.display{
+	display:block;
 }
 .dropdown-btn .content:before,
 .dropdown-btn .content:after{
@@ -220,8 +226,7 @@ input[type="text"]{
   -webkit-transition: background-color 300ms ease-out, border-color 300ms ease-out;
   transition: background-color 300ms ease-out, border-color 300ms ease-out;
   color: #fff;
-  background-color: #5eb95e;
-  border-color: #5eb95e;
+  background-color: #0099cc;
 }
 .add-domain{
 	padding:5px 10px;
@@ -433,27 +438,35 @@ input[type="text"]{
 }
 
 .tabs{
-	border-bottom:1px solid #000;
-	display:block;
-  margin-bottom: 0;
-  padding: 0;
-  list-style: none;
+	display: flex;
+	margin-bottom: 0;
+  	padding: 0;
+	border-bottom: 1px solid #ddd;
 }
-.tabs > li{
-	position: relative;
-  display: block;
-  float: left;
+.tabs >li{
+	padding-top:10px;
+	padding-left:10px;
+	padding-right:10px;
+	float: left;
   margin-bottom: -1px;
-}
-.tabs > li > a{
-	position: relative;
+  list-style-type:none;
   display: block;
-  padding: 0.4em 1em;
-  border-radius: 0;
-  margin-right: 5px;
+}
+.tabs >li > a{
   line-height: 1.6;
   border: 1px solid transparent;
   border-radius: 0 0 0 0;
+  display: block;
+  text-decoration: none;
+  color:#000;
+}
+.tabs >li:hover{
+	background-color: #eeeeee;
+}
+.tabs >li >a:hover{
+	text-decoration: none;
+  background-color: #eeeeee;
+	border-color: #eeeeee #eeeeee #ddd;
 }
 .tabs .active{
 	color: #555555;
@@ -461,4 +474,12 @@ input[type="text"]{
   border: 1px solid #ddd;
   border-bottom-color: transparent;
   cursor: default;
+}
+
+.record-top{
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.record-tabs{
+	padding-bottom:10px;
 }

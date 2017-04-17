@@ -35,16 +35,108 @@
 	
 	<div class="common-content">
 		<div class="common-main">
-			<div>
+			<div class="record-top">
 				<a href="javascript:;"><i class="fa fa-home"></i></a>
 				<span>2.com</span>
 				<span>免费版</span>
 			</div>
-			<div>
+			<div class="record-tabs">
 				<ul class="tabs">
-					<li class="active"><a href="javascript:;">1</a></li>
-					<li><a href="javascript:;">2</a></li>
+					<li class="active"><a href="javascript:;"><i class="fa fa-bullseye"></i>记录管理</a></li>
+					<li><a href="javascript:;"><i class="fa fa-area-chart"></i>解析统计</a></li>
+					<li><a href="javascript:;"><i class="fa fa-sitemap"></i>线路管理</a></li>
+					<li><a href="javascript:;"><i class="fa fa-desktop"></i>监控日志</a></li>
+					<li><a href="javascript:;"><i class="fa fa-book"></i>操作日志</a></li>
+					<li><a href="javascript:;"><i class="fa fa-gear"></i>域名设置</a></li>
+					<li><a href="javascript:;"><i class="fa fa-flash"></i>CDN</a></li>
 				</ul>
+			</div>
+			<div>
+				<button class="btn">增加记录</button>
+				<div class="dropdown-btn">
+					<button class="btn"> 更多操作 <span class="fa fa-chevron-down"></span></button>
+					<ul class="content">
+						<li><a href="javascript:;">删除</a></li>
+						<li><a href="javascript:;">启用</a></li>
+						<li><a href="javascript:;">暂停</a></li>
+						<li><a href="javascript:;">自动导入</a></li>
+						<li><a href="javascript:;">导出记录</a></li>
+						<li><a href="javascript:;">批量添加</a></li>
+						<li><a href="javascript:;">切换线路组</a></li>
+					</ul>
+				</div>
+				<button class="btn">DNSSEC</button>
+				<button class="btn">SSL证书</button>
+			</div>
+			<div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th><input type="checkbox"/></th>
+							<th>主机</th>
+							<th>类型</th>
+							<th>线路</th>
+							<th>解析</th>
+							<th>TTL</th>
+							<th>操作</th>
+							<th>监控</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="checkbox"/></td>
+							<td>@</td>
+							<td>NS</td>
+							<td>默认</td>
+							<td>ns6.dnsdun.com.</td>
+							<td>3600</td>
+							<td>
+								<a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+								<a href="javascript:;"><i class="fa fa-play-circle-o"></i></a>
+								<a href="javascript:;"><i class="fa fa-play"></i></a>
+								<a href="javascript:;"><i class="fa fa-edit"></i></a>
+								<a href="javascript:;"><i class="fa fa-globe"></i></a>
+							</td>
+							<td><a href="javascript:;"><i class="fa fa-plus"></i></a></td>
+						</tr>
+						<tr>
+							<td><input type="checkbox"/></td>
+							<td>@</td>
+							<td>NS</td>
+							<td>默认</td>
+							<td>ns4.dnsdun.net.</td>
+							<td>3600</td>
+							<td>
+								<a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+								<a href="javascript:;"><i class="fa fa-pause-circle-o"></i></a>
+								<a href="javascript:;"><i class="fa fa-pause"></i></a>
+								<a href="javascript:;"><i class="fa fa-edit"></i></a>
+								<a href="javascript:;"><i class="fa fa-globe"></i></a>
+							</td>
+							<td>
+								<a href="javascript:;"><i class="fa fa-trash-o"></i></a>
+								<a href="javascript:;"><i class="fa fa-edit"></i></a>
+								<a href="javascript:;"><i class="fa fa-desktop"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div>
+				<div class="dropdown-btn right">
+					<button class="btn"> 1 - 20 / 2 <span class="fa fa-chevron-down"></span></button>
+					<ul class="content">
+						<li class="active"><a href="javascript:;">20/页</a></li>
+						<li><a href="javascript:;">100/页</a></li>
+					</ul>
+				</div>
+				<span class="page-span">
+					<button class="btn page-btn">首页</button>
+					<button class="btn page-btn">上一页</button>
+					<button class="btn page-btn">下一页</button>
+					<button class="btn page-btn">尾页</button>
+				</span>
 			</div>
 			
 		</div>
