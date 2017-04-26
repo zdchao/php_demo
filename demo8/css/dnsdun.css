@@ -5,11 +5,14 @@ common-xxx
 html,body,ul,li,a{
 	padding:0;
 	margin:0;
+	height:100%;
 }
 body{
 	overflow:scroll;
     overflow-x:hidden;
     min-height:1000px;
+    background:#f1f2f7;
+    color:#1f2d3d;
 }
 input[type="text"]{
 	display: block;
@@ -28,13 +31,33 @@ input[type="text"]{
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
+textarea{
+	display:block;
+	width:100%;
+	color:#555555;
+	border:1px solid #ccc;
+	border-radius:0;
+}
+.common-list > .list-row{
+	position: relative;
+  display: block;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  border-width: 1px 0;
+  height:40px;
+  line-height:40px;
+}
+.common-list > .list-row div:first-child span:first-child{
+	border:1px solid #000;
+}
 .right{
 	float:right;
 }
 .common-top{
 	width:100%;
 	height:60px;
-	background:#373d41;
+	background:#1f2d3d;
 }
 .common-top .col{
 	display:inline-block;
@@ -59,23 +82,25 @@ input[type="text"]{
 }
 .common-main{
 	position:relative;
+	height:100%;
 }
 .common-left{
 	position:absolute;
 	width:200px;
 	min-height:1000px;
-	background:#333744;
+	background:#324057;
 	z-index:10;
+	height:auto;
 }
 .common-left .active > a{
-	background:#58646b;
+	background:#70bd49;
 }
 .common-left a{
-	color:#ffffff;
+	color:#c0ccda;
 	text-decoration:none;
 }
 .common-left > ul > li{
-	border-top:1px solid #3a3a42;
+	//border-top:1px solid #a0d8ef;
 }
 .common-left > ul > li a{
 	display:block;
@@ -84,7 +109,7 @@ input[type="text"]{
 	line-height:50px;
 }
 .common-left > ul > li a:hover{
-	background:#42485b;
+	background:#67768e;
 }
 .common-left >ul >li a i{
 	margin-left:5px;
@@ -143,7 +168,7 @@ input[type="text"]{
   background-color: #0099cc;
 }
 .dropdown-btn .btn.user{
-	background:#373d41;
+	background:#1f2d3d;
 }
 .dropdown-btn .content{
 	display:none;
@@ -254,9 +279,9 @@ input[type="text"]{
   background-color: #0099cc;
 }
 .btn.page-btn{
-	background-color:#e6e6e6;
-	border-color: #e6e6e6;
-	color:#000;
+	background-color:#ffffff;
+	border-color: #ffffff;
+	color:#1f2d3d;
 }
 .btn-group{
 	position: relative;
@@ -305,6 +330,7 @@ input[type="text"]{
 .btn-group > div > ul{
 	display:none;
 	position: absolute;
+	height:auto;
   top: 100%;
   left: 0;
   z-index: 1020;
@@ -358,6 +384,7 @@ input[type="text"]{
   margin-bottom: 1.6rem;
   border-spacing: 0;
   border-collapse: separate;
+  color:#364152;
 }
 .table thead > tr > th{
 	text-align:left;
@@ -368,7 +395,7 @@ input[type="text"]{
 	border-top: 1px solid #ddd;
 }
 .table tbody > tr > td a{
-	color:#000;
+	color:#364152;
 	text-decoration: none;
 }
 .table > tbody > tr:nth-child(odd) > td,
@@ -432,6 +459,17 @@ input[type="text"]{
 	color:#ff9900;
 	font-size:20px;
 }
+.table .trash-o{
+	color:#89b8dc;
+	font-size:20px;
+}
+.table .play-circle-o{
+	color:#0e90d2;
+	font-size:20px;
+}
+.table .globe{
+	
+}
 
 .page-span{
 	width:300px;display:inline-block;float:right;
@@ -442,6 +480,7 @@ input[type="text"]{
 	margin-bottom: 0;
   	padding: 0;
 	border-bottom: 1px solid #ddd;
+	color:#1f2d3d;
 }
 .tabs >li{
 	padding-top:10px;
@@ -462,6 +501,7 @@ input[type="text"]{
 }
 .tabs >li:hover{
 	background-color: #eeeeee;
+	background-color: #eeeeee;
 }
 .tabs >li >a:hover{
 	text-decoration: none;
@@ -469,8 +509,8 @@ input[type="text"]{
 	border-color: #eeeeee #eeeeee #ddd;
 }
 .tabs .active{
-	color: #555555;
-  background-color: #fff;
+	color: #1f2d3d;
+  background-color: #f1f2f7;
   border: 1px solid #ddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -480,6 +520,29 @@ input[type="text"]{
 	padding-top:10px;
 	padding-bottom:10px;
 }
+.record-top a{
+	color:#7a91b1;
+}
 .record-tabs{
 	padding-bottom:10px;
+}
+
+/********************************
+线路管理
+********************************/
+.line-manage .list span{
+	display:inline-block;
+	width:300px;
+}
+.line-manage .name-input{
+	width:415px;
+	padding-left:0;
+	padding-right:0;
+}
+.line-manage .ip-textarea{
+	width:415px;
+	height:300px;
+}
+.line-manage .add{
+	padding-top:30px;
 }

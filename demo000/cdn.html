@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CDN</title>
+<link href="./css/font-awesome.css" rel="stylesheet"/>
+<link href="./css/common.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="common-header">
+	<div class="common-right">
+		<div><a href="javascript:;"><i class="fa fa-bell-o"></i></a></div>
+		<div>995949180@qq.com</div>
+		<div><a href="javascript:;"><i class="fa fa-power-off"></i></a></div>
+	</div>
+</div>
+
+<div class="common-frame">
+	<div class="common-sidebar">
+		<div class="common-list">
+			<div class="common-wrapper">
+				<ul class="nav">
+					<li class="active"><a href="javascript:;">域名解析</a></li>
+					<li><a href="javascript:;">域名注册</a></li>
+					<li><a href="./userLog.html">用户记录</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="common-content">
+		<div class="common-main">
+			<div class="panel">
+				<div class="panel-heading">
+					<a href="javascript:;"><i class="fa fa-home"></i></a>
+					<span>3.com</span>
+					<span>免费版</span>
+				</div>
+				<div class="panel-body">
+					<div>
+						<ul class="tabs">
+							<li><a href="./record.html">记录管理</a></li>
+							<li><a href="./line.html">解析统计</a></li>
+							<li><a href="./line.html">线路管理</a></li>
+							<li><a href="./monitor.html">监控日志</a></li>
+							<li><a href="./operatLog.html">操作日志</a></li>
+							<li><a href="./domainSetting.html">域名设置</a></li>
+							<li class="active"><a href="./cdn.html">CDN</a></li>
+						</ul>
+					</div>
+					<div style="height:55px;margin-top:20px;">
+						<ul class="tabs">
+							<li class="active"><a href="./cdn.html">站点设置</a></li>
+							<li><a href="./firewall.html">应用防火墙</a></li>
+							<li><a href="javascript:;">日志分析</a></li>
+							<li><a href="javascript:;">流量统计</a></li>
+							<li><a href="javascript:;">带宽统计</a></li>
+							<li><a href="./connection.html">连接信息</a></li>
+							<li><a href="javascript:;">自定义错误</a></li>
+						</ul>
+					</div>
+					<div>
+						<div class="div-table">
+							<div>
+								<div class="row">
+									<div class="col-2">功能</div>
+									<div class="col-5">备注</div>
+									<div class="col-1">状态</div>
+									<div>操作</div>
+								</div>
+							</div>
+							<!-- https设置 -->
+							<div>
+								<div class="row">
+									<div class="col-2">https设置</div>
+									<div class="col-5"> 可使网站使用ssl加密访问 </div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">设置</button>
+										<button class="common-btn">关闭</button>
+										<button class="common-btn">检测</button>
+									</div>
+								</div>
+								<div class="https">
+									<div><div><h3>SSL设置</h3></div></div>
+									<div class="col1">
+										<div>数字证书：</div>
+										<div><textarea rows="" cols=""></textarea></div>
+									</div>
+									<div class="col1">
+										<div>加密密钥：</div>
+										<div><textarea rows="" cols=""></textarea></div>
+									</div>
+									<div class="row">
+										<div class="col-10">
+											<div class="col-1 text-right">算法：</div><input type="text" class="input1"/>
+											<div class="col-1 text-right">协议：</div><input type="text" class="input1"/>
+											<input type="checkbox"/>http2
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-1"></div>
+										<div>
+											<button class="common-btn">清空</button>
+											<button class="common-btn">提交</button>
+										</div>
+									</div>
+									
+									<div><div><h3>DNS设置</h3></div></div>
+									<div class="row">
+										<div class="col-10">
+											<div class="col-1 text-right">Dns接入:</div>
+											<select>
+												<option>dnsdun</option>
+												<option>cdnbest</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-10">
+											<div class="col-1 text-right">UID：</div>
+											<input type="text" class="input1"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-10">
+											<div class="col-1 text-right">API_KEY：</div>
+											<input type="text" class="input1"/>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-10">
+											<div class="col-1"></div>
+											<button class="common-btn">提交</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- 长连接 -->
+							<div>
+								<div class="row">
+									<div class="col-2">长连接</div>
+									<div class="col-5">长连接([10]s)</div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">设置</button>
+									</div>
+								</div>
+								<div class="content">
+									<div><h3>长连接</h3></div>
+									<div class="row">
+										<div class="col-1 text-right">时间：</div>
+										<input type="text" class="input-time"/>
+										<button class="common-btn">提交</button>
+									</div>
+								</div>
+							</div>
+							<!-- 缓存设置 -->
+							<div>
+								<div class="row">
+									<div class="col-2">缓存设置</div>
+									<div class="col-5">设置后可对网站进行加速;新增清除缓存,缓存预取功能</div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">配置</button>
+										<button class="common-btn">刷新</button>
+									</div>
+								</div>
+								<div class="content">
+									<div><h3>缓存策略</h3></div>
+									<div class="row">
+										<div class="col-1 text-right">缓存时间：</div>
+										<input type="text" class="input-time"/>
+										<button class="common-btn">确认</button>
+										<button class="common-btn">添加规则</button>
+									</div>
+									<div>
+										<div class="row">
+											模式：<input type="radio"/>文件类型
+											<input type="radio"/>url正则
+											值：<input type="text" style="width:150px;"/>
+											时间：<input type="text" style="width:50px;"/>(s)
+											<input type="checkbox"/>强制缓存
+											忽略参数：<input type="text" style="width:150px;"/>
+											<button class="common-btn">提交</button>
+											<button class="common-btn">取消</button>
+										</div>
+										<div class="row">
+											模式：<input type="radio"/>文件类型
+											<input type="radio"/>url正则
+											值：<input type="text" style="width:150px;"/>
+											时间：<input type="text" style="width:50px;"/>(s)
+											<input type="checkbox"/>强制本地
+											忽略参数：<input type="text" style="width:150px;"/>
+											<button class="common-btn">提交修改</button>
+											<button class="common-btn">关闭</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- gzip -->
+							<div>
+								<div class="row">
+									<div class="col-2">gzip</div>
+									<div class="col-5">对响应内容进行压缩，提高传输速度</div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">设置</button>
+									</div>
+								</div>
+								<div class="content">
+									<div><h3>GZIP</h3></div>
+									<div class="row">
+										<input type="checkbox"/>html
+										<input type="checkbox"/>css
+										<input type="checkbox"/>js
+										<button class="common-btn">提交</button>
+									</div>
+								</div>
+							</div>
+							<!-- URL重新 -->
+							<div>
+								<div class="row">
+									<div class="col-2"> URL重写</div>
+									<div class="col-5">URL重写与域名跳转</div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">配置</button>
+									</div>
+								</div>
+								<div class="content">
+									<div><h3>URL重写设置</h3></div>
+									<div class="row">
+										代码：<input type="radio"/>301
+										<input type="radio"/>302
+										<input type="radio"/>内部
+										URL(正则)：<input type="text" style="width:150px;"/>
+										重写为：<input type="text" style="width:150px;"/>
+										<button class="common-btn">增加</button>
+									</div>
+									<div class="row">
+										代码：<input type="radio"/>301
+										<input type="radio"/>302
+										<input type="radio"/>内部
+										URL(正则)：<input type="text" style="width:150px;"/>
+										重写为：<input type="text" style="width:150px;"/>
+										<button class="common-btn">修改</button>
+										<button class="common-btn">删除</button>
+									</div>
+								</div>
+							</div>
+							<!-- 防盗链 -->
+							<div>
+								<div class="row">
+									<div class="col-2">防盗链</div>
+									<div class="col-5">防盗链</div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">配置</button>
+									</div>
+								</div>
+								<div class="content">
+									<div><h3>增加防盗链规则</h3></div>
+									<div class="row">
+										URL(正则)：<input type="text" style="width:150px;"/>
+										<input type="radio"/>来源(URL正则)
+										<input type="radio"/>来源(域名列表)
+										<input type="radio"/>签名(秘钥)
+										<input type="text" style="width:150px;"/>
+										<button class="common-btn">提交规则</button>
+										<button class="common-btn">清空</button>
+									</div>
+									<div class="row">
+										URL(正则)：<input type="text" style="width:150px;"/>
+										<input type="radio"/>来源(URL正则)
+										<input type="radio"/>来源(域名列表)
+										<input type="radio"/>签名(秘钥)
+										<input type="text" style="width:150px;"/>
+										<button class="common-btn">修改</button>
+										<button class="common-btn">删除</button>
+									</div>
+								</div>
+							</div>
+							<!-- 限速 -->
+							<div>
+								<div class="row">
+									<div class="col-2">限速</div>
+									<div class="col-5">限速</div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">配置</button>
+									</div>
+								</div>
+								<div class="content">
+									<div><h3>限速规则</h3></div>
+									<div class="row">
+										<input type="radio"/>每连接
+										<input type="radio"/>每节点
+										URL(正则)：<input type="text" style="width:150px;"/>
+										速率：<input type="text" style="width:50px;"/>(k/s)
+										<button class="common-btn">添加</button>
+										<button class="common-btn">取消</button>
+									</div>
+									<div class="row">
+										<input type="radio"/>每连接
+										<input type="radio"/>每节点
+										URL(正则)：<input type="text" style="width:150px;"/>
+										速率：<input type="text" style="width:50px;"/>(k/s)
+										<button class="common-btn">提交</button>
+										<button class="common-btn">关闭</button>
+									</div>
+								</div>
+							</div>
+							<!-- 端口 -->
+							<div>
+								<div class="row">
+									<div class="col-2">端口</div>
+									<div class="col-5">站点设置端口</div>
+									<div class="col-1"><a href="javascript:;"><i class="fa fa-check-circle-o"></i></a></div>
+									<div>
+										<button class="common-btn">配置</button>
+									</div>
+								</div>
+								<div class="content">
+									<div><h3>端口设置</h3></div>
+									<div class="row">注意:端口号后加's',代表走https协议,eg:8080s;http默认80,https默认443s</div>
+									<div class="row">
+										端口设置：<input type="text" style="width:200px;"/>
+										<button class="common-btn">提交</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

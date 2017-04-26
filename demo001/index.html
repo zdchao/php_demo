@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app="main">
+<head>
+<meta charset="UTF-8">
+<title>angular单页面</title>
+<link href="./css/common.css" rel="stylesheet"/>
+</head>
+<body ng-controller="init">
+	<a href="#/a" class="common-btn">a</a>
+	<a href="#/b/我是参数" class="common-btn">b</a>
+	<div>
+		<ng-view></ng-view>
+	</div>
+
+<script type="text/javascript" src="./js/angular.min.js"></script>
+<script type="text/javascript" src="./js/angular-route.min.js"></script>
+<script type="text/javascript" src="./js/route_test.js"></script>
+</body>
+</html>
