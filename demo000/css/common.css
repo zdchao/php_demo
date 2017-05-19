@@ -451,6 +451,9 @@ a{
 	border-bottom:1px solid #dddddd;
 }
 .domain-setting-list > div > div:first-child{
+	//display:none;
+}
+.domain-setting-list > div > div:last-child{
 	display:none;
 }
 .domain-setting-list > div > div:first-child span:first-child{
