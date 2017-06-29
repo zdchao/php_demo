@@ -11,6 +11,11 @@ app_main.controller("init",function($scope,$route,$http){
 	}).success(function(a){
 		console.log(a);
 	});
+	$http.post("http://192.168.1.216/api2/site/index.php/site/info",{
+		token:"ccccccccc"
+	}).success(function(a){
+		console.log(a);
+	});
 	
 });
 app_main.controller("aController",function($scope,$route,$http){

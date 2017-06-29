@@ -23,15 +23,8 @@ function curlPost($url, $data = NULL,$method="POST",$timeout = 30){
 }
 
 $data = array(
-	"c"=>"site",
-	"a"=>"addSite",
-	"r"=>"123456",
-	"s"=>md5("123456"."addSite"."5614"."pD34nzFa583CAb4c"),
-	"uid"=>"5614",
-	"name"=>"kk.com",
-	"pid"=>"2769",
-	"passwd"=>"123"
+		"name"=>"keengo"
 );
-$ret = curlPost("https://www.cdnbest.com/api/?",$data);
-print_r(json_decode($ret,true));
+$ret = curlPost("https://www.bizcn.com/rrpservices/?wsdl",$data);
+print_r($ret);
 die();

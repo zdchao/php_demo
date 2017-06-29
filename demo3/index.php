@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Shanghai');
 //filesize 解决大于2G 大小问题
 //http://stackoverflow.com/questions/5501451/php-x86-how-to-get-filesize-of-2-gb-file-without-external-program
 function get_filesize($path){
@@ -76,6 +76,27 @@ function size_format($bytes, $precision = 2){
 	}
 }
 
-$size = get_filesize("C:/1.rmvb");
-$format = size_format($size,2);
-echo $format;
+function setErrorLog($msg){
+	$path = "/var/tmp/domain_register.log";
+	error_log($msg." ".date("Y-m-d",time())."\n",3,$path);
+}
+
+function setSyslog($msg){
+	openlog("Bizcn domain register log", LOG_PID | LOG_PERROR, LOG_LOCAL0);
+	syslog(LOG_MAIL,$msg."\n");
+	closelog();
+}
+
+for($i=0;$i<10;$i++){
+	setSyslog("sflsjfsfljdslasfkjsdjfsljdfsjdfjsajfslkjdfsdjfshfhsdfsdfjsdkfjlasfjoqiern;ajfosjafjfghaijfoijsijwejoijwefijaskjfosijfsajgqoijfwoaijfwoifj");
+// 	$size = get_filesize("/var/tmp/domain_register.log");
+// 	echo $size."\n";
+// 	$file_size = ($size/1048576);
+// 	echo $file_size."\n";
+// 	if ($file_size > 5){
+// 		unlink("/var/tmp/domain_register.log");
+// 	}
+// 	$format = size_format($size,2);
+// 	echo $format."\n";
+}
+
