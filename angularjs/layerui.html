@@ -1,0 +1,130 @@
+<div style="height:50px;">
+	<div class="btn-drop">
+		<button class="layui-btn" ng-click="addDomainBtn()">添加域名</button>
+	</div>
+	<div class="btn-drop">
+		<button class="layui-btn" ng-click="showDomainOpBox()">域名操作
+			<span class="layui-icon">&#xe602;</span>
+		</button>
+		<ul class="btn-drown" ng-show="domain_op_box">
+			<li><a href="javascript:;">删除</a></li>
+			<li><a href="javascript:;">启用</a></li>
+			<li><a href="javascript:;">暂停</a></li>
+		</ul>
+	</div>
+</div>
+
+
+<domain-directive></domain-directive>
+
+
+<table class="layui-table" lay-skin="nob">
+	<thead>
+   		<tr>
+   			<th><input type="checkbox"></th>
+     		<th></th>
+     		<th>域名</th>
+     		<th>套餐</th>
+     		<th>状态</th>
+     		<th>CDN</th>
+     		<th>操作</th>
+   		</tr> 
+ 	</thead>
+ 	<tbody>
+ 		<tr>
+ 			<td><input type="checkbox"/></td>
+ 			<td>
+ 				<a href="javascript:;" title="点亮星，快速搜索"><span class="layui-icon20">&#xe66c;</span></a>
+ 				<a href="javascript:;" title="未分组"><span class="layui-icon20">&#xe60b;</span></a>
+ 			</td>
+ 			<td>bbq.com</td>
+ 			<td>企业版</td>
+ 			<td>dns未修改</td>
+ 			<td>
+ 				<a href="javascript:;" title="增加cdn"><span class="layui-icon20 color3" style="font-size:30px;">&#xe632;</span></a>
+ 			</td>
+ 			<td>
+ 				<a href="javascript:;" title="备注"><span class="layui-icon20 color6">&#xe67c;</span></a>
+ 				<a href="javascript:;" title="域名启用中，点击暂停"><span class="layui-icon20 color2">&#xe65f;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20">&#xe73c;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20 color8">&#xe6cb;</span></a>
+ 			</td>
+ 		</tr>
+ 		<tr>
+ 			<td><input type="checkbox"/></td>
+ 			<td>
+ 				<a href="javascript:;" title="点击取消快速搜索"><span class="layui-icon20 color7">&#xe601;</span></a>
+ 				<a href="javascript:;" title="已分组到：za"><span class="layui-icon20">&#xe6cf;</span></a>
+ 			</td>
+ 			<td>bbq.com</td>
+ 			<td>企业版</td>
+ 			<td>dns未修改</td>
+ 			<td>
+ 				<a href="javascript:;" title="正在加速"><span class="layui-icon20 color2" style="font-size:35px;">&#xe65d;</span></a>
+ 			</td>
+ 			<td>
+ 				<a href="javascript:;" title="备注"><span class="layui-icon20 color6">&#xe67c;</span></a>
+ 				<a href="javascript:;" title="域名暂停中，点击启用"><span class="layui-icon20 color5">&#xe660;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20">&#xe73c;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20 color8">&#xe6cb;</span></a>
+ 			</td>
+ 		</tr>
+ 		<tr>
+ 			<td><input type="checkbox"/></td>
+ 			<td>
+ 				<a href="javascript:;" title="点击取消快速搜索"><span class="layui-icon20 color7">&#xe601;</span></a>
+ 				<a href="javascript:;" title="已分组到：za"><span class="layui-icon20">&#xe6cf;</span></a>
+ 			</td>
+ 			<td>bbq.com</td>
+ 			<td>企业版</td>
+ 			<td>dns未修改</td>
+ 			<td>
+ 				<a href="javascript:;" title="正在审核"><span class="layui-icon20">&#xe603;</span></a>
+ 			</td>
+ 			<td>
+ 				<a href="javascript:;" title="备注"><span class="layui-icon20 color6">&#xe67c;</span></a>
+ 				<a href="javascript:;" title="域名暂停中，点击启用"><span class="layui-icon20 color5">&#xe660;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20">&#xe73c;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20 color8">&#xe6cb;</span></a>
+ 			</td>
+ 		</tr>
+ 		<tr>
+ 			<td><input type="checkbox"/></td>
+ 			<td>
+ 				<a href="javascript:;" title="点击取消快速搜索"><span class="layui-icon20 color7">&#xe601;</span></a>
+ 				<a href="javascript:;" title="已分组到：za"><span class="layui-icon20">&#xe6cf;</span></a>
+ 			</td>
+ 			<td>bbq.com</td>
+ 			<td>企业版</td>
+ 			<td>dns未修改</td>
+ 			<td>
+ 				<a href="javascript:;" title="审核不通过"><span class="layui-icon20 color1">&#xe610;</span></a>
+ 			</td>
+ 			<td>
+ 				<a href="javascript:;" title="备注"><span class="layui-icon20 color6">&#xe67c;</span></a>
+ 				<a href="javascript:;" title="域名暂停中，点击启用"><span class="layui-icon20 color5">&#xe660;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20">&#xe73c;</span></a>
+ 				<a href="javascript:;"><span class="layui-icon20 color8">&#xe6cb;</span></a>
+ 			</td>
+ 		</tr>
+ 	</tbody>
+</table>
+
+<div class="page-box">
+	<div class="page-drop">
+		<button class="layui-btn" ng-click="showDomainOpBox()">1 - 2 / 5
+			<span class="layui-icon">&#xe602;</span>
+		</button>
+		<ul class="btn-drown" ng-show="domain_op_box">
+			<li><a href="javascript:;">20/页</a></li>
+			<li><a href="javascript:;">50/页</a></li>
+			<li><a href="javascript:;">100/页</a></li>
+		</ul>
+	</div>
+	<div class="layui-btn-group" style="float:right;margin-right:20px;">
+		<button class="layui-btn layui-btn-primary">首页</button>
+		<button class="layui-btn layui-btn-primary">上一页</button>
+		<button class="layui-btn layui-btn-primary">下一页</button>
+		<button class="layui-btn layui-btn-primary">尾页</button>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+<!-- 增加域名对话框 -->
+<div class="domain-op-box" ng-show="add_domain_box">
+	<div>批量添加域名:一行一个</div>
+	<div></div>
+	<textarea class="layui-textarea" style="height:300px;" ng-model="domain"></textarea>
+	<div style="text-align:right;margin-top:10px;">
+		<a href="javascript:;" class="layui-btn" ng-click="closeAddDomainBox()">取消</a>
+		<a href="javascript:;" class="layui-btn" ng-click="addDomain()">确定</a>
+	</div>
+	
+</div>

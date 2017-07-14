@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+body{
+	background:#2F4056;
+}
+.top-box{
+	height:60px;
+	background:#393D49;
+}
+.left-menu{
+	position:absolute;
+	top:60px;
+	left:0;
+	width:200px;
+}
+.main-content{
+	background:#ffffff;
+	border-left:200px solid #2F4056;
+	padding-left:10px;
+	padding-right:10px;
+	min-height:1000px;
+}
