@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="m" ng-cloak>
+<head>
+<meta charset="UTF-8">
+<title>angularjs 文件上传</title>
+<link href='/assets/css/loading-bar.css' rel='stylesheet' />
+<script type="text/javascript" src="/assets/js/angular.min.js"></script>
+<script type="text/javascript" src="/assets/js/ng-file-upload-shim.min.js"></script>
+<script type="text/javascript" src="/assets/js/ng-file-upload.min.js"></script>
+<script type="text/javascript" src="/assets/js/angular-animate.min.js"></script>
+<script src="/assets/js/loading-bar.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+
+</head>
+<body ng-controller="uploadFileController">
+	<button ng-change='upfileSubmit()' ngf-select ng-model="file" name="file" ngf-min-height="100" multiple class="common-btn">请选择图片</button>
+</body>
+</html>

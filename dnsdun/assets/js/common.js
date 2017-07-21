@@ -5,14 +5,11 @@ var app_main = angular.module("main",["ngRoute"]);
 
 //配置路由
 app_main.config(function($routeProvider,$locationProvider,$httpProvider){
-	$routeProvider.when("/layerui",{
-		templateUrl:"/layerui.html",
-		controller:"layeruiController"
-	}).when("/guzzleIndex",{
-		templateUrl:"/guzzle_index.html",
-		controller:"guzzleIndexController"
+	$routeProvider.when("/domain",{
+		templateUrl:"/domain.html",
+		controller:"domainController"
 	}).otherwise({
-		redirectTo: '/layerui'
+		redirectTo: '/domain'
 	});
 	
 	$httpProvider.defaults.transformRequest=function(obj){
@@ -27,7 +24,17 @@ app_main.config(function($routeProvider,$locationProvider,$httpProvider){
 	};
 });
 
-app_main.controller("initController",function($rootScope,$scope,$route,$http,$location,$timeout){
-	
+app_main.service("init", function(){
+	var init = function(){
+		this.groups = ["全部","未分组","ddd"];
+		this.getGroups = function(){
+			return this.groups;
+		}
+	}
+	return new init();
+});
+
+app_main.controller("initController",function(init,$rootScope,$scope,$route,$http,$location,$timeout){
+	$rootScope.groups = init.getGroups();
 });
 
