@@ -1,0 +1,63 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：监控记录</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索: <input name='search' value='{[$search]}' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="9" class="bg_main"><b>用户列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>域名</td>
+					<td>会员</td>
+					<td>记录ID</td>
+					
+					<td>频率</td>
+					<td>最后状态</td>
+					<td>处理</td>
+					<td>激活</td>
+					<td>server</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr>
+					<td>{[$row.domain]}</td>
+					<td>{[$row.user]}</td>
+					<td>{[$row.record_id]}</td>
+					
+					<td>{[$row.interval_time]}</td>
+					<td>{[if $row.last_status!=1]}正常{[else]}<b class='red'>异常</b>{[/if]}</td>
+					<td>{[if $row.action!=1]}切换{[else]}暂停{[/if]}</td>
+					<td>{[if $row.active!=0]}监控中{[else]}<b class='red'>暂停监控</b>{[/if]}</td>
+					<td>{[$row.server]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="9" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

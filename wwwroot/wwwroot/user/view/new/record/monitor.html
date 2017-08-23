@@ -1,0 +1,66 @@
+{[dispatch c='public'  a='head']}
+<script type='text/javascript'>
+var record_id = '{[$record_id]}';
+</script>
+<link href="/style/user/css/monitor.css" rel="stylesheet">
+<script type='text/javascript' src="{[$STATIC]}record/monitor.js?v={[$jsversion]}"></script>
+<script type='text/template' id="monitor-row-template">
+<tr>
+	<td class="record-ip">{{src}}</td>
+	<td class="record-status">{{status}}</td>
+	<td class="record-message">{{status_msg}}</td>
+	<td class="record-time">{{log_time}}</td>
+	<td class="record-auto">{{total_time}}</td>
+</tr>
+</script>
+<script type='text/template' id="monitor-show-mutli-template">
+<tr id="show-multi-operat"  style="margin-top:8px;">
+<td colspan="5">
+	<span class="record-time"><h5></h5></span>
+	<span class="record-title">
+		<h5>
+			<a href="javascript:;" id="packup">收起</a>
+			<a href="javascript:;" id="show-multi">查看更多>></a>
+		</h5>
+	</span>
+ </td>
+</tr>
+</script>
+<script type="text/template" id="monitor-launch-template">
+<tr id="launch1" style="margin-top:8px;">
+<td colspan="5">
+	<span class="record-time"><h5></h5></span>
+	<span class="record-title">
+		<h5>
+			<a href="javascript:;" id="launch">展开</a>
+		</h5>
+	</span>
+</td>
+</tr>
+</script>
+<script type='text/template' id="monitor-nologin-template">
+<tr class="clearfix record">
+	<a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a>
+</tr>
+</script>
+<div class="erp_nr clearB">
+			{[include file='record/right-operat.html']}
+			<div id="nr_right">
+				<div id="operat-content">
+					<table class="table" width="100%">
+						<thead>
+							<tr>
+								<td style="width:15%;">主机</td>
+								<td style="width:15%;">状态</td>
+								<td style="width:25%;">处理</td>
+								<td style="width:15%;">处理时间</td>
+								<td style="width:auto;">持续时间</td>
+							</tr>
+						</thead>
+						<tbody  id="monitor-list"></tbody>
+						<tbody id="list-launch"></tbody>
+					</table>
+			</div>			
+		</div>
+</div>
+{[include file='public/foot.html']}

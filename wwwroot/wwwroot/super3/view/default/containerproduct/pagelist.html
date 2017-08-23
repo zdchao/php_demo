@@ -1,0 +1,380 @@
+{[include file='common/head.html']}
+<script type='text/template' id="edit-product-template">
+<div id="edit-product-div">
+   <div class="piao_div"><span class="piao_left">产品名称:</span><span ><input name="name" value="{{name}}"></span></div>
+	<div class="piao_div"><span class="piao_left">价格:</span><span><input name="price" value="{{price}}"/></span></div>
+   <div class="piao_div"><span class="piao_left">cpu:</span><span ><input name="cpu" value="{{cpu}}"></span></div>
+	<div class="piao_div"><span class="piao_left">内存:</span><span><input name="memory" value="{{memory}}"/></span></div>
+    <div class="piao_div"><span class="piao_left">硬盘:</span><span><input name="disk_space" value="{{disk_space}}"/></span></div>
+	<div class="piao_div"><span class="piao_left">skey:</span><span ><input name="skey" value="{{skey}}"></span></div>
+	<div class="piao_div"><span class="piao_left">host:</span><span><input name="cb_host" value="{{cb_host}}"/></span></div>
+    <div class="piao_div"><span class="piao_left">详情:</span><span ><textarea name="mem">{{mem}}</textarea></span></div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="修改"></span></div>
+</div>
+</script>
+<script type='text/template' id="add-product-template">
+<div id="add-product-div">
+	<div class="piao_div"><span class="piao_left">skey:</span><span ><input name="skey"></span></div>
+	<div class="piao_div"><span class="piao_left">cb_uid:</span><span><input name="cb_uid"/></span></div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="增加"></span></div>
+</div>
+</script>
+<script type='text/template' id="product-template">
+<div id="product-div">
+	<table class="table_main2" cellspacing="1" cellpadding="0">
+		<tr>  
+			<td><input id="select_all" class="ace" type="checkbox"><span class="lbl"></td>
+			<td>产品名称</td>
+			<td>价格</td>
+			<td>cpu</td>
+			<td>内存</td>
+			<td>硬盘空间</td>
+		</tr>
+	</table>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="增加"></span></div>
+</div>
+</script>
+<script type="text/template" id="container-historyTr-template">
+			   <tr id="{{id}}">
+					<td><input id="select" onclick="selectOne({{id}})"" type="checkbox" name="recover"></td>
+					<td>{{name}}</td>
+					<td>{{price}}</td>
+					<td>{{cpu}}</td>
+					<td>{{memory}}</td>
+					<td>{{disk_space}}</td>
+				</tr>
+</script>
+<script type="text/javascript">
+var dia = null;
+var containerproduct = [];
+var selectArr = [];//被选中的记录
+function editProductData(id){
+    var tem = $("#edit-product-template").html();
+    var tr = $("#tr"+id);
+    var cb_uid = tr.attr('data-cbuid');
+	$.ajax({
+		url:'?c=containerproduct&a=getProduct',
+		type:'post',
+		data:{id:id,cb_uid:cb_uid},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			var option = [];
+		    option = a.row;
+		    option.price = option.price/100
+		    el  = Mustache.to_html(tem,option);
+		   dia = art.dialog({
+				id:"editproduct",
+				title:'修改产品',
+				content:el
+			});
+		    var div = $("#edit-product-div");
+		    div.find("#enter").bind('click',function(){
+		    	edit(div,id);
+		    })
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+    
+}
+function edit(div,id){
+	var skey = div.find("[name=skey]").val();
+	var cb_host = div.find("[name=cb_host]").val();
+	var productname = div.find("[name=name]").val();
+	var price = div.find("[name=price]").val();
+	var cpu = div.find("[name=cpu]").val();
+	var memory = div.find("[name=memory]").val();
+	var disk_space = div.find("[name=disk_space]").val();
+	var mem = div.find("[name=mem]").val();
+	var name = div.find("[name=name]").val();
+	$.ajax({
+		url:'?c=containerproduct&a=edit',
+		data:{
+			id:id,
+			skey:skey,
+			cb_host:cb_host,
+			productname:productname,
+			price:price,
+			cpu:cpu,
+			memory:memory,
+			disk_space:disk_space,
+			mem:mem,
+			name:name
+		},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			dia.close();
+			window.location.reload();
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+function piaoAdd(){
+	 var tem = $("#add-product-template").html();
+	   dia = art.dialog({
+			id:"addproduct",
+			title:'增加产品',
+			content:tem
+		});
+	    var div = $("#add-product-div");
+	    div.find("#enter").bind('click',function(){
+	    	add(div);
+	    });
+}
+function add(div){
+	 skey = div.find("[name=skey]").val();
+	 cb_uid = div.find("[name=cb_uid]").val();
+	$.ajax({
+		url:'?c=containerproduct&a=add',
+		type:'post',
+		data:{skey:skey,cb_uid:cb_uid},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.status.message)
+				return;
+			}
+			if(a.row){
+				dia.close();
+				containerproduct = a.row;
+				renderProduct();
+			}else{
+				alert("该用户没有产品数据");
+			}
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+function renderProduct(){
+	 var tem = $("#product-template").html();
+	   dia = art.dialog({
+			id:"addproduct",
+			title:'选择产品',
+			content:tem
+		});
+	    var div = $("#product-div");
+	    div.find("#enter").bind('click',function(){
+	    	submitAdd();
+	    });
+	    div.find("#select_all").bind("click",function(){
+			select_all(div);
+		});
+	    getList(div);
+}
+function submitAdd(){
+	if(!selectArr){
+		alert("没有选择记录");
+		return;
+	}
+	for(var i in selectArr){
+		addOne(selectArr[i]);
+	}
+}
+function getRow(id){
+	for(var i in containerproduct)
+	{
+		if(containerproduct[i]['id'] == id){
+		  return containerproduct[i];
+		}
+	}
+}
+function addOne(id){
+	var row = getRow(id);
+	$.ajax({
+		url:"?c=containerproduct&a=submitAdd",
+		data:{id:id},
+		dataType:"json",
+		data:{
+			row:row,
+			skey:skey,
+			cb_uid:cb_uid
+		},
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.status.message)
+				return;
+			}
+			if(id == selectArr[selectArr.length-1]){
+				window.location.reload();
+				//alert("sfsdf");
+			}
+		},
+		error:function(){
+			alert("request failed")
+		}
+	})
+}
+function getList(div){
+	var el = "";
+	if(containerproduct){
+		for(var i in containerproduct){
+			var html = $("#container-historyTr-template").html();
+			var option = [];
+			option = containerproduct[i];
+			option.price = option.price/100;
+	        el += Mustache.to_html(html,option);
+		}
+	}else{
+		el = "该用户没有产品信息";
+	}
+	div.find("table").append(el);
+}
+function select_all(div){
+	if($("#select_all").attr("checked"))
+	{
+		div.find("input[type=checkbox]").attr("checked","checked");
+		for(var i in recoverList){
+			selectArr.push(recoverList[i]['Id']);
+		}
+	}else{
+		div.find("input[type=checkbox]").attr("checked",false);
+		selectArr = null;
+	}
+}
+function selectOne(id){
+	  var div = $("#product-div");
+	if(div.find("#"+id).find("input[name=recover]").attr("checked")){
+		selectArr.push(id);
+	}else{
+		arr.splice($.inArray(id,selectArr),1);//从数组中删除这个id
+	}
+}
+function del(id){
+	var tr = $("#tr" + id)
+	if(!confirm("are you sure")){
+		return 
+	}
+	$.ajax({
+		url:"?c=containerproduct&a=del",
+		data:{id:id},
+		dataType:"json",
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.status.message)
+				return 
+			}
+			tr.remove()
+		},
+		error:function(){
+			alert("request failed")
+		}
+	})
+}
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：容器产品</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span ><input type='button' onclick="piaoAdd()" value="增加"/></span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="12" class="bg_main"><b>产品列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>cb_uid</td>
+					<td>skey</td>
+					<td>产品名称</td>
+					<td>价格(元)</td>
+					<td>host</td>
+					<td>cpu</td>
+					<td>内存</td>
+					<td>硬盘空间</td>
+					<td>详情</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}" data-host="{[$row.cb_host]}" data-skey="{[$row.skey]}" data-cbuid="{[$row.cb_uid]}">
+					<td id="op">
+						[<a href='javascript:editProductData({[$row.id]})'>修改</a>]
+						[<a href='javascript:del({[$row.id]})'>delete</a>]
+					</td>
+					<td>{[$row.cb_uid]}</td>
+					<td id="skey">{[$row.skey]}</td>
+					<td>{[$row.name]}</td>
+					<td>{[$row.price / 100]}</td>
+					<td id="cb_host">{[$row.cb_host]}</td>
+					<td>{[$row.cpu]}</td>
+					<td>{[$row.memory]}M</td>
+					<td>{[$row.disk_space]}G</td>
+					<td>{[$row.mem]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="12" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+<script type="text/template" id="add-cdn-product-template">
+<div id="add-cdn-product-div">
+	<div class="piao_div">cb_uid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbuid" type="text" /></div>
+	<div class="piao_div">自用uid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="uid" type="text" placeholder="uid为0是公用产品"/></div>
+	<div class="piao_div">cb_domain:<input name="cbdomain" type="text" /></div>
+	<div class="piao_div">cb_pid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbpid" type="text" /></div>
+	<div class="piao_div">产品名称:&nbsp;&nbsp;&nbsp;&nbsp;<input name="name" type="text" /></div>
+	<div class="piao_div">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;钥:&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbkey" type="text" /></div>
+	<div class="piao_div">cb_bs:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbbs" type="text" /></div>
+	<div class="piao_div">cb_host:&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbhost" type="text" placeholder="格式:http://www.cdn.com"/></div>
+	<div class="piao_div">server:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="server" type="text" placeholder="多个server以逗号分割"/></div>
+	<div class="piao_div">
+		审&nbsp;&nbsp;&nbsp;核:
+		<select name="audit" style="width:40px;height:30px;">
+			<option value="0">是</option>
+			<option value="1">否</option>
+		</select>
+		&nbsp;&nbsp;
+		产品视图:
+		<select name="view" style="width:60px;height:30px;">
+			<option value="1">开启</option>
+			<option value="0">关闭</option>
+		</select>
+	</div>
+	<div class="piao_div"><input type="button" id="enter" value="确定"></div>
+</div>
+</script>
+<script type='text/template' id="edit-product-template">
+<div id="edit-product-div">
+	<div class="piao_div"><span class="piao_left">cb_uid:</span><span ><input name="cbuid" value="{{cbuid}}">*</span></div>
+	<div class="piao_div"><span class="piao_left">自用uid:</span><span><input name="uid" value="{{uid}}"/></span></div>
+	<div class="piao_div"><span class="piao_left">cb_pid:</span><span ><input name="cbpid" value="{{cbpid}}">*</span></div>
+	<div class="piao_div"><span class="piao_left">产品名称:</span><span ><input name="name" value="{{name}}"></span></div>
+	<div class="piao_div"><span class="piao_left">cb_domain:</span><span ><input name="cbdomain" value="{{cbdomain}}"></span></div>
+	<div class="piao_div"><span class="piao_left">秘钥:</span><span ><input name="cbkey" value="{{cbkey}}"></span></div>
+	<div class="piao_div"><span class="piao_left">cb_bs:</span><span><input name="cbbs" value="{{cbbs}}"/></span></div>
+	<div class="piao_div"><span class="piao_left">cb_host:</span><span><input name="cbhost" value="{{cbhost}}"/></span></div>
+	<div class="piao_div"><span class="piao_left">server:</span><span><input name="server" value="{{server}}"/></span></div>
+	<div class="piao_div">
+			审核:
+			{{{select}}}
+			&nbsp;&nbsp;
+			产品视图:
+			{{{viewselect}}}
+	</div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="修改"></span></div>
+</div>
+</script>
+</html>

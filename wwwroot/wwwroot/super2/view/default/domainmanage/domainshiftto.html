@@ -1,0 +1,85 @@
+{[include file='common/head.html']}
+<body text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+	<div class="wid_main mar_main" align="left">
+		<div class="block_top" align="left">当前位置：域名注册管理 --> 域名转入</div>
+		<table class="table_main2" cellpadding="0" cellspacing="1">
+			<tr>
+				<td colspan="7" class="bg_main"><b>域名价格</b></td>
+			</tr>
+			<tr>
+				<td>操作</td>
+				<td>UID</td>
+				<td>域名</td>
+				<td>转入密码</td>
+				<td>状态</td>
+			</tr>
+			{[foreach from=$list item=row]}
+			<tr id="tr{[$row['id']]}">
+				<td>{[if $row['shift_status'] == 0]}<a href="javascript:showAcceptDialog({[$row['id']]})">[受理]</a>{[/if]}</td>
+				<td>{[$row['uid']]}</td>
+				<td>{[$row['name']]}</td>
+				<td>{[$row['passw']]}</td>
+				<td>{[if $row['shift_status'] == 0]}未受理{[else]}已受理{[/if]}</td>
+			</tr>
+			{[/foreach]}
+			<tr>
+					<td colspan="7" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+		</table>
+	</div>
+</div>
+</body>
+{[include file='common/foot.html']}
+<script type="text/template" id="accept-dialog-template">
+<div id="accept-dialog-div">
+	<div style="font-size:20px;">域名转入受理成功?</div>
+	<div>&nbsp;</div>
+	<div><input type="button" value="成功" id="enter"/><input type="button" value="取消" id="esc"/></div>
+</div>
+</script>
+<script type="text/javascript">
+function showAcceptDialog(id){
+	var template = $("#accept-dialog-template").html();
+	var dia = art.dialog({
+		title:'域名转入受理确认',
+		content:template,
+		lock:true
+	});
+	var div = $("#accept-dialog-div");
+	div.find("#enter").bind('click',function(){
+		dia.close();
+		domainShifttoAccept(id);
+	});
+	div.find("#esc").bind('click',function(){
+		dia.close();
+	});
+}
+function domainShifttoAccept(id){
+	$.ajax({
+		url:'?c=domainshiftto&a=domainShifttoAccept',
+		type:'POST',
+		data:{id:id},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.ret);
+				return;
+			}
+			$("#tr"+id).find("td").eq(0).html("");
+			$("#tr"+id).find("td").eq(4).html("受理成功");
+		},
+		error:function(a){
+			alert("error");
+		}
+	});
+}
+</script>

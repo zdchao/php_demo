@@ -1,0 +1,184 @@
+{[include file='common/head.html']}
+<script type='text/template' id="add-promostr-template">
+<div id="add-promostr-div">
+	<div class="piao_div"><span class='piao_left'>uid:</span><span ><input name="use_uid" value="0">(默认为0，否则为一个特定的用户)</span></div>
+	<div class="piao_div"><span class="piao_left">折抵金额:</span><span ><input name="price" required>*</span></div>
+	<div class="piao_div"><span class="piao_left">过期时间:</span><span ><input name="expire_time" required >*（天）</span></div>
+<div class="piao_div"><span class="piao_left">生成个数:</span><span ><input name="number" value="1" required >*（个）</span></div>
+   <div class="piao_div"><span class="piao_left">备注:</span><span ><textarea name="mem" placeholder="可为空"></textarea></span></div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="增加"></span></div>
+</div>
+</script>
+<script type='text/template' id="modify-promostr-template">
+<div id="modify-promostr-div">
+	<div class="piao_div"><span class='piao_left'>uid:</span><span ><input name="use_uid" required>*</span></div>
+	<div class="piao_div"><span class="piao_left">金额:</span><span ><input name="price" required>*</span></div>
+	<div class="piao_div"><span class="piao_left">过期时间:</span><span ><input name="expire_time" required >*</span></div>
+	<div class="piao_div">
+		<span class="piao_left">类型:</span>
+		<span >
+			<input type="radio" name="ctype" value="0" checked>domain
+			<input type="radio" name="ctype" value="1">container
+       </span>
+	</div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="增加"></span></div>
+</div>
+</script>
+<script type='text/template' id="import-out-template">
+	<div id="import-out">
+		<div class='piao_div'>导出&nbsp;&nbsp;批次:<input name="batch" value="{{batch}}">*</div>
+		<div class='piao_div'>优惠码前缀:<input name="keystr"></div>
+		<div class='piao_div'><span class="pull-right"><input type='button' id="esc" class="btn" value="取消"><input type='button' id="enter" class="btn" value="导出"></span></div>
+	</div>
+</script>
+<script type='text/javascript'>
+var dia;
+function piao_add()
+{
+	var template = $("#add-promostr-template").html();
+	dia = art.dialog({id:'piao_promostr_add',content:template,top:'10%',lock:true,title:'增加'});
+	var div = $("#add-promostr-div");
+	div.find('#enter').bind('click',function(){
+		add(div);
+	});
+}
+function add(div)
+{
+	 var arr = {};
+	 arr.use_uid = div.find("[name=use_uid]").val();
+	 arr.price = div.find("[name=price]").val();
+	 arr.expire_time= div.find("[name=expire_time]").val();
+	 arr.mem = div.find('[name=mem]').val();
+	 arr.number = div.find('[name=number]').val();
+	dia.content('正在执行中...');
+	ajax('?c=promostr&a=add',arr);
+}
+function ajax(phpurl,array){
+	$.ajax({
+		url:phpurl,
+		type:'POST',
+		data:{arr:array},
+		dataType:'json',
+		success:function(a) {
+			dia.close();
+			if (a.status.code != 1) {
+				alert(a.status.message);
+				return;
+			}
+			window.location.reload();
+		},
+		error:function(e) {
+			dia.close();
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+}
+function piao_import_out()
+{
+	var template = $("#import-out-template").html();
+	var option = [];
+	var date = new Date();
+	option.batch = date.getFullYear().toString() + checkDateLen((date.getMonth()+1).toString()) + checkDateLen(date.getDate().toString());
+	var el = Mustache.to_html(template,option);
+	dia = art.dialog({id:'piao-import-out',content:el,lock:true,top:'10%'});
+	var div = $("#import-out");
+	div.find('[name=keystr]').trigger('focus');
+	div.find("#esc").bind('click',function(){
+		dia.close();
+	});
+	div.find('#enter').bind('click',function(){
+		import_out(div.find('[name=batch]').val(),div.find('[name=keystr]').val());		
+	});
+}
+function checkDateLen(date)
+{
+	if (date.length ==1) {
+		return '0'+date;
+	}
+	return date;
+}
+function import_out(batch,keystr,nouse)
+{
+	dia.close();
+	window.location = '?c=promostr&a=importOut&batch='+batch+ '&keystr='+keystr;
+}
+function piaoDel(key){
+	if(confirm("你确定要删除吗")===false){
+		return;
+	}
+	var tr=$("#tr"+key);
+	id = tr.attr('data-id');
+	$.ajax({
+		url:'?c=promostr&a=del',
+		type:'POST',
+		data:{id:id},
+		dataType:'json',
+		success:function(a) {
+	
+			if (a.status.code != 1) {
+				alert(a.status.message);
+				return;
+			}
+			tr.remove();
+		},
+		error:function(e) {
+			
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+}
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：优惠信息 --> 列表</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="9" class="bg_main">
+						<b>列表</b>
+						<span ><input type='button' onclick="piao_add()" value="增加优惠信息"></span>
+						<span ><input type='button' onclick="piao_import_out()" value="导出"></span>
+					</td>
+				</tr>
+				<tr id="bg_yellow">
+					
+				    <td>操作</td>
+				    <td>批次</td>
+				    <td>uid</td>
+					<td>优惠码字符串</td>
+					
+					<td>金额</td>
+					<td>过期时间</td>
+					<td>使用状态/使用时间</td>
+					<td>类型</td>
+					<td>备注</td>
+				</tr>
+				{[foreach from=$list item=row key=key]}
+				<tr class='view_edit_tr' id=tr{[$key]} data-id="{[$row.id]}">
+				    <td><a href="#" onclick="piaoDel({[$key]})">删除</a></td>
+				     <td>{[$row.batch]}</td>
+				    <td>{[$row.use_uid]}</td>
+				    <td>{[$row.keystr]}</td>
+					<td>{[$row.price]}</td>
+					<td class="wid_general">{[$row.expire_time]}</td>
+					<td>{[if $row.status==0]}未使用{[else]}{[$row.use_time]}{[/if]}</td>
+					<td>{[if $row.ctype==0]}域名{[else]}容器{[/if]}</td>
+					<td>{[$row.mem]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="15" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

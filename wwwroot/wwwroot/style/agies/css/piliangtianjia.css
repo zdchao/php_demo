@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+.piliangtianjia{width:1080px;height:auto; border:1px solid #d6d6d6;}
+.piliangtianjia h3{width:1040px;height:auto; border-bottom:1px solid #d6d6d6;line-height:60px; display:block;margin:0px auto; font-size:18px; color:#696969;}
+.piliangtianjia h3 span{color:#FF6760;}
+
+.pltj_nr{width:900px;height:auto;margin:0px auto; display:block;}
+.pltj_nr ul{ padding-top:20px;}
+.pltj_nr ul li { width:900px;line-height:50px; height:50px; display:block;}
+.pltj_nr ul li p{ width:100px;height:50px;text-align:right; float:left; padding-right:10px; }
+.pltj_nr ul li strong{color:#FF6760;padding-left:10px;}
+.pltj_nr ul li span{padding-left:10px;}
+.pltj_nr ul li a{padding:0px 0px 0px 50px;}
+.pltj_nr ul li h4{padding:0px 0px 0px 70px;}
+
+.pltj_an{width:260px;height:30px; display:block;margin:0px auto;}
+.pltj_an p{float:left;padding-right:10px;}

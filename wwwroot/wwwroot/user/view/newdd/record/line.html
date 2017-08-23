@@ -1,0 +1,35 @@
+{[dispatch c='public'  a='head']}
+<script type='text/javascript' src="{[$STATIC]}record/line.js?v={[$jsversion]}"></script>
+<script type='text/template' id="line-add-template">
+<div id="line-add">
+	<div>名称:<input type='text' name="name"  required></div>
+	<div >IP段:<textarea rows="5" cols="80" style="width:380px;" name="ips"></textarea></div>
+	<div ><button class="btn">增加</button><button class="btn">取消</button></div>
+</div>
+</script>
+<script type='text/template' id="line-show-row-template">
+<div  id="{{rowid}}" style='padding-top:5px;'>
+	<span class="span4">{{name}}</span>
+	<span ><button class="btn">修改</button>&nbsp;<button class="btn">删除</button></span>
+<div>
+</script>
+<script type='text/template' id="line-accessdeny-template">
+<div  id="line-accessdeny">
+	<h3 class="font-red">提示:您的域名不支持该功能,请联系管理员购买套餐!</h3>
+</div>
+</script>
+<script type='text/template' id="line-nologin-template">
+<a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a>
+</script>
+
+
+<div class="wrap">
+	<div class="contain">
+		<div>{[include file='record/right-operat.html']}</div>
+		<div style="width:93.3333333333%;margin:0 auto;padding:0 0 50px 0;">
+			<div id="line-list-row" ></div>
+			<div id="line-add-row" ></div>
+		</div>
+	</div>
+</div>
+{[include file='public/foot.html']}

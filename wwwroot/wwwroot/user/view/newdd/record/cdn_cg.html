@@ -1,0 +1,525 @@
+{[dispatch c='public'  a='head']}
+<script type='text/template' id="site-nologin-template">
+	<div><a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a></div>
+</script>
+<script type="text/javascript">
+flow_price =  '{[$flow_price/100]}';
+conversion = '{[$conversion]}'
+</script>
+<script type='text/javascript' src="{[$STATIC]}record/cdn_cg.js?v={[$jsversion]}"></script>
+<link href="/style/css/security_cg.css" rel="stylesheet"/>
+<div id="msg"></div>
+<div class="wrap">
+<div class="contain">
+	<div >{[include file='record/right-operat.html']}</div>
+	<div id="multi_div"></div>
+	<div  id="loading"><img src="/style/busy.gif" />正在加载....................</div>
+	
+	<div class="domain_box">
+	<div class="lable">
+	   	<div class="show head_lable">
+	   		<span class="title">功能</span>
+	   		<span class="info">备注</span>
+	   		<span class="status" data-status="2">状态</span>
+	   		<span class="oprate">操作</span>
+	   	</div>
+	</div>
+	<!-- ---------------------------------------------------------------------------------------- -->
+	<div id="https" class="lable" data-certificate="{[$https->certificate]}" data-key="{[$https->key]}" data-cipher="{[$https->cipher]}" data-protocols="{[$https->protocols]}">
+      	<div class="show">
+      		<span class="title">https设置</span>
+      		<span class="info">
+      		         <span>可使网站使用ssl加密访问</span>
+      		         <!--  
+      				{[if $vipinfo.ssl == 0]}
+      				<span  style="background:#FFCC99 ;color:#777;padding:1px;font-size:14px;"><i class="icon-warning-sign"></i>
+						您的权限不足，暂不能使用该功能！
+					</span>
+				{[/if]}-->
+		    </span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="{[$https_open]}">
+      				<input type="button" class="btn btns" name="modify" value="设置" onclick="renderMore('https',true)"/>
+      				<input type="button" class="btn btns {[if $vipinfo.ssl == 1]}disabled{[/if]}" name="open" value="打开" {[if $vipinfo.ssl == 1]}onclick="renderMore('https',true)"{[/if]}/>
+      				<input type="button" class="btn btns" name="close" value="关闭" onclick="deleteConfig(1,'https')"/>
+      		</span>
+      	</div>
+      	<div class="more https">
+      		<p>数字证书：<textarea name="certificate"></textarea></p>
+	      	<p>加密密钥：<textarea name="key"></textarea></p>
+	      	<p>算法：<input type="text" name="cipher"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	      			协议：<input type="text" name="protocols"/>
+	      	</p>
+	      	<p>
+	      		<input type="button" class="btn btns" value="清空"  onclick="emptyForm('https')"/>
+	      		<input type="button" class="btn btns"  value="提交"  onclick="addHttpsConfig('https')"/>
+	      	</p>
+      	</div>
+      </div>
+      <!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
+       <div id="firewall" class="lable" data-frcquency="{[$cc->frcquency]}" data-model="{[$cc->model]}">
+      	<div class="show">
+      		<span class="title">应用防火墙</span>
+      		<span class="info">可防应用层攻击，提高网站安全</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      			<input type="button"   class="btn btns" name="open" value="打开" onclick="renderMore('firewall',true)"/>
+      			<input type="button"   class="btn btns" name="modify" value="设置" onclick="renderMore('firewall',true)"/>
+      			<!--<input type="button" class="btn btn-primary"  name="close"  value="关闭" onclick="deleteConfig(2,'anticc')"/>-->
+      		</span>
+      	</div>
+      	<div class="more cc">
+      		<div class="cc_normal">
+      		<strong class="cc_title"></strong><h4 style="display:inline-block;color:#888;"> 防CC设置</h4>
+      		    <!--   {[if $vipinfo.cc == 0]}
+      				<span style="background:#FFCC99 ;color:#777;padding:6px;font-size:14px;"><i class="icon-warning-sign"></i>
+						防cc只提供基本防护，想要获得更高级防cc设置，升级VIP！
+					</span>
+				{[/if]}-->
+	      		<p>触发频率：
+	      			<input type="radio" name="frequency" value="off" onclick="renderCustomFrequency(2)" {[if $cc_open != 1]}checked{[/if]}/>关闭
+	      			<input type="radio" name="frequency" value="low"  {[if $cc->frcquency=='low']} checked {[/if]}  onclick="renderCustomFrequency(2)"/>低 
+	      			<input type="radio" name="frequency" {[if $cc->frcquency=='medium']} checked {[/if]}  onclick="renderCustomFrequency(2)" value="medium"/>中 
+	      			<input type="radio" name="frequency"  {[if $cc->frcquency=='high']} checked {[/if]}  onclick="renderCustomFrequency(2)" value="high"/>高
+	      			<input type="radio" name="frequency"  {[if $cc->frcquency=='custom']} checked {[/if]}  value="custom" onclick="renderCustomFrequency(2)"/>自定义
+	      		<p class="margin_left" {[if $cc->frcquency!='custom']}  style="display:none" {[else]} style="display:block" {[/if]}>
+	      				请求:<input type="text" name="request" value="{[$cc->request]}"/>时间：<input type="text" name="second" value="{[$cc->second]}"/></p>
+	      		</p>
+      			<p>防护模式：
+	      			<input type="radio"  {[if $cc->model eq 0]} checked  {[/if]} name="model" value="0" onclick="renderCcCustomModeTextarea(2)"/>普通
+	      			<input type="radio"   {[if $cc->model eq 1]} checked  {[/if]}  name="model" value="1" onclick="renderCcCustomModeTextarea(2)"/>一般
+	      			<input type="radio"   {[if $cc->model eq 2]} checked  {[/if]}  name="model" value="2"  onclick="renderCcCustomModeTextarea(2)"/>复杂
+	      			<input type="radio"    {[if $cc->model eq 3]} checked  {[/if]}  class="custom-model" name="model" onclick="renderCcCustomModeTextarea(2)" value="3"/>自定义
+      			</p>
+      				<p class="custom-model-textarea" {[if $cc->model != 3]} style="display:none"  {[/if]}>
+      				<textarea name="custom-model-textarea">{[$cc->custom]}</textarea>
+      			</p>
+      			<p><input type="button" class="btn btns"  value="提交"  onclick="addCcConfig('firewall')"/></p>
+      		</div>
+      		<div class="cc_ip_frequency">
+      			<strong class="cc_title"></strong><h4 style="display:inline-block;color:#888;"> 频率限制</h4>
+      			<p>
+      				<form>
+      				<input type="radio" name="type" value="off" {[if $ipfreon != 1]}checked{[/if]}/>关闭
+      				<input type="radio" name="type" value="0" {[if $iptype == "off"]}checked{[/if]}/>每IP&nbsp;&nbsp;<input type="radio" name="type" value="1" {[if $iptype == 1]}checked{[/if]}/>IP,URL
+      				<input type="text" style="width:50px;" name="time" value="{[$iptime]}"/>次<input type="text" style="width:50px;" name="second" value="{[$ipsecond]}"/>秒  加入黑名单
+      				<input type="text" style="width:50px;" name="exist_second" value="{[if $exist_second != '']}{[$exist_second]}{[else if]}300{[/if]}"/>秒
+      				<button type="button" class="btn btns" onclick="ipFrequency()">提交</button>
+      				</form>
+      			</p>
+      		</div>
+      		<div class="cc_white_urls">
+      		<strong class="cc_title"></strong><h4 style="display:inline-block;color:#888;">URL白名单</h4><a href="javascript:;" onclick="addCcWhiteUrlItem('firewall')"> 增加规则</a>
+      		{[foreach from=$cc_white_urls item=row key=key]}
+      		<div id="div{[$key]}" data-id="{[$row.id]}" class="cc_white_url_item">
+      			url:<input type="text" name="url" value="{[$row.value]}"/>
+      			<input type="button"  class="btn btns" onclick="addCcWhiteUrlsConfig('firewall',{[$key]})"  value="提交"/>
+      			<input type="button"  class="btn btns"    onclick="updateCcWhiteUrlDeleteFlag('firewall',{[$key]});deleteConfig('firewall','cc-white-url',{[$row.id]})"  value="关闭"/>
+      		</div>
+      		{[/foreach]}
+      		</div>
+      		<div class="cc_white_ips">
+      		<strong class="cc_title"></strong><h4 style="display:inline-block;color:#888;">IP白名单</h4>
+      		<p>防CC白名单，多个ip用着`|`分割，如 `127.0.0.1|128.0.0.1`</p>
+      		<p>
+      			<input    name="ips" style="width:350px"  value="{[$cc_white_ips]}"/>
+      			<input type="button" class="btn btns"  value="提交"  onclick="addCcWhiteConfig('firewall')"/>
+      		</p>
+      		</div>
+      		<div class="cc_black_ips">
+      			<strong class="cc_title"></strong><h4 style="display:inline-block;color:#888;">IP黑名单</h4><a href="javascript:piaoAddBlackIP()"> 增加黑名单</a>
+      			<div id="list">
+      				{[foreach from=$blackip item=row key=key]}
+	      	     <div id="div{[$key]}" data-id="{[$row.id]}"  data-name="{[$row.name]}"class="cc_white_url_item">
+		      		<p>IP：<input type="text"  name="ip"  value="{[$row.value]}" placeholder="请输入IP地址"/>
+		      		<input type="button" class="btn btns" id="enter" value="修改" onclick="editBlackIP1({[$key]})"/>
+		      		<input type="button" class="btn btns" id="esc" value="删除" onclick="delConfig1({[$key]})"/></p>
+	      		</div>
+	      		{[/foreach]}
+      			</div>
+      		</div>
+      	</div>
+      </div>
+      <!-- -------------------------------------------------------------------------------------------------------------------------------------- -->
+       <div id="long" class="lable" data-second="{[$life_time]}">
+      	<div class="show">
+      		<span class="title">长连接</span>
+      		<span class="info">长连接({[$life_time]}s)</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      				<input type="button" class="btn btns" name="modify" value="设置" onclick="renderMore('long',true)"/>
+      		</span>
+      	</div>
+      	<div class="more life_time">
+      		<p>
+      			时间：<input type="text" name="second" value="{[$life_time]}"/>
+      			<input type="button" class="btn btns"  value="提交"  onclick="addLifeTimeConfig('long')"/>
+      		</p>
+      	</div>
+      </div>
+      <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+      <div id="cache" class="lable">
+      	<div class="show">
+      		<span class="title">缓存设置</span>
+      		<span class="info">设置后可对网站进行加速</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      				<input type="button" class="btn btns" name="modify" value="配置" onclick="renderMore('cache',true)"/>
+      				<input type="button" class="btn btns" name="open" value="打开" onclick="renderMore('cache',true)"/>
+      				<input type="button" class="btn btns" name="always-show" value="刷新" onclick="cacheFlushTime()"/>
+      		</span>
+      	</div>
+      	<div class="more cache">
+      		<div  class="default">
+      		<form>
+    		<p>
+   				缓存策略：<input type="radio"  {[if $defaultCache->model eq 0]} checked {[/if]}  name="model" value="0"/>缓存优先
+   				&nbsp;&nbsp;&nbsp;<input type="radio" name="model"  {[if $defaultCache->model eq 1]} checked {[/if]}  value="1"/>调试优先
+   			</p>
+      			<p>
+      				缓存时间：<input name="second" value="{[$defaultCache->second]}"/>
+      				<input type="button" class="btn btns" value="确认" onclick="AddDefaultCacheConfig('cache')"/>&nbsp;&nbsp;
+      				<input type="button" class="btn btns" value="添加规则" onclick="renderAddCacheConfig('cache')"/>
+      			</p>
+      			</form>
+      		</div>
+      		<div class="sets">
+      		{[foreach from=$cache item=row key=key]}
+      		<form>
+      			<div id="div{[$key]}" title="sets-child">
+					<p>
+						{[if $row->model eq "file"]}
+							模式：<input type="radio" name="model" value="file" checked/>文件类型<input type="radio" name="model" value="url"/>url正则
+						{[else]}
+							模式：<input type="radio" name="model" value="file"/>文件类型<input type="radio" name="model" value="url" checked="checked"/>url正则
+						{[/if]}
+						值：<input type="text"  name="value" value="{[$row->value]}"/>
+						时间：<input type="text"   style="width:60px;"  name="second" value="{[$row->second]}"/>(s)
+						<input  type="checkbox" {[if $row->force]} checked   {[/if]} name="force" value=""/>强制缓存
+						<input type="button" class="btn btns"  value="提交"  onclick="addCacheConfig('cache',{[$key]},{[$row->id]})"/>
+						<input type="button" class="btn btns" name="close" value="关闭" onclick="javascript:modify_cache_div_delete(this);deleteConfig('cache','cache',{[$row->id]});"/>
+				 	 </p>
+				</div>
+				</form>
+				{[/foreach]}
+      		</div>
+      	</div>
+      </div>
+      <!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+      <div id="gzip" class="lable" data-second="{[$life_time]}">
+      	<div class="show">
+      		<span class="title">gzip</span>
+      		<span class="info">对响应内容进行压缩，提高传输速度</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      				<input type="button" class="btn btns" name="modify" value="设置" onclick="renderMore('gzip',true)"/>
+      		</span>
+      	</div>
+      	<div class="more gzip">
+      		<p>
+      			<input type="checkbox"  {[if $gzip.html]}checked {[/if]}  name="gzip" value="html"/> html
+      			&nbsp;&nbsp;&nbsp;&nbsp;<input   {[if $gzip.css]}checked {[/if]} type="checkbox" name="gzip" value="css"/> css
+      			&nbsp;&nbsp;&nbsp;&nbsp;<input   {[if $gzip.js]}checked {[/if]} type="checkbox" name="gzip" value="js"/> js
+      			<input type="button" class="btn btns" value="提交" onclick="addGzipConfig('gzip')"/>
+      		</p>
+      	</div>
+      </div>
+      <!-- --------------------------------------------------------------------------------------------------------------------------------------- -->
+      <div id="domain-location" class="lable">
+      	<div class="show">
+      		<span class="title">域名跳转</span>
+      		<span class="info">域名跳转</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      				<input type="button" class="btn btns" name="modify" value="设置" onclick="renderMore('domain-location',true)"/>
+      		</span>
+      	</div>
+      	<div class="more redirect">
+      	       	<p> <a href="javascript:;" onclick="piaoAddRedirect('domain-location')">增加域名跳转</a></p>
+	      	      <div class="cc_white_urls">
+			      	     {[foreach from=$redirect item=row key=key]}
+					      	     <div id="div{[$key]}" data-id="{[$row.id]}" data-name="{[$row.name]}" class="cc_white_url_item">
+					      	       <form>
+						     		 <p> 
+						     		 		代码：<input name="code"  type="radio" {[if $row.code == 301]}checked{[/if]}   value="301" /> 301 <input   name="code"  {[if $row.code eq 302]}checked{[/if]} type="radio" value="302"  /> 302
+						     	     		请求域名：<input type="text"  name="host" value="{[$row.host]}"/>
+						     	     		 跳转域名：<input type="text"  name="target" value="{[$row.target]}"/>
+						      		  		<input type="button" class="btn btns" value="修改" onclick="editRedirectConfig({[$key]},'domain-location')"/>
+				      		      			<input type="button" class="btn btns" value="删除" onclick="delConfig({[$key]},'domain-location')"/>
+				      		      	 </p> 
+				      		      </form>
+					      		</div>
+			      			{[/foreach]}
+	      	   </div>
+      	</div>
+      </div>
+      <!-- ----------------------------------------------------------------------------------------------------------------------------------- -->
+      <div id="hotlink" class="lable">
+      	<div class="show">
+      		<span class="title">防盗链</span>
+      		<span class="info">防盗链</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      			<input type="button" class="btn btns" name="modify" value="配置" onclick="renderMore('hotlink',true)"/>
+      		<input type="button" class="btn btns" name="open" value="打开" onclick="renderMore('hotlink',true)"/>
+      		</span>
+      	</div>
+      	<div class="more redirect">
+      	    <p> <a href="javascript:;" onclick="piaoAddChain('hotlink')"> 增加防盗链</a></p>
+      	     <div class="cc_white_urls">
+	      	        {[foreach from=$antiReferer item=row key=key]}
+	      	      <div id="div{[$key]}" data-id="{[$row.id]}" data-name="{[$row.name]}">
+		      		  <p>
+		      		  	<form>
+      	        	      URL(正则)：<input type="text"  name="target"  value="{[$row.target]}"/>
+      	        	      <input type="radio" name="type" {[if $row.type == 0]}checked{[/if]} value="0"/>来源(URL正则)
+      	        	      <input type="radio" name="type" {[if $row.type == 1]}checked{[/if]} value="1"/>来源(域名列表)
+      	        	      <input type="radio" name="type" {[if $row.type == 2]}checked{[/if]} value="2"/>签名(秘钥)
+      	        	      <input type="text"  name="referer"  value="{[$row.referer]}"/>
+		      			<input type="button" class="btn btns" id="enter" value="修改" onclick="editChain({[$key]},'hotlink')"/>
+		      			<input type="button" class="btn btns" id="esc" value="删除" onclick="delConfig({[$key]},'hotlink')"/>
+		      			</form>
+		      		</p>
+	      		</div>
+	      		{[/foreach]}
+	      	</div>
+      </div>
+</div>
+<!-- ------------------------------------------------------------------------------------------------------------------------- -->
+<div id="rate-limit" class="lable">
+      	<div class="show">
+      		<span class="title">限速</span>
+      		<span class="info">限速</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      			<input type="button" class="btn btns" name="modify" value="配置" onclick="renderMore('rate-limit',true)"/>
+      				<input type="button" class="btn btns" name="open" value="打开" onclick="renderMore('rate-limit',true)"/>
+      		</span>
+      	</div>
+      	<div class="more flow_limit">
+      	    <a href="javascript:;" onclick="addFlowLImitInput('rate-limit')"> 增加规则</a>
+      	     <div class="items">
+      	     	{[foreach from=$rate_limit item=row key=key]}
+      	     		
+      	     			<div id="div{[$key]}" class="item" data-id="{[$row.id]}">
+				<form>
+				      	<p>
+				<input type="radio"  {[if $row.value->model =='singel']} checked {[/if]} name="model" value="singel"/>每连接
+				<input type="radio" name="model" {[if $row.value->model =='group']} checked {[/if]} value="group"/>每节点
+				URL(正则)：<input type="text"  name="url"   value="{[$row.value->url]}"/>
+				      	        	      速率：<input type="text" class="speed"    name="speed" value="{[$row.value->speed]}" />(k/s)
+				      			<input type="button" id="enter" class="btn btns"  onclick="addFlowLimit('rate-limit',{[$key]})" value="提交"/>
+				      			<input type="button"  onclick="updateDelFlowLimitFlag('rate-limit',{[$key]});deleteConfig('rate-limit','flow-limit',{[$row.id]})" class="btn btns"   name="cancel" value="关闭"/></p>
+				</form>
+				    </div>
+      	     		
+      	     	{[/foreach]}
+	      	</div>
+      </div>
+</div>
+<!-- -------------------------------------------------------------------------------------------------------------- -->
+<div id="rtmp" class="lable">
+		<div class="show">
+			<span class="title">视频加速</span>
+			<span class="info">视频加速配置</span>
+			<span class="status"></span>
+			<span class="oprate" data-status="1">
+				<input type="button" class="btn btns" name="modify" value="配置" onclick="renderMore('rtmp',true)"/>
+			</span>
+		</div>
+		<div class="more flow_limit">
+			<a href="javascript:;" onclick="addRtmpInput()"> 添加规则</a>
+			<div id="list">
+				{[foreach from=$rtmplist item=row key=key]}
+					<div id="{[$row['id']]}">
+					<form>
+						<span>
+							url(正则):<input type="text" value="{[$row.value->url]}" name="url"/>
+							<input type="radio" name="media" {[if $row.value->type == 0]}checked{[/if]} value="0" onclick="selectMediaType({[$row['id']]})"/>点播
+							<input type="radio" name="media" {[if $row.value->type == 1]}checked{[/if]} value="1" onclick="selectMediaType({[$row['id']]})"/>直播
+							{[if $row.value->type == 0]}<span id="rtmp_text" style="display:none">源(RTMP)<input type="text" name="rtmp"/></span>{[/if]}
+							{[if $row.value->type == 1]}<span id="rtmp_text">源(RTMP)<input type="text" value="{[$row.value->rtmp]}" name="rtmp"/></span>{[/if]}
+							<button type="button" class="btn btns" onclick="editRtmpSet({[$row['id']]})">提交</button>
+							<button type="button" class="btn btns" onclick="deleteRtmpSet('{[$row.id]}','{[$row.id]}')">删除</button>
+						</span>
+						</form>
+					</div>
+				{[/foreach]}
+			</div>
+		</div>
+	</div>
+	<!-- ---------------------------------------------------------------------------------------------------------------- -->
+	<div class="lable" id="online">
+		<div class="show">
+			<span class="title">永久在线</span>
+			<span class="info">永久在线,是指开启缓存。如果服务器宕机,可从缓存中读取。</span>
+			<span class="status"></span>
+			<span class="oprate" data-status="1">
+				<input type="button" class="btn btns" name="modify" value="配置" onclick="renderMore('online',true)"/>
+			</span>
+		</div>
+		<div class="more flow_limit">
+			<div  class="default">
+				<form>
+					<p>
+						永久在线:&nbsp;&nbsp;<input type="radio" name="online_type" value="0" {[if $online_type == 0]}checked{[/if]} />关
+						<input type="radio" name="online_type" value="1" {[if $online_type == 1]}checked{[/if]} onclick="addOnlineTemplate()"/>开&nbsp;&nbsp;
+					</p>
+				</form>
+			</div>
+			<div id="config" {[if $online_url == ""]}style="display:none;"{[/if]}>
+				<div id="list">
+					{[if $online_url != ""]}
+						<div id="div{[$online_id]}">
+							<p>排除以下URL(一行一个 正则表达式)</p>
+							<p><textarea rows="4" name="url">{[$online_url]}</textarea></p>
+							<button type="button" class="btn btns" onclick="editOnline({[$online_id]})">提交</button>
+						</div>
+					{[/if]}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ---------------------------------------------------------------------------------------------------- -->
+	<div id="flow-buy" class="lable">
+      	<div class="show">
+      		<span class="title">流量购买</span>
+      		<span class="info">
+      			<div class="progress" style="width:50%;margin-top:7px;" data-original-title="已使用：{[round($flow_limit.flow_sum/$conversion,3)]}G,总流量：{[round($flow_limit.flow_limit/$conversion,2)]}G" onmouseover="showFLow()">
+				  <div class="bar" style="width: {[$flow_limit.flow_sum/$flow_limit.flow_sum*100]}%;"></div>
+				</div>
+			</span>
+      		<span class="status"></span>
+      		<span class="oprate" data-status="1">
+      			<input type="button" class="btn btns" name="modify" value="配置" onclick="renderMore('flow-buy',true)"/>
+      			<input type="button" class="btn btns" name="open" value="打开" onclick="renderMore('flow-buy',true)"/>
+      		</span>
+      	</div>
+      	<div class="more">
+      	      <div class="cc_white_urls" style="margin-left:20%">
+      	       <form  class="form-horizontal">
+      	       		 <div class="control-group">
+					    <label class="control-label" for="inputEmail">流量价格</label>
+					    <div class="controls">
+					     	<span class="price">￥{[$flow_price/100]}</span><small>/G</small> 	
+					    </div>
+				   </div>
+				    <div class="control-group">
+					    <label class="control-label" for="inputEmail">流量(G)</label>
+					    <div class="controls">
+					      <input id="flow" name="flow" type="text" placeholder="10"> <i class="icon-hand-right"></i><small>(按下“空格”键)</small>
+					    </div>
+				   </div>
+				    <div class="control-group">
+					    <label class="control-label" for="inputEmail">总计</label>
+					    <div class="controls">
+					   <span id="sum" class="price">￥0</span>
+					    </div>
+				   </div>
+				   <div class="control-group">
+					    <div class="controls">
+					  	 	<input type="button" id="enter" class="btn btns"  onclick="buyFlow(10)" value="购买"/>
+					    </div>
+				   </div>
+	      	</div>
+	      	</form>
+      </div>
+</div>
+</div>
+</div>
+</div>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<script id="cache-add-template" type="text/template">
+	<form>
+      			<div id="div{{divid}}">
+					<p>
+						模式：<input type="radio" name="model" value="file" checked/>文件类型<input type="radio" name="model" value="url"/>url正则
+						值：<input type="text"  name="value" value=""/>
+						时间：<input type="text"  name="second"  style="width:60px;" value="3600"/>(s)
+						<input  type="checkbox" {[if $row->force]} checked   {[/if]} name="force" value=""/>强制缓存
+						<input type="button" class="btn btns add-button"  value="提交"  onclick="addCacheConfig('cache',{{divid}})"/>
+						<input type="button" class="btn btns close-button" name="close" value="取消" onclick="removeRenderDiv('cache',{{divid}})"/>
+				 	 </p>
+				</div>
+	</form>
+</script>
+<script id="Redirect-add-template" type="text/template">
+	<div id="div{{id}}" data-id="" class="cc_white_url_item" delete-flag="0">
+      <form>
+      	<p>
+      		     代码：<input name="code" type="radio"  value="301" checked/> 301 <input name="code"   type="radio" value="302"/> 302
+		     	     	请求域名：<input type="text"  name="host"/>
+		     	     	 跳转域名：<input type="text"  name="target"/>
+      			<input type="button"   class="btn btns" id="enter"  value="提交"/>
+      			<input type="button"  class="btn btns"  id="esc"  value="取消"/>
+         </p>
+      </form>
+    </div>
+</script>
+<script id="cc-white-url-add-template" type="text/template">
+	<div id="div{{id}}" data-id="" class="cc_white_url_item" delete-flag="0">
+      			url:<input type="text" name="url" value=""/>
+      			<input type="button" name="submit"  class="btn btns" onclick="addCcWhiteUrlsConfig('firewall',{{id}})"  value="提交"/>
+      			<input type="button"   name="del" class="btn btns"    onclick="delCcWhiteUrlItem('firewall',{{id}})"  value="取消"/>
+    </div>
+</script>
+<script id="blackIP-add-template" type="text/template">
+	<div id="div{{id}}">
+      	<p>IP：<input type="text"  name="ip" placeholder="请输入IP地址"/>
+      			<input type="button" id="enter" class="btn btns" value="提交"/>
+      			<input type="button"   id="esc" class="btn btns"  value="取消"/></p>
+    </div>
+</script>
+<script id="chain-add-template" type="text/template">
+	<div id="div{{id}}">
+      	<p>
+				<form>
+				URL(正则)：<input type="text"  name="target"  value="" placeholder="URL正则表达式"/>
+      	       	<input type="radio" name="type" checked="checked" value="0" id="url"/>来源(URL正则)
+				<input type="radio" name="type" value="1" id="domain"/>来源(域名列表)
+				<input type="radio" name="type" value="2" id="key"/>签名(秘钥)
+				<input type="text"  name="referer"  value="" placeholder="URL正则表达式"/>
+      			<input type="button" id="enter" class="btn btns" value="提交"/>
+      			<input type="button"   id="esc" class="btn btns"  value="取消"/>
+				</form>
+		</p>
+    </div>
+</script>
+
+<script id="add-url-speed-limit-template" type="text/template">
+	<div id="div{{divid}}" class="item">
+<form>
+      	<p>
+<input type="radio" name="model" checked   value="singel"/>每连接
+<input type="radio" name="model" value="group"/>每节点
+URL(正则)：<input type="text"  name="url"  value=""/>
+      	        	      速率：<input type="text"  name="speed"   class="speed" value=""/>(k/s)
+      			<input type="button" id="enter" class="btn btns"    onclick="addFlowLimit('rate-limit',{{divid}})" value="提交"/>
+      			<input type="button"  onclick="delFlowLImitInput('rate-limit',{{divid}})" class="btn btns"   name="cancel" value="取消"/></p>
+</form>
+    </div>
+</script>
+<!-- 朱德朝 -->
+<script type="text/template" id="add-rtmp-input-template">
+<div id="{{id}}" data-list>
+	<span>
+	<form>
+		url(正则):<input type="text" name="url"/>  <input type="radio" name="media" checked="checked" value="0"/>点播<input type="radio" name="media" value="1"/>直播 &nbsp;
+		<span id="rtmp_text" style="display:none">源(RTMP):<input type="text" name="rtmp"/></span>
+		<button type="button" class="btn btns" id="enter">确定</button>
+		<button type="button" class="btn btns" id="edit" style="display:none">修改</button>
+		<button type="button" class="btn btns" id="esc">取消</button>
+		<button type="button" class="btn btns" id="delete" style="display:none">删除</button>
+	</form>
+	</span>
+</div>
+</script>
+<script type="text/template" id="online-input-template">
+<div id="div{{id}}">
+	<p>排除以下URL（一行一个 正则表达式）</p>
+	<p><textarea rows="4" name="url"></textarea></p>
+	<button type="button" class="btn btns" id="enter">提交</button>
+	<button type="button" class="btn btns" id="esc">取消</button>
+</div>
+</script>
+{[include file='public/foot.html']}

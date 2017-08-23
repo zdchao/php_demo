@@ -1,0 +1,107 @@
+{[dispatch c='public'  a='head']}
+<script type="text/template" id="domaintr-template">
+<tr id="{{id}}">
+    <td><input type="checkbox"/></td>
+   <td>{{domain}}</td>
+   <td>{{dir}}</td>
+   <td><a href="#" id="del">删除</a></td>
+</tr>
+</script>
+<script type="text/template" id="add-db-template">
+<tr>
+   <td><input type="password" name="passwd" placeholder="请输入密码" required></td>
+	<td>
+		<button type="button"  class="btn btn-success btns" id="enter">提交</button>
+        <button type="button" class="btn" id="esc">取消</button>
+	</td>
+</tr>
+</script>
+<script type='text/template' id="piao-modal-template">
+    <div class="modal hide fade" id="piao-modal">
+    	<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    		<h3>{{title}}</h3>
+    	</div>
+    	<div class="modal-body">
+    		<p>{{{content}}}</p>
+    	</div>
+    	<div class="modal-footer">
+    		<a href="#" id="closea"  class="btn btn-sm pull-right" data-dismiss="modal">关闭</a>
+    	</div>
+    </div>
+</script>
+<script type="text/javascript">
+ containername = '{[$name]}';
+</script>
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<link href="/style/user/css/container.css" rel="stylesheet">
+<script type='text/javascript' src="{[$STATIC]}container/db.js?v={[$jsversion]}"></script>
+<div class="row-fluid" style="height:30px;">
+		<span id="domain_error" class="offset3"></span>
+</div>
+<div class="wrap" id="left">
+    <div class="cl mtb20">
+		{[include file='container/containerleft.html']}
+ 		<div class="cont_main">
+ 			 {[include file='container/operattop.html']}
+            <div class="mtb20 pr">
+		   		<div class="btn-group">
+					  <span id="add" class="btn btn-success btns">创建数据库</span>
+				</div>
+	      		<div class="btn-group">
+					     <span id="del" class="btn">删除</span>
+				</div>
+				<div class="btn-group">
+					      <span id="editpasswd" class="btn">修改密码</span>
+				</div>
+	        </div>
+	        <div class="domain_box">
+		       <table  class="domain_table" width="100%">
+		       		<tr><td>容器程序连接数据库HOST</td><td>db</td></tr>
+		       		<tr><td>数据库源</td><td id="source">CNAME</td></tr>
+		       		<tr><td>数据库名称</td><td id="dbname"></td></tr>
+		       		<tr><td>数据库大小</td><td id="size"></td></tr>
+		       		<tr><td>数据库所占硬盘</td><td id="dbsize"></td></tr>
+				</table>	
+		    </div>
+ 		</div>
+ 	</div>
+ </div>	
+<!-- <div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2 offset2"  id="left">
+    	<h4><i  class="icon-th-large"></i>  容器管理</h4>
+	  	<ul>
+	      <a href="?c=public&a=container"> <li>容器列表</li></a>
+	      <a href="?c=containerproduct&a=usercontainer"><li class="selected">我的容器</li></a>
+	   </ul>
+    </div>
+    <div class="span6">
+    <hr>
+     <div class="row-fluid">
+          <div class="span12">
+              <div id="responsive-record-nav" class="tabbable">
+					<span id="responsive-operat-span" class="span6">
+						{[$name]} 
+						<span id="message" style="margin:0px 20px"></span>
+	               </span>
+			       <ul class="nav nav-tabs">
+						<li class="pull-right"> <a href="?c=containerftp&a=pagelist&name={[$name]}">FTP列表</a></li>
+						<li  class="active  pull-right"><a href="?c=containerdb&a=pagelist&name={[$name]}">数据库</a></li>
+						<li class="pull-right"><a href="?c=containerdomain&a=pagelist&name={[$name]}">域名列表</a></li>
+			       </ul>
+			   </div>
+	      	</div>
+	   </div>
+        <span id="add" class="button add">创建数据库</span>
+        <span id="del" class="button">删除</span>
+         <span id="editpasswd" class="button">修改密码</span>
+       <table class="table  table-hover">
+       		<tr><td>数据库名称</td><td id="dbname"></td></tr>
+       		<tr><td>数据库大小</td><td id="size"></td></tr>
+       		<tr><td>数据库所占硬盘</td><td id="dbsize"></td></tr>
+		</table>	
+    </div>
+  </div>
+</div> -->
+{[include file='public/foot.html']}

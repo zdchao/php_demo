@@ -1,0 +1,66 @@
+﻿{[dispatch c='public'  a='head']}
+<script type='text/javascript' >
+var html;
+function find_passwd()
+{
+	var email = $("#inputEmail").val();
+	if (!email) {
+		return alert('邮箱不能为空');
+	}
+	html = $("#find_passwd_td").html();
+	
+	$.ajax({url:'?c=public&a=findPasswd',data:'email='+email,dataType:'json',success:function(ret) {
+		var content;
+		if (ret['code'] != 200) {
+			content = ret['msg']+'<a href="javascript:reset_html()">我要重来</a>';
+		}else {
+			content = ret['msg'];
+		}
+		$("#find_passwd_td").html(content);
+	}});
+}
+function reset_html()
+{
+	$("#find_passwd_td").html(html);
+}
+</script>
+<div class="wrap">
+<div class="contain" style="padding:10px 15px;">
+	<div>
+		<fieldset>
+			<legend>找回密码</legend>
+		</fieldset>
+	</div>
+	<div class="row">
+		<div class="span6">
+
+			{[if $successmsg]}
+			<div class="alert alert-success">{[$successmsg]}</div>
+			{[else]} {[if $errormsg]}
+			<div class="alert alert-error">{[$errormsg]}</div>
+			{[/if]}
+			<form action="?c=public&a=findPasswd" method="post"
+				class="form-horizontal">
+
+
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">账号:</label>
+					<div class="controls">
+						<input type="text" name="email" placeholder="Email" required>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn btns btn-success">找回</button>
+					</div>
+				</div>
+			</form>
+			{[/if]}
+		</div>
+		<div class="span6">{[include file='public/right.html']}</div>
+	</div>
+</div>
+</div>
+
+{[include file='public/foot.html']}
+		

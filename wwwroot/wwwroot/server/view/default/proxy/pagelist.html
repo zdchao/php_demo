@@ -1,0 +1,42 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+function change_passwd(name) 
+{
+	var html = '<form  action="?c=proxy&a=changePassword&admin='+name +'" method="post">';
+	html += '新的密码:<input name="passwd" type="password">';
+	html += '<input type="submit" value="提交">';
+	html += '</form>';
+	art.dialog({id:'222',content:html,title:'修改密码'+ name+ '密码'});
+}
+$(document).ready(function(){
+	var msg = '{[$msg]}';
+	if (msg != '') {
+		art.dialog({id:'222',content:msg,title:'提示',time:2});
+	}
+})
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+  	<div class="wid_main mar_main" align="left">
+		<div class="block_top" align="left">当前位置：帐号管理 </div>
+		<table class="table_main2" cellpadding="0" cellspacing="1">
+			<tr id="bg_yellow">
+				<td>操作</td><td>用户名</td>
+			</tr>
+			{[foreach from=$list item=row]}
+			<tr>
+				<td>
+				[<a href="javascript:change_passwd('{[$row.name]}')" >修改密码</a>]
+				</td>
+				
+				<td class="wid_general">{[$row.name]}</td>
+			</tr>
+			{[/foreach]}
+			<tr>
+				<td colspan="4" id="bg_yellow" align="right">共计 {[$count]} 条记录&nbsp;</td>
+			</tr>
+		</table>
+  	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,474 @@
+<?php /* Smarty version Smarty-3.0.5, created on 2015-09-09 18:58:41
+         compiled from "/home/ftp/d/dnsdun/wwwroot/wwwroot/user/view/new/domain/templete.html" */ ?>
+<?php /*%%SmartyHeaderCode:122760214455f010e1987365-81831258%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '1768f930059f5cbcfb7549b468cb835e7130e9c1' => 
+    array (
+      0 => '/home/ftp/d/dnsdun/wwwroot/wwwroot/user/view/new/domain/templete.html',
+      1 => 1440053214,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '122760214455f010e1987365-81831258',
+  'function' => 
+  array (
+  ),
+  'has_nocache_code' => false,
+)); /*/%%SmartyHeaderCode%%*/?>
+<script type="text/template" id="add-site-template">
+<span id="add-site-span">
+	{{{select}}}
+	<button id="enter" class="btn btn-success">确定</button><button id="esc" class="btn btn-default">取消</button>
+</span>
+</script>
+<script type='text/template' id="domain-nologin-template">
+	<tr data-domain="{{name}}" id="{{divid}}" {{{trclass}}} style="height:45px;line-height:45p;">
+		<td colspan=5>
+		<a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a>
+		</td>
+	</tr>
+</script>
+<script type='text/template' id="domain-loading-template">
+    <div class="progress progress-striped" id="domain-loading">
+    	<div class="bar" style="width: {{width}}%;">正在载入数据...</div>
+    </div>
+</script>
+<script type='text/template' id="domain-remark-template">
+	<div style="width:400px;">{{name}}</div>
+	<div ><textarea cols="80" style="width:360px;" name="remark" id="piao_newremark" rows=5>{{remark}}</textarea></div>
+	<div>200字以内</div>
+	<div><hr></div>
+	<div class="offset2"><button class="btn btn-success" id="remark-enter">备注</button>&nbsp;<button class="btn btn-warning" id="remark-esc">取消</button></div>
+</script>
+<script type='text/template' id="domain-row-template">
+	<tr data-domain="{{name}}" id="{{divid}}" {{{trclass}}} style="border-bottom:1px solid #c0c0c0;">
+		<td width="5%" style="border-right:1px solid #c0c0c0; text-align:center;"><input type="checkbox" {{checked}}></td>
+		<!--
+		<td>
+			<a href="javascript:;" id="mark" data-original-title="点亮星标,快速搜索" data-toggle="stop" data-placement="top">
+			<em class="{{#is_mark}}icon_1 icon_1_cur{{/is_mark}}{{^is_mark}}icon_1{{/is_mark}}"></em>
+			</a>
+			{{#is_group}}<em class="icon_10" id="is_group" data-original-title="已分组{{group_name}}" data-placement="top"></em>{{/is_group}}
+			{{^is_group}}<em class="icon_2" id="is_group" data-original-title="未分组" data-placement="top"></em>{{/is_group}}
+		</td>-->
+		<td width="25%" style="border-right:1px solid #c0c0c0; text-align:center;">{{^domainaudit}}<a href="?c=public&a=record&domain={{name}}&groupid={{groupid}}">{{name}}</a>{{/domainaudit}}{{#domainaudit}}{{name}}{{/domainaudit}}</td>
+		<td width="20%" style="border-right:1px solid #c0c0c0; text-align:center;" id="pid">{{{pname}}}&nbsp;{{pid_expire_time}}</td>
+		<!--<td {{#iscdn}} class="span1"{{/iscdn}} {{^iscdn}} class="span3" {{/iscdn}}>{{{status_message}}}</td>-->
+		<td width="20%" style="border-right:1px solid #c0c0c0; text-align:center;">{{{status_message}}}</td>
+		<!--
+		{{#iscdn}}
+		<td id="cdn_td">
+			<span id="sitestatus" data-original-title="点击接入cdn"><a href="javascript:;"><em class="yun_1"></em></a></span>
+			<span id="sitestatus0" data-original-title="站点等待审核"><em class="yun_2"></em></span>
+			<span id="sitestatus3" data-original-title="审核不通过"><em class="yun_3"></em></span>
+			<span id="siteexpiretip" data-original-title="cdn增加成功"><a href="javascript:;"><em class="yun_4"></em></a></span>
+			<span id="siteexpires" data-original-title="cdn站点以到期,点击购买产品"><a href="javascript:;"><i class="icon-siteexpires"></i></a></span>
+		</td>
+		{{/iscdn}}
+		{{^iscdn}}
+		{{/iscdn}}-->
+		<!--<td id='site' {{#iscdn}}class="span3" {{/iscdn}} {{^iscdn}}class="span2"{{/iscdn}}>-->
+		<td id='site' width="25%" style=" text-align:center;">
+			<span id="remark" data-original-title="{{#remark}}{{remark}}{{/remark}}{{^remark}}备注{{/remark}}" data-toggle="remark" data-placement="top"><a href="javascript:;" >编辑</a></span>
+			<span style="padding:0px 5px; color:#4fc0e8;">|</span>
+			<span id="stop" data-original-title="域名暂停中,点击启用" data-toggle="stop" data-placement="top"><a href="javascript:;" >暂停</a></span>
+			<span id="restor" data-original-title="域名启用中,点击暂停" data-toggle="restor" data-placement="top"><a href="javascript:;" >启用</a></span>
+			<!--
+			<span id="remark" data-original-title="{{#remark}}{{remark}}{{/remark}}{{^remark}}备注{{/remark}}" data-toggle="remark" data-placement="top"><a href="javascript:;" ><em class="icon_4"></em></a></span>
+			<span id="stop" data-original-title="域名暂停中,点击启用" data-toggle="stop" data-placement="top"><a href="javascript:;" ><em class="icon_8"></em></a></span>
+			<span id="restor" data-original-title="域名启用中,点击暂停" data-toggle="restor" data-placement="top"><a href="javascript:;" ><em class="icon_8 icon_8_cur"></em></a></span>
+			<span id="shopping" data-original-title="点击进入购买套餐" data-toggle="shopping" data-placement="top"><a href="?c=product&a=index&domain={{name}}"><em class="icon_6"></em></a></span>
+			<span id="upgrade" data-original-title="点击进入升级套餐" data-toggle="upgrade" data-placement="top"><a href="?c=product&a=index&domain={{name}}" ><i class="icon-upgrade"></i></a></span>
+			<span id="renew" data-original-title="点击进入续费套餐" data-toggle="renew" data-placement="top"><a href="?c=product&a=renewIndex&domain={{name}}" ><em class="icon_14"></em></a></span>
+			<span id="free" data-original-title="切换到免费套餐" data-toggle="free" data-placement="top"><a href="javascript:;">免费</a></span>
+			-->
+		</td>
+	</tr>
+</script>
+<script type='text/template' id="domain-row-refresh-template">
+		<td width="5%" style="border-right:1px solid #c0c0c0; text-align:center;"><input type="checkbox" {{checked}}></td>
+		<!--
+		<td>
+				<a href="javascript:;" id="mark" data-original-title="点亮星标,快速搜索" data-toggle="stop" data-placement="top">
+					<i class="{{#is_mark}}icon_1 icon_1_cur{{/is_mark}}{{^is_mark}}icon_1{{/is_mark}}"></i>
+				</a>
+				{{#is_group}}<em class="icon_10" id="is_group" data-original-title="所属分组{{group_name}}" data-placement="top"></em>{{/is_group}}
+				{{^is_group}}<em class="icon_2" id="is_group" data-original-title="未分组" data-placement="top"></em>{{/is_group}}
+		</td>-->
+		<td width="25%" style="border-right:1px solid #c0c0c0; text-align:center;">{{^domainaudit}}<a href="?c=public&a=record&domain={{name}}&groupid={{groupid}}">{{name}}</a>{{/domainaudit}}{{#domainaudit}}{{name}}{{/domainaudit}}</td>
+		<td id="pid" width="20%" style="border-right:1px solid #c0c0c0; text-align:center;">{{{pname}}}&nbsp;{{pid_expire_time}}</td>
+		<!--<td {{#iscdn}} class="span1" {{/iscdn}} {{^iscdn}}class="span3"{{/iscdn}}>{{{status_message}}}</td>-->
+		<td width="20%" style="border-right:1px solid #c0c0c0; text-align:center;">{{{status_message}}}</td>
+		<!--
+		{{#iscdn}}
+		<td id="cdn_td">
+			<span id="sitestatus" data-original-title="点击接入cdn"><a href="javascript:;"><em class="yun_1"></em></a></span>
+			<span id="sitestatus0" data-original-title="站点等待审核"><em class="yun_2"></em></span>
+			<span id="sitestatus3" data-original-title="站点审核不通过"><em class="yun_3"></em></span>
+			<span id="siteexpiretip" data-original-title="cdn增加成功"><a href="javascript:;"><em class="yun_4"></em></a></span>
+			<span id="siteexpires" data-original-title="cdn站点以到期,点击购买产品"><a href="javascript:;"><i class="icon-siteexpires"></i></a></span>
+		</td>
+		{{/iscdn}}
+		{{^iscdn}}
+		{{/iscdn}}-->
+		<!--<td id='site' {{#iscdn}}class="span3"{{/iscdn}} {{^iscdn}}class="span2"{{/iscdn}}>-->
+		<td id='site' width="25%" style=" text-align:center;">
+			<span id="remark" data-original-title="{{#remark}}{{remark}}{{/remark}}{{^remark}}备注{{/remark}}" data-toggle="remark" data-placement="top"><a href="javascript:;" >编辑</a></span>
+			<span style="padding:0px 5px; color:#4fc0e8;">|</span>
+			<span id="stop" data-original-title="域名暂停中,点击启用" data-toggle="stop" data-placement="top"><a href="javascript:;" >暂停</a></span>
+			<span id="restor" data-original-title="域名启用中,点击暂停" data-toggle="restor" data-placement="top"><a href="javascript:;" >启用</a></span>
+			<!--
+			<span id="remark" data-original-title="{{#remark}}{{remark}}{{/remark}}{{^remark}}备注{{/remark}}" data-toggle="remark" data-placement="top"><a href="javascript:;" ><em class="icon_4"></em></a></span>
+			<span id="stop" data-original-title="域名暂停中,点击启用" data-toggle="stop" data-placement="top"><a href="javascript:;" ><em class="icon_8"></em></a></span>
+			<span id="restor" data-original-title="域名启用中,点击暂停" data-toggle="restor" data-placement="top"><a href="javascript:;" ><em class="icon_8 icon_8_cur"></em></a></span>
+			<span id="shopping" data-original-title="点击进入购买套餐" data-toggle="shopping" data-placement="top"><a href="?c=product&a=index&domain={{name}}" ><em class="icon_6"></em></a></span>
+			<span id="upgrade" data-original-title="点击进入升级套餐" data-toggle="upgrade" data-placement="top"><a href="?c=product&a=index&domain={{name}}" ><em class="icon-upgrade"></em></a></span>
+			<span id="renew" data-original-title="点击进入续费套餐" data-toggle="renew" data-placement="top"><a href="?c=product&a=renewIndex&domain={{name}}" ><em class="icon_14"></em></a></span>
+			<span id="free" data-original-title="切换到免费版本" data-toggle="free" data-placement="top"><a href="javascript:;">免费</a></span>
+			-->
+	</td>
+</script>
+<script type="text/template" id="domain-change-free-template">
+<td style="background:#f7ea7f"><input type="checkbox" {{checked}}></td>
+<td style="background:#f7ea7f">
+	<a href="javascript:;" id="mark" data-original-title="点亮星标,快速搜索" data-toggle="stop" data-placement="top">
+		<i class="{{#is_mark}}icon_1 icon_1_cur{{/is_mark}}{{^is_mark}}icon_1{{/is_mark}}"></i>
+	</a>
+	{{#is_group}}<i class="icon_10" id="is_group" data-original-title="所属分组{{group_name}}" data-placement="top"></i>{{/is_group}}
+	{{^is_group}}<i class="icon_2" id="is_group" data-original-title="未分组" data-placement="top"></i>{{/is_group}}
+</td>
+<td class="t_l" style="background:#f7ea7f">{{name}}</td>
+<td colspan=2 style="background:#f7ea7f;color:red;">确定要切换到免费版套餐吗？</td>
+<td colspan=2 style="background:#f7ea7f"><button id="enter" class="btn btns btn-success">确定</button><button id="esc" class="btn btns btn-success">取消</button></td>
+</script>
+
+<script type="text/template" id="domain-row-remark-template">
+	<td width="5%" style="border-right:1px solid #c0c0c0; text-align:center;"><input type="checkbox" {{checked}}></td>
+	<!--
+	<td>
+		<a href="javascript:;" id="mark" data-original-title="点亮星标,快速搜索" data-toggle="stop" data-placement="top">
+			<em class="{{#is_mark}}icon_1 icon_1_cur{{/is_mark}}{{^is_mark}}icon_1{{/is_mark}}"></em>
+		</a>
+		{{#is_group}}<em class="icon_10" id="is_group" data-original-title="已分组{{group_name}}" data-placement="top"></em>{{/is_group}}
+		{{^is_group}}<em class="icon_2" id="is_group" data-original-title="未分组" data-placement="top"></em>{{/is_group}}
+	</td>-->
+	<td width="25%" style="border-right:1px solid #c0c0c0; text-align:center;">{{name}}</td>
+	<td colspan=3><input type='text' class="span6" style="margin:0 0 0 5px;" name="remark" value='{{remark}}' >
+			<button id="enter" class="btn btns btn-success">备注</button>
+			<button id="esc"  class="btn btns btn-success">取消</button>	
+	</td>
+</script>
+<script type='text/template' id="domain-add-template">
+	<tr  id="domain_add_row">
+		<td class="span1">&nbsp;</td>
+		<td class="span3" colspan=4><input type='text' style="margin-top:10px;" name="domainname">
+			<button class="btn btn-primary" id="enter_domain_add" >确定</button>
+			<button class="btn btn-primary" id="esc_domain_add" >取消</button>	
+		</td>
+	</tr>
+</script>
+<script type='text/template' id="domain-add-multi-template">
+<h3><span>*</span>添加域名</h3>
+<div class="pltj_nr" id="domain-add-multi">
+	<ul>
+		<div class="blank10"></div>
+		<li><p>添加域名：</p><textarea name="add_domains" placeholder=" {{placeholder}}" style="width:420px; height:125px;  border:1px solid #e6e6e6;border-radius:0px;"></textarea></li>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+		<div class="blank10"></div>
+	</ul>
+</div>
+<div class="blank10"></div>
+<div class="pltj_an">
+	<p><a href="javascript:;"><button id="enter" style="width:100px; height:35px; display:block;  background:#FF6760; color:#fff; text-align:center; line-height:35px; border:none; border-radius:10px; ">添加</button></a></p>
+    <p><a href="javascript:;"><button id="sec" style="width:100px; height:35px; display:block;  background:#eeeeee; border:1px solid #e6e6e6; color:#696969; text-align:center; line-height:35px;  border-radius:10px; ">取消</button></a></p>
+</div>
+<div class="blank10"></div>
+<!--
+	<div class="alert-success" id="domain-add-multi" style="padding-top:8px;">
+		<div class="span12 r-add-domain">
+			<span><p>批量添加域名:一行一个</p></span>
+			<span>
+				<textarea name="add_domains" placeholder="{{placeholder}}"></textarea>
+			</span>
+			<span>
+				<button class="btn btns btn-success" id="sec">取消</button>
+				<button class="btn btns btn-success" id="enter" data-loading-text="正在执行...">增加</button>
+			</span>
+		</div>
+	</div>
+-->
+</script>
+<script type='text/template' id="domain-edit-multi-record-template">
+<h3><span>*</span>本操作可以修改符合条件的记录</h3>
+<div class="pltj_nr">
+	<ul>
+		<li><p>主机值：</p><input type='text' name="hostName" placeholder="请填写主机值" class="paynum" style="width:400px; height:33px;border:1px solid #e6e6e6; padding-left:10px;"/><strong>匹配条件：主机名和解析值最少输入一个正确的值</strong></li>
+		<div class="blank10"></div>
+		<li><p>解析值：</p><input type='text' name="analysisValue" placeholder="请填写解析值" class="paynum" style="width:400px; height:33px;border:1px solid #e6e6e6; padding-left:10px;"/><strong>匹配条件：主机名和解析值最少输入一个正确的值</strong></li>
+		<div class="blank10"></div>
+		<li>
+			<a><input id="edit" type='radio' name="operating" value="edit" checked/><span>修改</span></a>
+			<a><input id="del" type='radio' name="operating" value="del"/><span>删除</span></a>
+			<a><input id="stop" type='radio' name="operating" value="stop"/><span>暂停</span></a>
+			<a><input id="restor" type='radio' name="operating" value="restor"/><span>恢复</span></a>
+		</li>
+		<div class="blank10"></div>
+		<li><p>解析值：</p><input type="text" name="edit_record_newvalue" class="paynum" style="width:300px; height:33px;border:1px solid #e6e6e6; padding-left:10px;"/></li>
+		<div class="blank10"></div>
+		<li><p>TTL：</p><input type='text' name="edit_record_newttl" class="paynum" style="width:300px; height:33px;border:1px solid #e6e6e6; padding-left:10px;"/></li>
+		<div class="blank10"></div>
+		<li><p>类型：</p><input type='text' name="edit_record_newtype" class="paynum" style="width:300px; height:33px;border:1px solid #e6e6e6; padding-left:10px;"/></li>
+	</ul>
+</div>
+<div class="blank10"></div>
+<div class="pltj_an">
+	<p><a href="javascript:;"><button id="enter" style="width:100px; height:35px; display:block;  background:#FF6760; color:#fff; text-align:center; line-height:35px; border:none; border-radius:10px; ">保存</button></a></p>
+	<p><a href="javascript:;"><button id="esc" style="width:100px; height:35px; display:block;  background:#eeeeee; border:1px solid #e6e6e6; color:#696969; text-align:center; line-height:35px;  border-radius:10px; ">取消</button></a></p>
+</div>
+<div class="blank10"></div>
+<!--<div class="alert alert-success">本操作可以修改符合条件的记录</div>-->
+<!--
+<div class="r-edit-record">
+	<h5>匹配条件：</h5><p>主机名和解析值最少输入一个正确的值</p>
+</div>
+<div class="r-edit-record">
+	主机名:<input style="width:160px;" type='text' name="hostName"/>
+	解析值:<input style="width:160px;" type='text' name="analysisValue"/>
+</div>
+<div class="r-edit-record">
+	<input id="edit" type='radio' name="operating" value="edit" checked/>修改
+	<span id="newvalue_param">
+		,值:<input type="text" style="width:160px;" name="edit_record_newvalue"/>
+		TTL:<input type='text' name="edit_record_newttl" style="width:60px;"/>
+		类型:<input type='text' name="edit_record_newtype" style="width:60px;"/>
+	</span>
+</div>
+<div class="r-edit-record1"><input id="del" type='radio' name="operating" value="del">删除</div>
+<div class="r-edit-record1"><input id="stop" type='radio' name="operating" value="stop">暂停</div>
+<div class="r-edit-record1"><input id="restor" type='radio' name="operating" value="restor">恢复</div>
+<div class="r-edit-record1"><input id="cdn_up" type="radio" name="operating" value="cdn_up"/>开启cdn</div>
+<div class="r-edit-record1"><input id="cdn_down" type="radio" name="operating" value="cdn_down"/>关闭cdn</div>
+<div class="r-edit-record">
+	<button class="btn btns btn-success" id="esc">取消</button>
+	<button class="btn btns btn-success" id="enter" data-loading-text="正在执行...">确定</button>
+</div>
+-->
+</script>
+<script type='text/template' id="domain-add-multi-record-template">
+<h3><span>*</span>批量增加记录</h3>
+<!--<div class="alert alert-success">本操作可以给选中的域名增加一条解析记录</div>-->
+<div class="pltj_nr">
+	<ul>
+		<div class="blank10"></div>
+		<li><p>主机值：</p><input type='text' name="add_multi_record_subdomain" class="paynum" style="width:400px; height:40px; border:1px solid #e6e6e6; padding-left:10px;"/></li>
+		<div class="blank10"></div>
+		<li id="record_type"></li>
+		<div class="blank10"></div>
+		<li id="record_line"></li>
+		<div class="blank10"></div>
+		<li><p>TTL：</p><input type='text' name="add_multi_record_ttl" value=3600 class="paynum" style="width:400px; height:40px; border:1px solid #e6e6e6; padding-left:10px;"></li>
+		<div class="blank10"></div>
+		<li><p>记录值：</p><input type='text' name="add_multi_record_value" class="paynum" style="width:400px; height:40px; border:1px solid #e6e6e6; padding-left:10px;"></li>
+	</ul>
+	<!--<div>主机名:<input type='text' name="add_multi_record_subdomain"></div>-->
+	<!--<div id="record_type"></div>-->
+	<!--<div id="record_line"></div>-->
+	<!--<div >T&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;L:<input type='text' name="add_multi_record_ttl" value=3600></div>-->
+	<!--<div >记录值:<input type='text' name="add_multi_record_value" ></div>-->
+	<!--
+	<div>
+		<button class="btn btns btn-success" id="esc">取消</button>
+		<button class="btn btns btn-success" id="enter" data-loading-text="正在执行...">确定</button>
+	</div>
+	-->
+</div>
+<div class="blank10"></div>
+ <div class="pltj_an">
+	<p><a href="javascript:;"><button id="esc" style="width:100px; height:35px; display:block;  background:#eeeeee; border:1px solid #e6e6e6; color:#696969; text-align:center; line-height:35px;  border-radius:10px; ">取消</button></a></p>
+	<p><a href="javascript:;"><button id="enter" style="width:100px; height:35px; display:block;  background:#FF6760; color:#fff; text-align:center; line-height:35px; border:none; border-radius:10px; ">保存</button></a></p>
+	
+</div>
+<div class="blank10"></div>
+</script>
+<script type='text/template' id="domain-import-record-template">
+	<h3><span>*</span>批量导入记录</h3>
+	<div class="pltj_nr">
+		<ul>
+			<li id="record-type"></li>
+			<li id="record-line"></li>
+			<li><p>TTL：</p><input type='text' name="record-ttl" value=3600 class="paynum" style="width:400px; height:33px; border:1px solid #e6e6e6; padding-left:10px;"></li>
+			<li><h4>域名,解析值(一行一条记录,域名和解析值用空格分割)不支持三级域名、主域名前面加@.<br/><br/>例:@.dns.aegins.com  192.168.1.1|www.dns.aegins.com  192.168.1.1  <span id="split">域名IP分开格式</span></h4></li>
+			<div class="blank10"></div>
+			<div class="blank10"></div>
+			<li><p></p><textarea name="import-value" class="paynum" style="width:400px; height:100px; border:1px solid #e6e6e6; padding-left:10px;"></textarea></li>
+			<div class="blank10"></div>
+			<div class="blank10"></div>
+			<div class="blank10"></div>
+			<div class="blank10"></div>
+			<div class="blank10"></div>
+			<div class="blank10"></div>
+			<div class="blank10"></div>
+		</ul>
+	</div>
+	<div class="blank10"></div>
+	<div class="pltj_an">
+		<p><a href="javascript:;"><button id="enter" style="width:100px; height:35px; display:block;  background:#FF6760; color:#fff; text-align:center; line-height:35px; border:none; border-radius:10px; ">保存</button></a></p>
+		<p><a href="javascript:;"><button id="esc" style="width:100px; height:35px; display:block;  background:#eeeeee; border:1px solid #e6e6e6; color:#696969; text-align:center; line-height:35px;  border-radius:10px; ">取消</button></a></p>
+	</div>
+	<div class="blank10"></div>
+</script>
+<script type="text/template" id="multi-domain-to-cdn-template">
+	<div class="r-add-cdn">请选择CDN产品</div>
+	<div id="select" class="r-add-cdn">产品名称:</div>
+	<div class="r-add-cdn">
+		<button class="btn btns btn-success" id="esc">取消</button>
+		<button class="btn btns btn-success" id="enter" data-loading-text="正在增加...">增加CDN站点</button>
+	</div>
+</script>
+<script type='text/template' id="domain-search-row-template">
+	<div class="alert {{cssname}}">{{{message}}}</div>
+</script>
+<script type='text/template' id ="domain-group-li-template">
+	<li class=""><a href="javascript:;" data-id="{{group_id}}" data-key='{{rowkey}}'>移至&nbsp;{{{group_name}}}</a></li>
+</script>
+<script type='text/template' id ="domain-left-group-li-template">
+<li id="{{domid}}">
+	<a href="javascript:;">
+		<span id="edita" title="点击修改"><img src="<?php echo $_smarty_tpl->getVariable('STATIC')->value;?>
+agies/img/wodehuifu.png" /></span>
+		<span style="width:70%;display:inline-block;text-decoration:none;" id="lista" data-id="{{group_id}}">
+		{{group_name}}<sup>({{size}})</sup>
+		</span>
+	</a>
+	
+</li>
+<!--
+<div id="{{domid}}"  >
+<a href="javascript:;">
+	<span  id="edita" title="点击修改"><em class="icon_4"></em></span>
+	<span style="width:70%;display:inline-block;text-decoration:none;" id="lista" data-id="{{group_id}}">
+		{{group_name}}<sup>({{size}})</sup>
+	</span>
+</a>
+</div>
+-->
+</script>
+<script type='text/template' id ="domain-left-group-li-edit-template">
+<input type="text" style="width:110px;" maxlength="10" name="group_name" value="{{group_name}}">&nbsp;<a id="edit" data-id="{{group_id}}" href="javascript:;">修改</a>
+</script>
+<script type='text/template' id="domain-add-group-template">
+	<tr  id="domain_add_group">
+		<td>&nbsp;</td>
+		<td colspan=5>分组名称:<input type='text'  name="group_name" placeholder="分组名称不可重复"  maxlength="10">
+			<button class="btn btns btn-success" id="enter_group_add" type="button">确定</button>
+			<button class="btn btns btn-success" id="esc_group_add" type="button">取消</button>	
+		</td>
+	</tr>
+</script>
+<script type='text/template' id="domain-page-li-template">
+	<li class="{{liclass}}"><a href="javascript:;" data-page='{{page}}'>{{pagename}}</a></li>
+</script>
+<script type="text/template" id="domain-page-count-template">
+    <span class="btn-group">
+    	<button class="btn dropdown-toggle" data-toggle="dropdown" style="border-radius:10px;width:100px; height:36px;background:#eeeeee;color:#696969;border:#eeeeee;">{{countstart}}&nbsp;-&nbsp;{{countend}}&nbsp;/&nbsp;{{total}}
+    	<span class="caret"></span>
+    	</button>
+    	<ul class="dropdown-menu" id="domain-pagecount-ul">
+    	</ul>
+    </span>
+</script>
+<script type='text/template' id="domain-page-count-li-template">
+	<li><a href="javascript:;" data-pagecount='{{pagecount}}'>{{pagecount}}/页</a></li>
+</script>
+<script type='text/template' id="piao-modal-template">
+    <div class="modal hide fade" id="piao-modal">
+    	<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    		<h3>{{title}}</h3>
+    	</div>
+    	<div class="modal-body">
+    		<p>{{{content}}}</p>
+    	</div>
+    	<div class="modal-footer">
+			<a href="javascript:;" class="btn" id="domain_yanzheng">取回验证</a>
+    		<a href="#" class="btn" id="closea">关闭</a>
+    	</div>
+    </div>
+</script>
+<!-- 域名取回验证模板 -->
+<script type="text/template" id="domain-yanzheng-modal-template">
+<div class="modal fade" id="domain-yanzheng-div" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">域名验证</h4>
+      </div>
+      <div class="modal-body">
+	  	<div>通过<span style="color:red;">TXT记录</span>取回</div>
+		<div><span style="font-size:14px;">您添加的域名以存在,如果你是域名的拥有者,请在您的域名中添加<span><span style="color:red;font-size:16px;">TXT记录</span></div>
+		<div>主机名:&nbsp;&nbsp;yanzheng</div>
+		<div>记录值:&nbsp;&nbsp;<span id="key">{{key}}</span></div>
+		<div>解析成功请点击下一步</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" disabled="disabled" id="next" onclick="domainYanzhengNext('{{domain}}')">下一步</button>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
+<!-- 域名取回验证下一步模板 -->
+<script type="text/template" id="domain-yanzheng-next-template">
+<div class="modal fade" id="domain-yanzheng-next-div" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">域名验证</h4>
+      </div>
+      <div class="modal-body">
+		<div>验证状态:<span id="mem" style="color:red;">点击确定开始验证</span></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="enter">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
+<!-- 域名验证找回-->
+<script type="text/template" id="domain-yanzheng-template">
+{{{list}}}
+<tr>
+	<td class="3">&nbsp;</td>
+	<td colspan="3" class="text-right"><button type="button" class="btn" id="domain-yanzheng-esc">关闭</button></td>
+</tr>
+</script>
+<!-- 域名删除确认框 -->
+<script type="text/template" id="del-domain-modal-template">
+<div id="del-domain-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3 id="myModalLabel">域名删除确认</h3>
+</div>
+<div class="modal-body">
+  <p>确定要删除所选中的域名吗？</p>
+</div>
+<div class="modal-footer">
+  <button class="btn btns btn-success" data-dismiss="modal" aria-hidden="true">取消</button>
+  <button class="btn" id="enter">确定</button>
+</div>
+</div>
+</script>

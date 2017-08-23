@@ -1,0 +1,93 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type='text/template' id="piao-edit-ns-template">
+	<div id="piao-edit-ns">
+		<div class="piao_div"><span class="piao_left">NS1:</span><span class="piao_right" id="ns1">{{{ns1html}}}</span></div>
+		<div class="piao_div"><span class="piao_left">NS2:</span><span class="piao_right" id="ns2">{{{ns2html}}}</span></div>
+		<div class="piao_div"><span class="piao_left">NS3:</span><span class="piao_right" id="ns3">{{{ns3html}}}</span></div>
+		<div class="piao_div"><span class="piao_left">NS4:</span><span class="piao_right" id="ns4">{{{ns4html}}}</span></div>
+		<div class="piao_div"><span class="pull-right"><button class="btn" id="esc">取消</button><button class="btn" id="enter">确定</button></div>
+	</div>
+</script>
+<script type='text/javascript'>
+var dia;
+var allowcustomns = '1';
+</script>
+<script type='text/javascript' src='{[$STATIC]}scripts/user.js?v=0616'></script>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：用户管理 --> 用户列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 用户名搜索: <input name='email' size=32>
+						<input type='submit' class="btn" value='搜索'>
+
+					</span> 
+					<!--  <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					
+					</span>
+					-->
+					<span ><input type="button" onclick="piao_add_user()" value="增加用户" class="btn"></span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<thead>
+				<tr id="bg_yellow">
+					<td style="width:60px">操作</td>
+					<td style="width:60px">uid</td>
+					<td style="width:140px">用户名</td>
+					<td style="width:70px">姓名</td>
+					<td style="width:60px">余额</td>
+					<td style="width:130px">注册时间</td>
+					<td style="width:120px">状态</td>
+					<td style="width:140px">ns1</td>
+					<td style="width:140px">ns2</td>
+					<td style="width:100px">ns3</td>
+					<td style="width:auto">ns4</td>
+				</tr>
+				</thead>
+				<tbody>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}" data-email="{[$row.email]}">
+					<td><a href="javascript:piaoChangePasswd({[$row.id]})">重置密码</a></td>
+					<td>{[$row.id]}</td>
+					<td><a href="?c=users&a=impLogin&user={[$row.email]}" target=_blank title='点击登录'>{[$row.email]}</a></td>
+					<td>{[$row.name]}</td>
+					<td>{[$row.money/100]}</td>
+					<td>{[$row.createtime]}</td>
+					<td id="status">
+					{[if $row.status==0]}已激活{[else if $row.status==1]}<b class='red'>未激活</b>{[else]}其它状态{[/if]}
+					<span id="ban">
+						{[if $row.status==2]}[<a href="javascript:ban_add_domain({[$row.id]},0)" title="当前用户已设置禁止登陆状态,点击恢复正常"><b class="red">不禁登陆</b></a>]{[else]}[<a href="javascript:ban_add_domain({[$row.id]},2)" title="当前用户正常,点击设置为禁止登陆状态">禁止登陆</a>]{[/if]}
+					</span>
+					</td>
+					<td title="点击可设置" >
+					[<a href="javascript:piao_custom_ns({[$row.id]})"><span id="ns1id" class="nstd" data-id="{[$row.ns1_id]}">{[if is_numeric($row.ns1_id)]}{[$row.ns1_id]}{[else]}0{[/if]}</span></a>]
+					</td>
+					<td id="ns2id" data-id="{[$row.ns2_id]}" class="nstd">{[$row.ns2_id]}</td>
+					<td id="ns3id" data-id="{[$row.ns3_id]}" class="nstd">{[$row.ns3_id]}</td>
+					<td id="ns4id" data-id="{[$row.ns4_id]}" class="nstd">{[$row.ns4_id]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="14" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

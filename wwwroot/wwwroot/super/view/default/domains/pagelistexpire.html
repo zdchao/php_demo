@@ -1,0 +1,155 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type='text/javascript'>
+var default_rrl = '{[$default_rrl]}';
+var dia;
+var plist;
+$(document).ready(function() {
+	$.ajax({
+		url:'?c=product&a=getList',
+		dataType:'json',
+		success:function(a){
+			var rows = a.rows;
+			plist = a.rows;
+			$(".show_pid_name").each(function(){
+				var id = $.trim($(this).text());
+				if (!id || id==0) {
+					$(this).html('免费版');
+				}else {
+					$(this).html('<b class="green">'+rows[parseInt(id)]['name'] +'</b>');
+				}
+			});
+		},
+		error:function(e){
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+});
+function send_expire_mail(domain)
+{
+	$.ajax({
+		url:'?c=domains&a=sendExpireMail',
+		data:{domain:domain},
+		dataType:'json',
+		success:function(a) {
+			if (a.code != 200) {
+				alert(a.message);
+				return 
+			}
+			$("#row_send_mail"+MD5_hexhash(domain)).html('发送通知成功');
+		},
+		error:function(e){
+			
+		}
+	});
+	
+}
+</script>
+<script type='text/javascript' src="{[$STATIC]}scripts/domains.js?v=1"></script>
+
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：域名列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 域名搜索: <input name='name' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="15" class="bg_main"><b>域名列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>域名</td>
+					<td>UID</td>
+					<td>用户</td>
+					<td>套餐(月)</td>
+					<td>价格</td>
+					<td>备注</td>
+					<td>server</td>
+					<td>创建时间</td>
+					<td>过期</td>
+					<td>线路组</td>
+					<td>状态</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr>
+					<td title="{[$row.soa]}">
+						<a href="?c=domains&a=loginDomain&domain={[$row.name]}" target=_blank>{[$row.name]}</a>
+					</td>
+					<td title='点击可过户'>
+						<a href='javascript:;edit_uid("{[$row.name]}","{[$row.server]}")'>{[$row.uid]}</a>
+					</td>
+					<td>
+						<a href="?c=users&a=impLogin&user={[$row.email]}" target=_blank title='点击登录'>{[$row.email]}</a>
+						[<span id="row_send_mail{[md5($row.name)]}"><a href="javascript:;send_expire_mail('{[$row.name]}')">发送邮件</a></span>]
+					</td>
+					<td >
+						{[if $row.pid]}
+						<span >[<a href="javascript:;piao_shift_pid('{[$row.name]}',{[$row.uid]})">转移</a>]</span>
+						{[/if]}
+						[<a href="javascript:;piao_set_pid('{[$row.name]}',{[$row.uid]})"><span class="show_pid_name" id="pid_{[md5($row.name)]}" data-pid="{[$row.pid]}">{[$row.pid]}</span></a>]
+					</td>
+					<td >
+						<span id="pid_price_{[md5($row.name)]}">{[$row.pid_price]}</span>
+					</td>
+					<td >
+						<span>[<a href="javascript:;piao_set_adminremark('{[$row.name]}')">备注</a>]</span>
+						<span id="row_admin_remark{[md5($row.name)]}" title="{[$row.admin_remark]}">{[$row.admin_remark|truncate:16]}</span>
+					</td>
+					<td title="点击可修改" id="server_{[md5($row.name)]}">
+						<a href="javascript:;piao_edit_server('{[$row.name]}','{[$row.server]}')">{[$row.server]}</a>
+					</td>
+					<td >{[$row.created_on]}</td>
+					<td >
+						{[if $row.pid_expire_time < $thistime]}
+						<a href="javascript:;piao_set_pidexpiretime('{[$row.name]}')">
+						<span style="color:red; " id="pidexpiretime_{[md5($row.name)]}" title="{[$row.pid_expire_time]}" >{[substr($row.pid_expire_time,0,10)]}</span> 
+						{[else]}
+						<span id="pidexpiretime_{[md5($row.name)]}" title="{[$row.pid_expire_time]}">{[substr($row.pid_expire_time,0,10)]}</span> 
+						{[/if]}
+						</a>
+						</td>
+					<td title="点击可修改">
+						<a href='javascript:;piao_edit_groupview("{[$row.name]}","{[$row.group_view]}","{[$row.server]}")'>{[$row.group_view]}</a>
+					</td>
+					<td title="co:1 ci:2 ru:4 ns已修改:8 st:16 diyview:32 notdel:64 ns防劫持128">
+						<form action='?c=domains&a=setFlags&domain={[$row.name]}' method='POST'>
+							<input name='flags' size=5 value="{[$row.flags]}">
+						{[if ($row.flags & 1)==1]}co{[/if]}
+						{[if ($row.flags & 2)==2]}ci{[/if]}
+						{[if ($row.flags & 4)==4]}ru{[/if]}
+						{[if ($row.flags & 8)==8]}ns{[/if]}
+						{[if ($row.flags & 16)==16]}st{[/if]}
+						{[if ($row.flags & 32)==32]}dv{[/if]}
+						{[if ($row.flags & 64)==64]}nd{[/if]}
+						{[if ($row.flags & 128)==128]}tc{[/if]}
+						</form>
+					</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="15" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

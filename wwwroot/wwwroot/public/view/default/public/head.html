@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>{[$seo.title]}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="Keywords" content="{[$seo.keywords]}">
+<meta name="Description" content="{[$seo.description]}">
+<link href="{[$STATIC]}css/css.css" rel="stylesheet" type="text/css">
+</head>
+<body id="nav_btn01">
+<div class="header"><dl class="header">
+<dd>
+{[if $user]}<span><a href="/user/?c=public&a=index">域名管理</a><a title="账户管理" href="/user/?c=public&a=user">{[$user['email']]}</a>
+
+<a href="/user/?c=session&a=logout">退出</a></span>
+{[else]}
+<span><a href="?c=public&a=login" class="{[$login_active]}">登陆</a></span>
+<a href="?c=public&a=reg" class="{[$reg_active]}">注册</a>
+{[/if]}
+</dd>
+</dl></div>
+<!--end头文件-->
+<div class="header_c">
+<div class="header_c_w">
+<div class="logo"><a href="/"><img src="{[$STATIC]}images/logo.png" alt="dns"></a></div>
+<!--end标志-->
+		<div class="nav th">
+			<ul class="nav last_list">
+				<li id="nav_hover01" class="{[$index_active]}"><a href="/" id="nav1">首页</a></li>
+				<li id="nav_hover02" class="{[$product_active]}"><a href="?c=public&a=products" id="nav2">产品介绍</a></li>
+				<li id="nav_hover03" class="{[$priceper_active]}"><a href="?c=public&a=buy" id="nav3">购买套餐</a></li>
+				<!--<li id="nav_hover04" class="{[$server_active]}"><a href="?c=public&a=server" id="nav4">企业服务</a></li>-->
+				<!--<li id="nav_hover05" class="{[$help_active]}"><a href="?c=help&a=help" id="nav5">帮助页面</a></li>-->
+				<!--<li id="nav_hover06" class="{[$content_active]}"><a href="?c=public&a=content" id="nav6">联系我们</a></li>-->
+			</ul>
+		</div>
+<!--end导航-->
+</div>
+<!--end头文件宽度-->
+</div>
+<!--end头文件中-->
+<script language='javascript'>
+if (document.location.protocol=="http:" && 
+		(document.location.hostname=='dnsdun.com' || document.location.hostname=='www.dnsdun.com')) {
+	//http redirect to https
+	//var new_url = "https://" + document.location.hostname + document.location.pathname + document.location.search;
+	//document.location = new_url;
+}
+var li_length = document.getElementsByTagName("li").length;
+if(li_length > 6){
+	for(var i=1;i <= li_length;i++){
+		document.getElementById("nav"+i).style.padding="0 18px";
+	}
+}
+</script>

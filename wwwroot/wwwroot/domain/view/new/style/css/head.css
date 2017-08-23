@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+.head_img{
+	border:1px solid #000;
+	width:100px;
+	height:48px;
+	margin-left:40%;
+	float:left;
+}
+.head_title{
+	border:1px solid #000;
+	width:100px;
+	height:48px;
+	margin-left:5px;
+	float:left;
+}
+.head_register{
+	border:1px solid #000;
+	width:50px;
+	height:48px;
+	position:relative;
+	left:75%;
+}

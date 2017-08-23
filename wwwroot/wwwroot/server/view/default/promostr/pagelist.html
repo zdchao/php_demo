@@ -1,0 +1,205 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff'  leftmargin='0' topmargin='0'>
+<script type='text/javascript'>
+var dia;
+function piao_add_keystr()
+{
+	var template = $("#add-keystr-template").html();
+	dia = art.dialog({id:'piao-add-keystr',content:template,lock:true,top:'10%'});
+	var div = $("#add-keystr");
+	div.find('[name=price]').trigger('focus');
+	div.find('#esc').bind('click',function(){
+		dia.close();
+	});
+	div.find('#enter').bind({
+		'click':function() {
+			var price = div.find('[name=price]').val();
+			var date = div.find('[name=dcount]').val() + div.find('[name=time]').val();
+			var count = div.find('[name=count]').val();
+			var status = div.find('[name=status]:checked').val();
+			var paystatus = div.find('[name=paystatus]:checked').val();
+			add_keystr(price,count,date,status,paystatus);	
+		}
+	});
+}
+function add_keystr(price,count,date,status,paystatus)
+{
+	dia.content('正在执行中...');
+	$.ajax({
+		url:'?c=promostr&a=add',
+		data:{price:price,date:date,count:count,status:status,paystatus:paystatus},
+		dataType:'json',
+		success:function(a) {
+			if (a.status.code != 1) {
+				dia.content(a.status.message);
+				return;
+			}
+			dia.close();
+			window.location = '?c=promostr&a=pagelist';
+		},
+		error:function(e) {
+			dia.content(e.responseText);
+		}
+	});
+}
+function change_status(id,status)
+{
+	$.ajax({
+		url:'?c=promostr&a=changeStatus',
+		data:{id:id,status:status},
+		dataType:"json",
+		success:function(a) {
+			if (a.status.code != 1) {
+				alert(a.status.message);
+				return;
+			}
+			var tr = $("#tr"+id);
+			var html = status==0 ? '<a href="javascript:;change_status('+id+',1)" title="当前为启用状态,点击暂停">正常</a>' : '<a href="javascript:;change_status('+id+',0)" title="当前为暂停状态,点击启用"><span class="red">暂停</span></a>';
+			tr.find('#status').html(html);
+		},
+		error:function(e) {
+			alert(e.responseText);
+		}
+	});
+}
+function change_Paystatus(id,paystatus)
+{
+	$.ajax({
+		url:'?c=promostr&a=changePaystatus',
+		data:{id:id,paystatus:paystatus},
+		dataType:"json",
+		success:function(a) {
+			if (a.status.code != 1) {
+				alert(a.status.message);
+				return;
+			}
+			var tr = $("#tr"+id);
+			var html = paystatus==0 ? '<a href="javascript:;change_Paystatus('+id+',1)" title="当前状态为允许充值,点击切换为不可充值">允许充值</a>' : '<a href="javascript:;change_Paystatus('+id+',0)" title="当前为不可充值,点击切换为允许充值"><span class="red">不允许充值</span></a>';
+			tr.find('#paystatus').html(html);
+		},
+		error:function(e) {
+			alert(e.responseText);
+		}
+	});
+}
+function piao_import_out()
+{
+	var template = $("#import-out-template").html();
+	var option = [];
+	var date = new Date();
+	option.batch = date.getFullYear().toString() + checkDateLen((date.getMonth()+1).toString()) + checkDateLen(date.getDate().toString());
+	var el = Mustache.to_html(template,option);
+	dia = art.dialog({id:'piao-import-out',content:el,lock:true,top:'10%'});
+	var div = $("#import-out");
+	div.find('[name=keystr]').trigger('focus');
+	div.find("#esc").bind('click',function(){
+		dia.close();
+	});
+	div.find('#enter').bind('click',function(){
+		import_out(div.find('[name=batch]').val(),div.find('[name=keystr]').val(),div.find('[name=nouse]:checked').val());		
+	});
+}
+function checkDateLen(date)
+{
+	if (date.length ==1) {
+		return '0'+date;
+	}
+	return date;
+}
+function import_out(batch,keystr,nouse)
+{
+	dia.close();
+	window.location = '?c=promostr&a=importOut&batch='+batch+ '&keystr='+keystr+ '&nouse='+nouse;
+}
+</script>
+<script type='text/template' id="add-keystr-template">
+	<div id="add-keystr">
+		<div class='piao_div'>折抵价格:<input type='text' name="price" >元</div>
+		<div class='piao_div'>生成个数:<input type='text' name="count" value='1'></div>
+		<div class='piao_div'>有&nbsp;效期:<input type='text'name="dcount" value='7' style="width:70px;"><select name="time" style="width:80px"><option value="d">天</option><option value="m">月</option></select></div>		
+		<div class="piao_div">使用状态:<input type='radio' name="status" value="0" checked>启用<input type='radio' name="status" value="1">不启用</div>
+		<div class="piao_div">允许充值:<input type='radio' name="paystatus" value='1' checked>不允许<input type='radio' name="paystatus" value='0' >允许(可使用折抵码直接充值为余额)</div>
+		<div class="piao_div"><span class="pull-right"><input type='button' id="enter" class="btn" value="增加"></span></div>
+	</div>
+</script>
+<script type='text/template' id="import-out-template">
+	<div id="import-out">
+		<div class='piao_div'>批次:<input name="batch" value="{{batch}}">*</div>
+		<div class='piao_div'>前缀:<input name="keystr"></div>
+		<div class='piao_div'>只导可用的:<input name="nouse" type='checkbox' value=1 checked></div>
+		<div class='piao_div'><span class="pull-right"><input type='button' id="enter" class="btn" value="导出"></span></div>
+	</div>
+</script>
+
+	<div align="center">
+		<div align="left" class="wid_main mar_main">
+			<div class="block_top" align="left">当前位置：优惠码 --> 列表</div>
+			<div style="padding-top:10px;">
+			<input type='button' class="btn" value="批量添加" onclick="piao_add_keystr()">
+			<input type='button' class="btn" value="导出" onclick="piao_import_out()">
+			<span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+			</div>
+			
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td class="bg_main" colspan=10>列表</td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>批次</td>
+					<td>优惠码</td>
+					<td>过期时间</td>
+					<td>状态</td>
+					<td>充值状态</td>
+					<td>使用时间</td>
+					<td>使用账号</td>
+					<td>使用域名</td>
+					
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id='tr{[$row.id]}' >
+					<td>{[$row.batch]}</td>
+					<td title='{[$row.name]}'>{[$row.keystr]}</td>
+					<td >{[$row.expire_time]}</td>
+					<td id="status">
+					{[if $row.status==0]}
+						<a href="javascript:change_status({[$row.id]},1)" title="当前为启用状态,点击暂停" >正常</a>
+					{[else if $row.status==1]}
+						<a href="javascript:change_status({[$row.id]},0)" title="当前为暂停状态,点击启用" ><span class="red">暂停</span></a>
+					{[else]}
+						已使用
+					{[/if]}
+					</td>
+					<td id="paystatus">
+					{[if $row.paystatus == 0]}
+						<a href="javascript:;change_Paystatus({[$row.id]},1)" title="当前状态为允许充值,点击切换成不可充值"><span class="red">允许充值</span></a>
+					{[else if $row.paystatus != 0]}
+						<a href="javascript:;change_Paystatus({[$row.id]},0)" title="当前状态为不允许充值,点击切换成可充值">不允许充值</a>
+					{[/if]}
+					</td>
+					<td>{[$row.use_time]}</td>
+					<td>{[if $row.use_uid]}{[$row.use_uid]}{[/if]}</td>
+					<td>{[$row.use_domain]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="10" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

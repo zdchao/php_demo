@@ -1,0 +1,39 @@
+{[dispatch c='public'  a='head']}
+<div class="container">
+	<div class="row">
+		<fieldset>
+			<legend>重设密码</legend>
+		</fieldset>
+	</div>
+	<div class="row">
+		<div class="span6">
+			{[if $errormsg]}
+				<div class="alert alert-error">{[$errormsg]}</div>
+			{[else if $successmsg]} 
+				<div class="alert alert-success">{[$successmsg]}</div>
+			{[else]}
+				<form action="?c=public&a=resetPasswd" method="post"	class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">新密码:</label>
+						<div class="controls">
+							<input type="text" name="passwd" placeholder="Email" style="height:30px;"  required>
+							<input type="hidden"  value="{[$info]}"	name="info" >
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<button type="submit" class="btn btn-primary">重置密码</button>
+						</div>
+					</div>
+				</form>
+			{[/if]}
+		</div>
+		<div class="span6">{[include file='public/right.html']}</div>
+	</div>
+	<fieldset>
+		<legend>
+			<!-- 一条线和foot分开 -->
+		</legend>
+	</fieldset>
+</div>
+{[include file='public/foot.html']}

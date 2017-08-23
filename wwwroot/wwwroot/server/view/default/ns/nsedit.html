@@ -1,0 +1,20 @@
+{[include file='common/head.html']}
+<form action='?c=ns&a=nsedit&id={[$id]}&type={[$smarty.request.type]}'
+	method='POST'>
+	<table>
+		<tr>
+			<td>名字</td>
+			<td><input name='name' value='{[$row.name]}'></td>
+		</tr>
+		<tr>
+			<td>IP</td>
+			<td><input name='ip' value='{[$row.ip]}' size=72>*多个用,或|分割</td>
+		</tr>
+		<tr>
+		<td colspan=2>
+		<input type='submit' value='修改'>
+		</td>
+		</tr>
+	</table>
+</form>
+{[include file='common/foot.html']}

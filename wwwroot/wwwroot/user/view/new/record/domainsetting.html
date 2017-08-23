@@ -1,0 +1,18 @@
+{[dispatch c='public'  a='head']}
+<link href="/style/user/css/domainsetting.css" rel="stylesheet">
+{[include file='record/domainsettingtemplate.html']}
+<script type='text/javascript'>
+var wx_flag = '{[$weixin_flag]}';
+</script>
+<script type='text/javascript' src="{[$STATIC]}record/setting.js?v={[$jsversion]}"></script>
+<div class="erp_nr clearB">
+			{[include file='record/right-operat.html']}
+			<div id="nr_right">
+				<div id="operat-content">				<style>					.tbl tr{height:50px}					.tbl tr h5{line-height:50px}				</style>
+					<table class="table tbl" width="100%">
+						<tbody  id="setting_tbody"></tbody>
+					</table>
+			</div>			
+		</div>
+</div>
+{[include file='public/foot.html']}

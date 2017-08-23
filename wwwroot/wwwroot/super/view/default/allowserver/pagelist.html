@@ -1,0 +1,96 @@
+{[include file='common/head.html']}
+<script type="text/template" id="piao-add-server-template">
+<div id="add-server-div">
+	server:<input type="text" id="add_server">
+	<input type="button" id="enter" value="增加">
+</div>
+</script>
+<script type='text/javascript'>
+$(document).ready(function() {
+	
+});
+var dia;
+function piao_add_server()
+{
+	var html = $("#piao-add-server-template").html();
+	dia = art.dialog({id:'piao_add_server',lock:true,title:'增加',content:html});
+	var div = $("#add-server-div");
+	div.find("#enter").bind('click',function(){
+		add_server();
+	});
+}
+function add_server()
+{
+	var server = $("#add_server").val();
+	if (!server) {
+		alert('server不能为空');
+		return ;
+	}
+	$.ajax({
+		url:'?c=allowserver&a=add',
+		data:{server:server},
+		dataType:'json',
+		success:function(a) {
+			if (a.code != 200) {
+				alert(a.message);
+				return ;
+			}
+			window.location = '?c=allowserver&a=pagelist';
+		},
+		error:function(e) {
+			alert('后台数据出错'+e.responseText);
+		}
+	}); 
+}
+function del_server(id)
+{
+	if (confirm('确定删?')) {
+		$.ajax({
+			url:'?c=allowserver&a=del',
+			data:{id:id},
+			dataType:'json',
+			success:function(a) {
+				if (a.code != 200) {
+					alert(a.message);
+					return ;
+				}
+				$("#tr_"+id).remove();
+			},
+			error:function(e) {
+				alert('后台数据出错'+e.responseText);
+			}
+		});
+	}
+}
+	
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：允许server --> 列表</div>
+			<div class="block_top" align="left"><img src="/style/dot.gif">设置前台服务器设置处允许使用该功能的server列表</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="7" class="bg_main"><a href="javascript:piao_add_server();" target='main'><b>[增加]</b></a> </td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>ID</td>
+					<td>server</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr class='edit_tr' id='tr_{[$row.id]}'>
+					<td>[<a href="javascript:del_server({[$row.id]})">删除</a>]
+					</td>
+					<td class="wid_general">{[$row.id]}</td>
+					<td>{[$row.server]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="7" id="bg_yellow" align="right">共计 {[$count]} 条记录&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

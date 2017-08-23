@@ -1,0 +1,48 @@
+{[dispatch c='public'  a='head']}
+<link href="/style/user/css/operat.css" rel="stylesheet">
+<script type='text/javascript'  src="{[$STATIC]}record/operat.js?v={[$jsversion]}"></script>
+<script type='text/template' id="operat-row-template">
+<tr id="operat-row">
+	<td style="width:160px;">{{op_time}}</td><td style="width:100px;">{{op_ip}}</td><td>{{msg}}</td>
+</tr>
+</script>
+
+<script type='text/template' id="operat-nologin-template">
+<tr>
+	<td colspan=3><a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a></td>
+</tr>
+</script>
+<script type="text/template" id="operat-packup-template">
+	<tr id="packuptr">
+		<td id="td1"  colspan="3">
+			<a id="packup" href="javascript:;">收起</a>
+			<a id="more" href="javascript:;">显示更多>></a>
+		</td>
+	</tr>
+</script>
+<script type="text/template" id="operat-launch-template">
+	<tr>
+		<td colspan="3">
+			<a id="launch" href="javascript:;">展开</a>
+		</td>
+	</tr>
+</script>
+<div class="erp_nr clearB">
+			{[include file='record/right-operat.html']}
+			<div id="nr_right">
+				<div id="operat-content">
+					<table class="table" width="100%">
+						<thead>
+							<tr>
+								<td style="width:25%;">操作时间</td>
+								<td style="width:25%;">操作IP</td>
+								<td style="width:auto;">操作内容</td>
+							</tr>
+						</thead>
+						<tbody id="list-content"></tbody>
+						<tbody id="list-launch"></tbody>
+					</table>
+			</div>			
+		</div>
+</div>
+{[include file='public/foot.html']}

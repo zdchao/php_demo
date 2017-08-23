@@ -1,0 +1,99 @@
+{[include file="public/head.html"]}
+<link href="{[$STATIC]}style/css/buyprocess.css" rel="stylesheet">
+<div class="wrap">
+	<div class="contain">
+		<div class="buyp_main">
+			<div class="head">
+				<div class="head1"><i>1:域名清单</i><span class="triangle"></span></div>
+				<div class="head1"><i>2:提交资料</i><span class="triangle"></span></div>
+				<div class="head1"><i>3:订单支付</i><span class="triangle"></span></div>
+				<div class="head1"><i>4:支付购买</i></div>
+			</div>
+			<!-- 域名购买完成结果 -->
+			<table class="domain_table" width="100%" style="margin:15px 0;">
+				<thead>
+					<tr>
+						<th style="width:50%;">域名</th>
+						<th style="width:auto">状态</th>
+					</tr>
+				</thead>
+				<tbody>
+					{[foreach from=$list item=row]}
+					<tr id="{[$row['key']]}">
+						<td>{[$row.name]}</td>
+						<td>正在购买</td>
+					</tr>
+					{[/foreach]}
+				</tbody>
+			</table>
+			<!-- 域名购买完成结果结束 -->
+			<div style="margin-top:20px;margin-bottom:20px;"><button type="button" class="btn btns btn-success" onclick="domainManage()">域名管理</button></div>
+			<div>&nbsp;</div>
+		</div>
+	</div>
+</div>
+{[include file="public/foot.html"]}
+<script type="text/javascript">
+function Main(){
+	this.shop_cart = [];
+	this.init = function(){
+		var that = this;
+		that.getShopCart();
+	}
+	this.getShopCart = function(){
+		var that = this;
+		$.ajax({
+			url:'?c=register&a=getShopCart',
+			dataType:'json',
+			success:function(a){
+				if(a.status.code != 1){
+					alert("购物车不存在");
+					return;
+				}
+				that.shop_cart = a.ret;
+				if(that.getObjectLength(that.shop_cart) > 0){
+					that.deffDomainRegister(that.shop_cart);
+				}
+			},
+			error:function(a){
+				alert("error");
+			}
+		});
+	}
+	this.deffDomainRegister = function(obj){
+		var that = this;
+		for(var i in obj){
+			that.domainRegister(i,obj[i]['name']);
+		}
+	}
+	this.domainRegister = function(key,domain){
+		$.ajax({
+			url:'?c=buyprocess&a=xinnetRegister',
+			type:'POST',
+			data:{key:key},
+			dataType:'json',
+			success:function(a){
+				$("#"+key).find("td").eq(1).html(a.mess);
+			},
+			error:function(a){
+				alert("error");
+			}
+		});
+	}
+	this.getObjectLength = function(obj){
+		var length = 0;
+		for(var i in obj){
+			length++;
+		}
+		return length;
+	}
+}
+$(document).ready(function(){
+	$("#nav_domain_register").addClass('cur');
+	var main = new Main();
+	main.init();
+});
+function domainManage(){
+	window.location.href = "?c=managedomain&a=domainManagement";
+}
+</script>

@@ -1,0 +1,67 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type="text/javascript">
+var openFile = function(fileName){
+	var savesuccess = document.getElementById("save_success");
+	savesuccess.innerHTML = "";
+	$.ajax({
+		url:'?c=mail&a=getFileStr',
+		data:{fileName:fileName},
+		dataType:'json',
+		success:function(a){
+			//alert(a.filestr);
+			if(a.status.code != 1){
+				return;
+			}
+			var str = document.getElementById("filestr");
+			str.value = a.filestr;
+			//显示操作的文件名
+			var operationfile = document.getElementById("operation_file");
+			operationfile.innerHTML = fileName;
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+var saveFile = function(){
+	var fileStr = document.getElementById("filestr");
+	var htmlStr = fileStr.value;
+	//获取要保存文件的名字
+	var fileName = $("#operation_file").html();
+	$.ajax({
+		url:'?c=mail&a=saveFile',
+		data:{htmlStr:htmlStr,fileName:fileName},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code == 10){
+				var savesuccess = document.getElementById("save_success");
+				savesuccess.innerHTML = "模板修改失败";
+				return;
+			}
+			var savesuccess = document.getElementById("save_success");
+			savesuccess.innerHTML = "模板修改成功";
+			//alert('success');
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+</script>
+<div class="mailtemp">
+	<div class="left">
+		<ul>
+		{[foreach from=$files item=file]}
+			<li><a href="javascript:;" onclick='openFile("{[$file]}")'>{[$file]}</a></li>
+		{[/foreach]}
+		</ul>
+	</div>
+	<div class="right">
+		<textarea id="filestr"></textarea>
+		<span>你当前操作的文件是:</span>
+		<span id="operation_file"></span>
+		<input type="button" onclick="saveFile()" value="保存"/>
+		<span id="save_success"></span>
+	</div>
+</div>

@@ -1,0 +1,172 @@
+div.lable{
+	width:99%;
+	background:#fff;
+	border-bottom:1px solid #ddd;
+}
+div.lable div.show{
+	height:35px;
+	line-height:35px;
+	padding:5px;
+}
+div.lable div.show:hover{
+	background:#eee;
+}
+.lable_checked{
+	background:#eee;
+}
+
+div.lable div.show span{
+	display :block;
+	float:left;
+}
+div.lable div.show  .title{
+	width:15%;
+}
+div.lable  div.show .info{
+	width:55%;
+}
+div.lable div.show  .oprate{
+	width:20%;
+}
+div.lable div.show  .status{
+	width:10%;
+}
+div.lable div.more{
+	background:#efd;
+	padding-top:20px;
+	padding-button:20px;
+	display:none;
+	border :5px solid #eee;
+	border-bottom :10px solid #ddd;
+	border-top :none;
+}
+div.https{
+	text-align:center;
+}
+div.https textarea{
+	width:600px;
+	height:100px;
+}
+div.ip {
+	text-align:center;
+}
+
+
+div.cc{
+	
+}
+div.cc strong.cc_title{
+	background:#f60;
+	display:inline-block;
+	height:25px;
+	width:5px;
+	margin-right:5px;
+}
+div.cc .cc_normal{
+	padding-left:20%;
+	margin-bottom:35px;
+}
+div.cc .cc_normal .custom-model-textarea textarea{
+	width:500px;
+	height:100px;
+}
+
+div.cc .cc_normal p{
+	width:60%;
+}
+div.cc_white_ips{
+	padding-left:20%;
+	margin-top:20px;
+}
+
+div.cc .cc_white_urls{
+	padding-left:20%;
+}
+div.cache .sets{
+	margin-top:35px;
+	text-align:center;
+}
+div.cache .add-sets-button{
+	margin-left:5%;
+	margin-right:5%;
+	padding-top:5px;
+	width:90%;
+	border-top:1px solid #ccc;
+	text-align:center;
+}
+div.cache .default{
+	padding-left:30%;	
+}
+div.cache .senior{
+	background:#aaa;
+	margin-left:10%;
+	width:90%;
+	text-align:center;
+}
+div.gzip{
+	text-align:center;
+}
+div.redirect{
+	text-align:center;
+}
+
+div.flow_limit{
+	text-align:center;
+}
+div.flow_limit .speed{
+	width:50px;
+}
+
+#msg{
+	color:red;
+	text-align:center;
+	height:35px;
+	line-height:35px;
+	position:fixed;
+    left:30%;
+    top:40px;
+    background:#ccc;
+    border:1px solid #ccc;
+    width:500px;
+    height:35px;
+    display:none;
+    border : 1px solid #aaa;
+}
+#loading{
+	line-height:35px;
+	height:35px;
+	text-align:center;
+	position:fixed;
+    left:40%;
+    top:40px;
+    background:#ccc;
+    border:1px solid #ccc;
+    width:300px;
+    height:35px;
+    display:none;
+    border : 1px solid #aaa;
+}
+
+
+.slideup{
+	padding-left:95%;
+}
+.notice{
+	color:red;
+}
+.life_time{
+	text-align :center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

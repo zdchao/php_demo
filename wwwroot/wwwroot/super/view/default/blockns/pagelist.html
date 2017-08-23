@@ -1,0 +1,294 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type='text/template' id="add-ns-template">
+<div id="add-ns-div" style="width:500px">
+	<div class="piao_div">
+		<span class="piao_left">server:</span>
+		<span class="piao_right">
+			{{{server_select_html}}}	
+		</span>
+	</div>
+	
+	<div class="piao_div">
+		<span class="piao_left">NS:</span>
+		<span class="piao_right"><textarea rows="10" name="ns" cols="40" placeholder="只支持二级域名,后面不能带."></textarea>多个用逗号分开</span>
+	</div>
+	<div class="piao_div">
+		<span class="pull-right"><button class="btn" id="enter">确定</button></span>
+	</div>
+</div>
+</script>
+<script type='text/template' id="edit-ns-template">
+<div id="edit-ns-div" style="width:500px">
+	<div class="piao_div">
+		<span class="piao_left">ns:</span>
+		<span class="piao_right">
+			<input name="ns" size="50" value="{{ns}}"/>
+		</span>
+	</div>
+	<div class="piao_div">
+		<span class="piao_left">server:</span>
+		<span class="piao_right">
+			<!--
+			<input name="server" size="50" value="{{server}}"/>
+			-->
+			{{{server_eselect_html}}}
+		</span>
+	</div>
+	<div class="piao_div">
+		<span class="pull-right">
+			<button class="btn" id="enter" >修改</button>
+		</span>
+	</div>
+</div>
+</script>
+<script type='text/javascript'>
+var dia;
+var slist = [];
+function getServerList()
+{
+	if (slist.length > 0 ) {
+		return;
+	}
+	$.ajax({
+		url:'?c=server&a=getList',
+		dataType:'json',
+		async:false,
+		success:function(a) {
+			for (var i in a.list) {
+				slist.push(a.list[i]);
+			}
+		}
+	});
+}
+function getServerSelect()
+{
+	var html = '<select name="server">';
+	for ( var i in  slist) {
+		html += '<option value="'+ slist[i]['name'] + '">'+ slist[i]['name'] + '</option>';
+	}
+	html += '</select>';
+	return html ;
+}
+function piao_add_ns()
+{
+	var template = $("#add-ns-template").html();
+	var option = [];
+	getServerList();
+	option.server_select_html = getServerSelect();
+	var el = Mustache.to_html(template,option);
+	
+	dia = art.dialog({id:'piao_add_ns',content:el,lock:true,top:'10%'});
+	var div = $("#add-ns-div"); 
+	div.find("#enter").bind('click',function(){
+		add_ns(div.find('[name=server]').val(),div.find('[name=ns]').val());		
+	});
+	div.find('[name=server]').trigger('focus');
+}
+var list = [];
+var errormsg = [];
+function add_ns(server,ns)
+{
+	list.length = 0;
+	errormsg .length = 0;
+	var option = ns.split(',');
+	for ( var i in option) {
+		if ($.trim(option[i]) == '') {
+			break;
+		}
+		list.push([option[i],server]);
+	}
+	deferred_add_ns(0);
+}
+function deferred_add_ns(key,complate)
+{
+	if (key == list.length || complate) {
+		if (errormsg.length > 0) {
+			dia.content(errormsg.join('<br>'));
+			return false;
+		}
+		window.location = '?c=blockns&a=pagelist';
+	}
+	add_one_ns(key);
+}
+function add_one_ns(key)
+{
+	var row = list[key];
+	var server = row[1];
+	var ns = row[0];
+	$.ajax({
+		url:'?c=blockns&a=add',
+		data:{server:server,ns:ns},
+		dataType:"json",
+		success:function(a) {
+			if (a.status.code != 1) {
+				errormsg.push(ns + '='+a.status.message);
+			}
+			deferred_add_ns(key+1);
+		},
+		error:function(e) {
+			deferred_add_ns(key+1);
+		}
+	});
+}
+/*
+ * 修改ns
+ */
+function piao_edit_ns(id)
+{
+	var tr = $("#tr"+id);
+	var ns = tr.find('#ns').text();
+	var server = tr.find("#server").text();
+	if(!ns || !server){
+		alert('数据错误,ns或server为空');
+		return;
+	}
+	var template = $("#edit-ns-template").html();
+	var option = [];
+		option .ns = ns;
+		//option.server = server;
+		getServerList();
+		option.server_eselect_html = getServerSelect();
+	var el = Mustache.to_html(template,option);
+	dia = art.dialog({id:'edit_ns',content:el,title:'修改ns',lock:true,top:'10%'});
+	var div = $("#edit-ns-div");
+	div.find("#enter").bind('click',function(){
+		edit_ns(id);
+	});
+}
+function edit_ns(id)
+{
+	var div = $("#edit-ns-div");
+	var ns = div.find('[name=ns]').val();
+	var server = div.find('[name=server]').val();
+	if(!ns || !server){
+		alert('ns和server不能为空');
+		return;
+	}
+	dia.content('正在执行中...');
+	$.ajax({
+		url:'?c=blockns&a=edit',
+		data:{ns:ns,server:server,id:id},
+		dataType:'json',
+		success:function(a){
+			dia.close();
+			if(a.code != 200){
+				alert(a.message);
+				return;
+			}
+			var tr = $("#tr"+id);
+			tr.find('#ns').html(ns);
+			tr.find('#server').html(server);
+		},
+		error:function(e){
+			dia.close();
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+}
+/*
+ * 删除ns
+ */
+ function del_piao(id){
+	if (confirm('确定要删除') ===false) {
+		return ;
+	}	
+	$.ajax({
+		url:'?c=blockns&a=del',
+		data:{id:id},
+		dataType:'json',
+		success:function(a) {
+			if (a.status.code !=1) {
+				alert('此域名已使用不能删除！');
+				return ;
+			}
+			$("#tr"+id).remove();
+		},
+		error:function(e) {
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+}
+/*
+ * ************************  搜索Server ****************
+ */
+function serverQuery(){
+	var serverName = $("#serverName").val();
+	window.location = '?c=blockns&a=pagelist&name='+serverName;
+}
+</script>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：阻断ns列表</div>
+			<div >
+			{[foreach $countlist as $key=>$row]}
+			<span class="font16 {[if $row.nouse<1]} red{[/if]}">{[$row.server]}:({[$row.nouse]}/{[$row.count]})</span>
+			{[if ($key%3)==0 && $key!=0]}<br>{[/if]}
+			{[/foreach]}
+			</div>
+				<div style='padding-top: 10px;'>
+					<span> 搜索Server: <input id="serverName" name='name' size=32>
+						<input type='button' onclick="serverQuery();" value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+					<span><input type="button" value="已使用" onclick="window.location='?c=blockns&a=statusQuery&status=1'"/></span>
+					<span><input type="button" value="未使用" onclick="window.location='?c=blockns&a=statusQuery&status=0'"/></span>
+				</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="9" class="bg_main">
+						<b>
+						[<a href='javascript:piao_add_ns()'>批量增加阻断NS</a>]
+						</b>
+					</td>
+				</tr>
+				<tr id="bg_yellow">
+				<td>操作</td>
+					<td >id</td>
+					<td>ns</td>
+					<td>server</td>
+					<td>使用的域名</td>
+					<td>解析ID</td>
+					<td>状态</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}"   
+				{[if $row.status!=0]}
+				style="background-color:#FFB6C1"
+				{[/if]}
+				>
+				    <td>
+				    	[<a href='javascript:del_piao({[$row.id]})'>删除</a>]
+				    	[<a href='javascript:piao_edit_ns({[$row.id]})'>修改</a>]
+				   		<span id='checknsresult{[$row.id]}'></span>
+				    </td>
+				    <td>{[$row.id]}</td>
+					<td id="ns">{[$row.ns]}</td>
+					<td id="server">{[$row.server]}</td>
+					<td>{[$row.usedomain]}</td>
+					<td>{[$row.recordid]}{[if $row.recordid==0]}&nbsp;&nbsp;[<a href="javascript:;resetRecordid({[$row.id]})">生成解析</a>]{[/if]}</td>
+					<td>{[if $row.status==0]}未使用{[else]}已使用{[/if]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="9" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}&{[$where]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}&{[$where]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}&{[$where]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}&{[$where]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

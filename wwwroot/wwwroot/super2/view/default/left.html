@@ -1,0 +1,45 @@
+{[include file='common/head.html']}
+<link rel="stylesheet" rev="stylesheet" href="{[$STATIC]}style/left.css"
+	type="text/css" media="all" />
+<link rel="stylesheet" rev="stylesheet"
+	href="{[$STATIC]}style/public.css" type="text/css" media="all" />
+<style type='text/css'>
+.one {
+	font-size: 20;
+	color: red;
+}
+</style>
+<script type="text/javascript">
+	function SwitchMenu(obj, sty) {
+		if (document.getElementById) {
+			var el = document.getElementById(obj);
+			var ml = document.getElementById(sty);
+			var ar = document.getElementById("masterdiv").getElementsByTagName("ul");
+			var mr = document.getElementById("masterdiv").getElementsByTagName("h1");
+			if (el.style.display == "none") {
+				el.style.display = "block";
+				ml.className = "menu";
+			} else {
+				el.style.display = "none";
+				ml.className = "menu1";
+			}
+		}
+	}
+</script>
+<body style="overflow-x:hidden; overflow-y:hidden;">
+	<div id="masterdiv">
+		<h1 id="m1" onClick="SwitchMenu('sub1','m1')" class="menu">代理设置</h1>
+			<ul class="submenu left_linght" id="sub1">
+				<li><a href="?c=index&a=main" target='main'>代理设置</a></li>
+			</ul>
+		<h1 id="m2" onClick="SwitchMenu('sub2','m2')" class="menu">域名注册管理</h1>
+			<ul class="submenu left_linght" id="sub2">
+				<li><a href="?c=domainmanager&a=domainSuffixPage" target="main">域名价格</a></li>
+				<li><a href="?c=domainshiftto&a=shifttoPage" target="main">转入申请</a></li>
+				<li><a href="?c=domainmanager&a=domainPage" target="main">域名管理</a></li>
+				<li><a href="?c=domainmanager&a=userInfoPage" target="main">用户注册信息</a></li>
+				<li><a href="?c=domainmanager&a=operationlogPage" target="main">操作冲突记录</a></li>
+			</ul>
+	</div>
+</body>
+{[include file='common/foot.html']}

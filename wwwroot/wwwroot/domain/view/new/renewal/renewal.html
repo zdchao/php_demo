@@ -1,0 +1,90 @@
+{[include file="public/head.html"]}
+<div class="wrap">
+<div class="contain">
+	<div class="register_box">
+		<table class="domain_table" width="100%">
+			<thead>
+				<tr>
+					<th width="50%">域名</th>
+					<th width="25%">续费年限</th>
+					<th width="25%">续费状态</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+{[include file="public/foot.html"]}
+<script type="text/template" id="renewal-template">
+<tr id="tr{{key}}">
+	<td>{{domain}}</td>
+	<td>{{period}}</td>
+	<td>{{mem}}</td>
+</tr>
+</script>
+<script type="text/javascript">
+function RenewalMain(){
+	this.domain = {};
+	this.MInit = function(){
+		var that = this;
+		that.getRenewalSession();
+	}
+	this.getRenewalSession = function(){
+		var that = this;
+		$.ajax({
+			url:'?c=renewal&a=getRenewalSession',
+			dataType:'json',
+			success:function(a){
+				that.domain = a.domain;
+				if(that.domain != null){
+					that.render(that.domain);
+				}
+			},
+			error:function(a){
+				
+			}
+		});
+	}
+	this.render = function(domain){
+		var that = this;
+		var template = $("#renewal-template").html();
+		var option = [];
+		for(var i in domain){
+			option.key = i;
+			option.domain = domain[i]['name'];
+			option.period = domain[i]['years'];
+			option.mem = "正在续费";
+			var el = Mustache.to_html(template,option);
+			$("tbody").append(el);
+		}
+		for(var i in domain){
+			that.renewal(i,domain[i]['name'],domain[i]['years'],domain[i]['suffix_type']);
+		}
+	}
+	this.renewal = function(key,domain,period,suffix_type){
+		$.ajax({
+			url:'?c=renewal&a=renewal',
+			type:'POST',
+			data:{domain:domain,period:period,suffix_type:suffix_type},
+			dataType:'json',
+			success:function(a){
+				if(a.status.code != 1){
+					$("#tr"+key).find("td").eq(2).html(a.ret);
+					return;
+				}
+				$("#tr"+key).find("td").eq(2).html(a.ret);
+			},
+			error:function(a){
+				
+			}
+		});
+	}
+}
+$(document).ready(function(){
+	$("#nav_my_domain").addClass("cur");
+	var m = new RenewalMain();
+	m.MInit();
+});
+</script>

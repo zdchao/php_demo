@@ -1,0 +1,41 @@
+{[dispatch c='public'  a='head']}
+<script type='text/javascript' src="{[$STATIC]}record/line.js?v={[$jsversion]}"></script>
+<script type='text/template' id="line-add-template">
+<div id="line-add" style="margin:30px 200px;">
+	<div style="margin:5px;">名称:<input type='text' name="name"  required></div>
+	<div style="margin:5px;">IP段:<textarea rows="5" cols="80" style="width:380px; margin-left:6px;" name="ips"></textarea></div>
+	<div style="margin-left:32px; position:absolute;"><button class="btn" style="margin:5px;">增加</button><button class="btn" style="margin:5px;">取消</button></div>
+</div>
+</script>
+<script type='text/template' id="line-show-row-template">
+<div  id="{{rowid}}" style='padding-top:5px;'>
+<table>
+	<tr>
+		<td width="230px"><span>{{name}}</span></td>
+		<td><span><button class="btn" style="margin:5px;">修改</button><button class="btn" style="margin:5px;">删除</button></span></td>
+	</tr>
+</table>
+<div>
+</script>
+<script type='text/template' id="line-accessdeny-template">
+<div  id="line-accessdeny">
+	 <div class="gonggao">
+         	<h3><span><a href="#">X</a></span>提示</h3>
+            <p><strong>您的域名不支持该功能,请联系管理员购买套餐!</strong></p>
+         </div>
+         <div class="blank10"></div>
+</div>
+</script>
+<script type='text/template' id="line-nologin-template">
+<a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a>
+</script>
+
+<div class="erp_nr clearB">
+			{[include file='record/right-operat.html']}
+			<div id="nr_right">
+				<div id="line-list-row" ></div>
+				<div id="line-add-row" ></div>
+		</div>		
+		</div>
+</div>
+{[include file='public/foot.html']}

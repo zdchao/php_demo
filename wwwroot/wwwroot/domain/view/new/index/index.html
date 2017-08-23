@@ -1,0 +1,40 @@
+{[include file='public/head.html']}
+<div class="wrap">
+<div class="contain">
+	<!-- 标题语开始 -->
+	<div style="padding:100px 0 200px 0;">
+		<div class="title1">域名注册服务</div>
+		<div class="title2">DNS盾&bull;CDN加速</div>
+		<div class="title2">强势打造  值得信赖</div>
+		
+		<!-- 标题语结束 -->
+		<!-- 搜索框开始 -->
+		<div>
+			<div class="domain_search">
+				<input type="text" name="domain" class="" placeholder="输入搜索域名"/>
+				<input type="button" value="搜索" onclick="submit()"/>
+			</div>
+			<div class="domain_money_btn"><a href="?c=public&a=showSuffixMoney" target="_Blank">价格列表</a></div>
+		</div>
+		<!-- 搜索框结束 -->
+	</div>
+</div>
+</div>
+{[include file='public/foot.html']}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#nav_domain_register").addClass('cur');
+});
+function submit(){
+	var domain = $("[name=domain]").val();
+	window.location.href = "?c=public&a=domainRegister&domain="+domain;
+}
+document.onkeydown = function(event_e){
+    if(window.event)
+     event_e = window.event;
+     var int_keycode = event_e.charCode||event_e.keyCode;
+     if(int_keycode ==13){
+    	 submit();
+    }
+}
+</script>

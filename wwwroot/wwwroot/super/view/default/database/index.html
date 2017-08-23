@@ -1,0 +1,26 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：数据库检测</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="16" class="bg_main"><b>dao文件数:{[$count]}</b></td>
+				</tr>
+				<tr>
+					<td>序列</td>
+					<td>数据表</td>
+					<td>状态</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr>
+					<td>{[$row.key]}</td>
+					<td>{[$row.name]}</td>
+					<td>{[if $row.mysql_err == ""]}<b style='color:green'>正常</b>{[else]}<b style="color:red">{[$row.mysql_err]}</b>{[/if]}</td>
+				</tr>
+				{[/foreach]}
+			</table>
+		</div>
+	</div>
+</body>
+</html>

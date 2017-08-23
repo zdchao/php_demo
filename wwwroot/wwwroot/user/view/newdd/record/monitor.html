@@ -1,0 +1,62 @@
+{[dispatch c='public'  a='head']}
+<script type='text/javascript'>
+var record_id = '{[$record_id]}';
+</script>
+<link href="/style/user/css/monitor.css" rel="stylesheet">
+<script type='text/javascript' src="{[$STATIC]}record/monitor.js?v={[$jsversion]}"></script>
+<script type='text/template' id="monitor-row-template">
+<div class="clearfix record">
+	<span class="record-ip">{{src}}</span>
+	<span class="record-status">{{status}}</span>
+	<span class="record-message">{{status_msg}}</span>
+	<span class="record-time">{{log_time}}</span>
+	<span class="record-auto">{{total_time}}</span>
+</div>
+</script>
+<script type='text/template' id="monitor-show-mutli-template">
+<div id="show-multi-operat" class="clearfix record" style="margin-top:8px;">
+	<span class="record-time"><h5></h5></span>
+	<span class="record-title">
+		<h5>
+			<a href="javascript:;" id="packup">收起</a>
+			<a href="javascript:;" id="show-multi">查看更多>></a>
+		</h5>
+	</span>
+</div>
+</script>
+<script type="text/template" id="monitor-launch-template">
+<div id="launch1" class="clearfix record" style="margin-top:8px;">
+	<span class="record-time"><h5></h5></span>
+	<span class="record-title">
+		<h5>
+			<a href="javascript:;" id="launch">展开</a>
+		</h5>
+	</span>
+</div>
+</script>
+<script type='text/template' id="monitor-nologin-template">
+<div class="clearfix record">
+	<a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a>
+</div>
+</script>
+
+
+<div class="wrap">
+	<div class="contain">
+		<div >{[include file='record/right-operat.html']}</div>
+		<div class="table_div">
+			<div id="monitor-header" class="clearfix record-head">
+				<span class="record-ip">主机</span>
+				<span class="record-status">状态</span>
+				<span class="record-message">处理</span>
+				<span class="record-time">处理时间</span>
+				<span class="record-auto">持续时间</span>
+			</div>
+			
+			<div id="monitor-list"></div>
+			<div id="list-launch"></div>
+		</div>
+	</div>
+</div>
+
+{[include file='public/foot.html']}

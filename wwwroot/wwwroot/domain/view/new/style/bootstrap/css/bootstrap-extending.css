@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+/*
+bootstrap-extending 
+bootstrap 扩展css
+*/
+.dns_head_main{
+	padding:0 0 10px 0;
+}
+.dns_head_div{
+	background: #FFFAFA;
+	margin-bottom:0;
+	margin:5px auto 0 auto;
+	width:940px;
+	display: none !important;
+}
+.dns_head_ul{
+	width:730px;
+	margin:0 auto;
+}
+.dns_head_ul .iconic{
+	color:inherit;
+	font-family: "IconicStroke";
+	font-size: 38px;
+	line-height: 20px;
+	vertical-align: middle;
+	display:inline-block;
+}
+.dns_head_ul .home{
+	background:url("/style/img/home.png");
+	width:24px;
+	height:24px;
+}
+.dns_head_ul li{
+	float: left;
+	position: relative;
+	list-style: none;
+}
+.dns_head_ul li a{
+	color:#444;
+	display:block;
+	font-size: 14px;
+	line-height: 20px;
+	padding: 6px 12px;
+	margin: 8px 8px;
+	vertical-align: middle;
+	text-decoration: none;
+}
+.dns_head_ul li a:hover{
+	background: -webkit-gradient(linear, center top, center bottom, from(#ededed), to(#fff));
+	background-image: linear-gradient(#ededed, #fff);
+	border-radius: 12px;
+	box-shadow: inset 0px 0px 1px 1px rgba(0,0,0,0.1);
+	color: #222;
+}
+
+/*
+媒体流方法扩展
+*/
+@media (min-width: 940px){
+	.hidden-940{
+		display: none !important;
+	}
+}
+@media (min-width: 941px) and (max-width: 2000px){
+	.visible-extend{
+		display: block !important;
+	}
+}

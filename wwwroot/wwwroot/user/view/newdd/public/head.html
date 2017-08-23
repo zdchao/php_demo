@@ -1,0 +1,197 @@
+<!doctype html>
+<html class="no-js"  lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{[dispatch c="public" a="getTitle"]}</title>
+<!--[if lt IE 8]>
+<script>
+window.location = '?c=public&a=toIe6';
+</script>
+<![endif]-->
+<link href="/style/common/bootstrap2/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="/style/common/bootstrap2/bootstrap-responsive.min.css" rel="stylesheet">
+<!--  
+<link href="/style/artdialog/skins/default.css" rel="stylesheet">
+<link href="/style/css/doc.css" rel="stylesheet">
+<link href="/style/css/boot-custom.css" rel="stylesheet">
+<link href="/style/css/zhdc-responsive.css" rel="stylesheet">
+<link href="/style/css/z-head.css" rel="stylesheet">
+-->
+<link href="/style/common/user/css/common.css" rel="stylesheet">
+<script type='text/javascript' src="/style/common/jq.js"></script>
+<script type="text/javascript" src="/style/common/html5shiv.js"></script>
+<script type='text/javascript' src="/style/common/mustache/0.4.0/mustache.js"></script>
+<script type="text/javascript" src="/style/common/bootstrap2/bootstrap.js"></script>
+<script type='text/javascript' src="/style/common/ajaxfileupload.js"></script>
+<script type='text/javascript' src="/style/common/user/js/response.ui.js"></script>
+<!-- 
+<script type='text/javascript' src="/style/js/zhdc-responsive.js"></script>
+<script type='text/javascript' src="/style/js/z-r.js"></script>
+ -->
+<script type='text/javascript'>
+if (typeof String.prototype.trim=='undefined') {
+	String.prototype.trim = function() {
+		return $.trim(this);
+	}
+}
+if (typeof String.prototype.toInt == 'undefined') {
+	String.prototype.toInt = function() {
+		return parseInt(this);
+	}
+}
+function compareMark(a,b) {
+	if (a.is_mark=='yes') {
+		return 1;
+	}
+	if (b.is_mark =='yes') {
+		return -1;
+	}
+	return 0;
+}
+function compareDomain(a,b){
+	if (a.name < b.name) {
+		return 1;
+	}
+	if (a.name > b.name) {
+		return -1;
+	}
+	return 0;
+}
+function compareDomainPname(a,b) {
+	if (a.pname < b.pname) {
+		return -1;
+	}
+	if (a.pname > b.pname) {
+		return 1;
+	}
+	return 0;
+}
+function compareInt(a,b) {
+	if (a < b) {
+		return -1;
+	}
+	if (a > b) {
+		return 1;
+	}
+	return 0;
+}
+function compareId(a,b) {
+	if (a.id < b.id) {
+		return -1;
+	}
+	if (a.id > b.id) {
+		return 1;
+	}		
+	return 0;
+}
+function compareType(a,b)
+{
+	if (a.type < b.type) {
+		return -1;
+	}
+	if (a.type > b.type) {
+		return 1;
+	}
+	return 0;
+}
+function compareName(a,b) 
+{
+	if (a.name < b.name) {
+		return -1;
+	}
+	if (a.name > b.name) {
+		return 1;
+	}
+	return 0;
+	
+}
+function compareLine(a,b)
+{
+	if (a.line < b.line) {
+		return -1;
+	}
+	if (a.line > b.line) {
+		return 1;
+	}
+	return 0;
+}
+function compareValue(a,b)
+{
+	if (a.value < b.value) {
+		return -1;
+	}
+	if (a.value > b.value) {
+		return 1;
+	}
+	return 0;
+}
+function compareTtl(a,b)
+{
+	if (a.ttl < b.ttl) {
+		return -1;
+	}
+	if (a.ttl > b.ttl) {
+		return 1;
+	}
+	return 0;
+}
+
+</script>
+</head>
+<body>
+<div class="nav_top">
+    <div class="wrap">
+        <nav class="menus_top fl">
+        	<em onClick="rMenu()"></em>
+            <a href="/">首页</a>
+            <a href="?c=public&a=index">域名管理</a>
+        </nav>
+        <div class="account_box" id="head-link"></div>
+    </div>
+</div>
+<!--  
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="r-nav" id="head-link">
+			<i class="r-nav-menu"></i>
+			<ul>
+				<li><a href="/"><i class="icon-home"></i></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+-->
+<!--  
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="navbar domain-max">
+			<div class="navbar-inner dns_head_div"  id="head-link">
+				<ul class="dns_head_ul">
+					<li><a href="/" title="首页"><span class="iconic home"></span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+<!--  <body class="dns_body_padding">-->
+<!-- 顶部菜单开始 
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="navbar navbar-inner dns_head_div" id="head-link">
+			<ul class="dns_head_ul">
+				<li><a href="/" title="首页"><span class="iconic home"></span></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+顶部菜单结束 -->
+<script type="text/template" id="pop_bg_template">
+<div class="pop_bg">
+	<div class="loading"></div>
+</div>
+</script>
+<script type='text/javascript'  src="{[$STATIC]}public/head.js?v={[$jsversion]}"></script>

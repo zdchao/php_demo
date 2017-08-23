@@ -1,0 +1,48 @@
+{[include file='common/head.html']}
+<link rel="stylesheet" rev="stylesheet" href="{[$STATIC]}style/left.css"
+	type="text/css" media="all" />
+<link rel="stylesheet" rev="stylesheet"
+	href="{[$STATIC]}style/public.css" type="text/css" media="all" />
+<style type='text/css'>
+.one {
+	font-size: 20;
+	color: red;
+}
+</style>
+<script type="text/javascript">
+	function SwitchMenu(obj, sty) {
+		if (document.getElementById) {
+			var el = document.getElementById(obj);
+			var ml = document.getElementById(sty);
+			var ar = document.getElementById("masterdiv").getElementsByTagName("ul");
+			var mr = document.getElementById("masterdiv").getElementsByTagName("h1");
+			if (el.style.display == "none") {
+				el.style.display = "block";
+				ml.className = "menu";
+			} else {
+				el.style.display = "none";
+				ml.className = "menu1";
+			}
+		}
+	}
+</script>
+<body style="overflow-x:hidden; overflow-y:hidden;">
+	<div id="masterdiv">
+		<h1 id="m1" onClick="SwitchMenu('sub1','m1')" class="menu">账号信息</h1>
+			<ul class="submenu left_linght" id="sub1">
+				<li><a href="?c=index&a=main" target='main'>{[$lang.myinfo]}</a></li>
+			</ul>
+		
+		<h1 id="m2" onClick="SwitchMenu('sub2','m2')" class="menu">用户管理</h1>
+			<ul class="submenu left_linght" id="sub2">
+				<li><a href="?c=users&a=pagelist" target='main'>用户列表</a></li>
+			</ul>
+		<!--  
+		<h1 id="m3" onClick="SwitchMenu('sub3','m3')" class="menu">域名解析</h1>
+			<ul class="submenu left_linght" id="sub3">
+				<li><a href="?c=domains&a=pagelist" target='main'>域名列表</a></li>
+			</ul>
+		-->
+	</div>
+</body>
+{[include file='common/foot.html']}

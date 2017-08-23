@@ -1,0 +1,40 @@
+  <!-- index -->
+<div class="hbg2">
+	<div class="hbg_resize"></div>
+</div>
+<div class="content">
+	<div class="content_resize">
+	  <div class="mainbar">
+		<table cellpadding="0" cellspacing="1" class="help_tab">
+		  <tr><td class="help_pad" background="{[$STATIC]}images/help_bg2.jpg"><a href="?c=help&a=help">帮助中心</a> >>功能介绍</td></tr>
+		  <tr><td class="help_pad" background="{[$STATIC]}images/help_bg2.jpg"><b class="help_menu">URL 隐/显性转发</b></td></tr>
+		  <tr>
+			<td>
+				<b>什么是url 隐性/显性转发？</b><br />
+
+                以http://test.com 跳转到 http://www.dnsdun.com 为例。<br />
+                
+                隐性转发：用的是iframe框架技术，非重定向技术；效果为浏览器地址栏输入http://test.com 回车，打开网站内容是目标地址http://www.dnsdun.com 的网站内容，但地址栏显示当前地址http://test.com<br />
+                
+                显性转发：用的是301重定向技术；效果为浏览器地址栏输入http://test.com 回车，打开网站内容是目标地址http://www.dnsdun.com 的网站内容，且地址栏显示目标地址http://www.dnsdun.com<br />
+                
+                <b>什么情况下会用到URL转发？</b><br />
+                
+                将一个域名指向另外一个已经存在的站点，就需要添加URL记录。<br />
+                 
+                <b>如何添加url 隐/显性转发记录？</b><br />
+                URL：常用URL转发,格式为：代码 域名或网址,代码可以是301(显示),302(显示),200(隐式), <b>例: 301 www.dnsdun.com</b><br />
+
+               <img src="{[$STATIC]}images/help/18.jpg" / border=0><br />
+               主机记录处填子域名前缀<br />
+               记录类型选择url<br />
+               记录值输入状态码和要转发到的域名，注意状态码和域名中间要加空格<br />
+               TTL不需要填写，添加时系统会自动生成，默认为600秒（TTL为缓存时间，数值越小，修改记录生效时间越快）
+
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	<div class="clr"></div>
+</div>
+</div>

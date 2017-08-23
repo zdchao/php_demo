@@ -1,0 +1,21 @@
+{[include file='common/head.html']}
+<body text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+	<div class="wid_main mar_main" align="left">
+		<div class="block_top" align="left">当前位置：域名注册管理 --> 代理设置</div>
+		<table class="table_main2" cellpadding="0" cellspacing="1">
+		<form action="?c=agent&a=xinnetAgentSet" method="POST">
+			<tr>
+				<td colspan="2" class="bg_main">新网</td>
+			</tr>
+			<tr><td>代理账号</td><td><input type="text" name="agent_account" value="{[$xinnet['agent_account']]}"/></td></tr>
+			<tr><td>代理密码</td><td><input type="password" name="agent_passw" value="{[$xinnet['agent_passw']]}"/></td></tr>
+			<tr><td>代理HTTP</td><td><input type="text" name="agent_http" value="{[$xinnet['agent_http']]}"  style="width:400px;"/></td></tr>
+			<tr><td>编码</td><td><input type="text" name="encode" value="{[$xinnet['encode']]}"/>编码:E</td></tr>
+			<tr><td>设置</td><td><input type="submit" value="保存"/></td></tr>
+		</form>
+		</table>
+	</div>
+</div>
+</body>
+{[include file='common/foot.html']}

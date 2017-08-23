@@ -1,0 +1,108 @@
+{[include file="public/head.html"]}
+<div class="wrap">
+<div class="contain">
+	<div class="register_box">
+		<div class="">域名注册>>修改域名注册信息</div>
+		<div class="">{[$mess]}</div>
+		<div class="">
+			<form action="?c=managedomain&a=modifyDomainRegisterInfo" method="POST" role="form" class="form-horizontal" id="myform">
+				<div class="form-group">
+					<label class="col-lg-1 control-label">用户类型:</label>
+					<div class="col-lg-2">
+						<input name="user_type" value="0" type="radio" {[if $list['user_type'] == 0]}checked="checked"{[/if]}/>个人&nbsp;&nbsp;
+						<input name="user_type" value="1" type="radio" {[if $list['user_type'] == 1]}checked="checked"{[/if]}/>企业
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">域名所有者:</label>
+					<div class="col-lg-3">
+						<input name="enterprise" type="text" class="form-control" value="{[$list['enterprise']]}"/>
+						<div style="font-size:12px;">请填写与所有者证件完全一致的企业名称或姓名.</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">英文名称:</label>
+					<div class="col-lg-3"><input name="enterprise_en" type="text" class="form-control" value="{[$list['enterprise_en']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">联系人:</label>
+					<div class="col-lg-3"><input name="contacts" type="text" class="form-control" value="{[$list['contacts']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">英文名称:</label>
+					<div class="col-lg-3"><input name="contacts_en" type="text" class="form-control" value="{[$list['contacts_en']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">邮箱:</label>
+					<div class="col-lg-3"><input name="email" type="text" class="form-control" value="{[$list['email']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">地区:</label>
+					<div class="col-lg-1" style="padding-right:0;">
+						<input name="countries_region" type="text" class="form-control" value="{[$list['countries_region']]}"/>
+					</div>
+					<div class="col-lg-1" style="padding:0 0 0 2px;">
+						<input name="province" type="text" class="form-control" value="{[$list['province']]}"/>
+					</div>
+					<div class="col-lg-1" style="padding:0 0 0 2px;">
+						<input name="city" type="text" class="form-control" value="{[$list['city']]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">城市英文:</label>
+					<div class="col-lg-3"><input name="city_en" type="text" class="form-control" value="{[$list['city_en']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">通信地址:</label>
+					<div class="col-lg-3"><input name="address" type="text" class="form-control" value="{[$list['address']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">英文地址:</label>
+					<div class="col-lg-3"><input name="address_en" type="text" class="form-control" value="{[$list['address_en']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">邮编:</label>
+					<div class="col-lg-3"><input name="zip_code" type="text" class="form-control" value="{[$list['zip_code']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">手机:</label>
+					<div class="col-lg-3"><input name="phone" type="text" class="form-control" value="{[$list['phone']]}"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-1 control-label">传真:</label>
+					<div class="col-lg-1" style="padding-right:0;">
+						<input name="fax0" type="text" value="{[$list['fax0']]}" class="form-control" style="width:90%"/>
+						<span style="float:right;margin-top:-25%;">-</span>
+					</div>
+					<div class="col-lg-1" style="padding-left:1px;padding-right:0;">
+						<input name="fax1" type="text" value="{[$list['fax1']]}" class="form-control" style="width:90%;"/>
+						<span style="float:right;margin-top:-25%;">-</span>
+					</div>
+					<div class="col-lg-1" style="padding-left:0">
+						<input name="fax2" type="text" value="{[$list['fax2']]}" class="form-control"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-2">
+						<div class="col-lg-1"><input type="button" value="保存" onclick="saveForm()" class="form-control btn btns btn-success"/></div>
+						<div class="col-lg-1"><input type="button" value="取消" onclick="returnDomain()" class="form-control btn btns btn-success"/></div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+{[include file="public/foot.html"]}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#left_ul").find("li").eq(0).attr("class","active");
+	$("#nav_domain_register").addClass("cur");
+});
+function saveForm(){
+	$("#myform").submit();
+}
+function returnDomain(){
+	window.location.href = "?c=managedomain&a=domainManagement";
+}
+</script>

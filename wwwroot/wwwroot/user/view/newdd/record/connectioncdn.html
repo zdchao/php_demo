@@ -1,0 +1,25 @@
+{[dispatch c='public'  a='head']}']}
+<script type='text/javascript' src="{[$STATIC]}record/connectioncdn.js?v={[$jsversion]}"></script>
+{[include file='record/connectcdntemplete.html']}
+<script type='text/template' id="site-nologin-template">
+	<div><a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a></div>
+</script>
+<div class="container">
+	<div class="row">
+			<div class="">{[include file='record/right-operat.html']}</div>
+			<div >
+				<span id="site-operation" class="col-md-6">
+					
+					<!--  
+					<div class="btn-group"><button class="btn btn-success" id="del-site">删除站点</button></div>
+					-->
+				</span>
+			</div>
+			<div id="addsite" style="border:1px solid #E5E5E5;display:none" class="record clearfix" ></div>
+			
+			<div id="multi_div"  style="border-style:solid;border-width:1px;border-color:#E5E5E5;"></div>
+			<div id="connect-cdn"  style="border-style:solid;border-width:1px;border-color:#E5E5E5;"></div>
+			
+	</div>
+</div>
+{[include file='public/foot.html']}

@@ -1,0 +1,126 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+conversion = '{[$conversion]}';
+</script>
+<script type='text/javascript' src="{[$STATIC]}scripts/cdnproduct.js?v={[$jsversion]}"></script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：cdn容器</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> UID搜索: <input name='name' size=20>
+						<input type='submit' value='搜索'>
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="14" class="bg_main"><b>容器列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>uid</td>
+					<td>容器名称</td>
+					<td>站点</td>
+					<td>镜像</td>
+					<td>产品</td>
+					<td>创建时间</td>
+					<td>过期时间</td>
+					<td>使用状态</td>
+					<td>备注</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}">
+					<td id="op">
+					{[if $row.cb_key !=""]}
+					[<a href='javascript:getProductData({[$row.id]})'>修改</a>]
+					{[/if]}
+					</td>
+					<td>{[$row.uid]}</td>
+					
+					<td>{[$row.name]}</td>
+					<td>{[$row.vhost]}</td>
+					<td>{[$row.mirro]}</td>
+					<td>{[$row.pid]}</td>
+					<td>{[$row.create_time]}</td>
+					<td>{[$row.expire_time]}</td>
+					<td>{[if $row.used ==1]}使用中{[else]}未使用{[/if]}</td>
+					<td>{[$row.mem]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="14" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+<script type="text/template" id="add-cdn-product-template">
+<div id="add-cdn-product-div">
+	<div class="piao_div">cb_uid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbuid" type="text" /></div>
+	<div class="piao_div">自用uid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="uid" type="text" placeholder="uid为0是公用产品"/></div>
+	<div class="piao_div">cb_domain:<input name="cbdomain" type="text" /></div>
+	<div class="piao_div">cb_pid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbpid" type="text" /></div>
+	<div class="piao_div">产品名称:&nbsp;&nbsp;&nbsp;&nbsp;<input name="name" type="text" /></div>
+	<div class="piao_div">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;钥:&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbkey" type="text" /></div>
+	<div class="piao_div">cb_bs:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbbs" type="text" /></div>
+	<div class="piao_div">cb_host:&nbsp;&nbsp;&nbsp;&nbsp;<input name="cbhost" type="text" placeholder="格式:http://www.cdn.com"/></div>
+	<div class="piao_div">server:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="server" type="text" placeholder="多个server以逗号分割"/></div>
+	<div class="piao_div">
+		审&nbsp;&nbsp;&nbsp;核:
+		<select name="audit" style="width:40px;height:30px;">
+			<option value="0">是</option>
+			<option value="1">否</option>
+		</select>
+		&nbsp;&nbsp;
+		产品视图:
+		<select name="view" style="width:60px;height:30px;">
+			<option value="1">开启</option>
+			<option value="0">关闭</option>
+		</select>
+	</div>
+	<div class="piao_div">赠送流量:&nbsp;&nbsp;&nbsp;<input name="flow" type="text" placeholder="10"/>（G）</div>
+    <div class="piao_div">流量价格:&nbsp;&nbsp;&nbsp;<input name="flow_price" type="text" placeholder="10"/>（元）/G</div>
+	<div class="piao_div"><input type="button" id="enter" value="确定"></div>
+</div>
+</script>
+<script type='text/template' id="edit-product-template">
+<div id="edit-product-div">
+	<div class="piao_div"><span class="piao_left">cb_uid:</span><span ><input name="cbuid" value="{{cbuid}}">*</span></div>
+	<div class="piao_div"><span class="piao_left">自用uid:</span><span><input name="uid" value="{{uid}}"/></span></div>
+	<div class="piao_div"><span class="piao_left">cb_pid:</span><span ><input name="cbpid" value="{{cbpid}}">*</span></div>
+	<div class="piao_div"><span class="piao_left">产品名称:</span><span ><input name="name" value="{{name}}"></span></div>
+	<div class="piao_div"><span class="piao_left">cb_domain:</span><span ><input name="cbdomain" value="{{cbdomain}}"></span></div>
+	<div class="piao_div"><span class="piao_left">秘钥:</span><span ><input name="cbkey" value="{{cbkey}}"></span></div>
+	<div class="piao_div"><span class="piao_left">cb_bs:</span><span><input name="cbbs" value="{{cbbs}}"/></span></div>
+	<div class="piao_div"><span class="piao_left">cb_host:</span><span><input name="cbhost" value="{{cbhost}}"/></span></div>
+	<div class="piao_div"><span class="piao_left">server:</span><span><input name="server" value="{{server}}"/></span></div>
+
+	<div class="piao_div">
+			审核:
+			{{{select}}}
+			&nbsp;&nbsp;
+			产品视图:
+			{{{viewselect}}}
+	</div>
+   <div class="piao_div">赠送流量:&nbsp;&nbsp;&nbsp;<input name="flow" type="text" placeholder="10" value="{{flow}}"/>（G）</div>
+    <div class="piao_div">流量价格:&nbsp;&nbsp;&nbsp;<input name="flow_price" type="text" placeholder="10" value="{{flow_price}}"/>（元）/G</div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="修改"></span></div>
+</div>
+</script>
+</html>

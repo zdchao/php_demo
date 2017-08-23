@@ -1,0 +1,210 @@
+{[include file='common/head.html']}
+<script type="text/template" id="site-audit-failure-template">
+<div id="site-audit-failure-div">
+	<div>
+		<span>备注</span>
+		{{{select}}}
+	</div>
+	<div>
+		<span><input type="button" value="确定" id="enter"/></span>
+		<span><input type="button" value="取消" id="esc"/></span>
+	</div>
+</div>
+</script>
+<body text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+	<div class="wid_main mar_main" align="left">
+		<div class="block_top" align="left">当前位置：CDN站点 --> 站点审核</div>
+		<table class="table_main2" cellpadding="0" cellspacing="1">
+			<tr>
+				<td colspan="7" class="bg_main"><b>站点审核</b></td>
+			</tr>
+			<tr>
+				<td>操作</td>
+				<td>域名</td>
+				<td>产品名称</td>
+				<td>审核状态</td>
+				<td>增加时间</td>
+			</tr>
+			{[foreach from=$rows item=row]}
+			<tr id="tr{[$row.id]}" data-domain="{[$row.domain]}" data-cbdomain="{[$row.cb_domain]}" data-money="{[$row.month * $row.price / 100]}" data-pid="{[$row.pid]}" data-uid="{[$row.uid]}">
+				<td id="{[$row.id]}">{[if $row.status == 0]}<a href="javascript:siteAudit('{[$row['domain']]}',{[$row['pid']]},{[$row['id']]})">[通过]</a><a href="javascript:auditSiteNo({[$row.id]},'{[$row['domain']]}')">[不通过]</a>{[else]}&nbsp;{[/if]}</td>
+				<td>{[$row.domain]}</td>
+				<td>{[$row.name]}</td>
+				{[if $row.status == 1]}
+					<td><b>通过</b></td>{[else if $row.status == 0]}<td><b>需审核</b></td>{[else if $row.status > 2]}<td><b>不通过</b></td>
+				{[/if]}
+				<td>{[$row.add_time]}</td>
+			</tr>
+			{[/foreach]}
+			<tr>
+					<td colspan="7" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+		</table>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+var auditSiteNo = function(id,domain){
+	var template = $("#site-audit-failure-template").html();
+	var html = "<select name='remark' style='height:30px;'>";
+	var option = [];
+	$.ajax({
+		//url:'?c=cdnsite&a=domainAuditRemark',
+		url:'?c=index&a=domainAuditRemark',
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			var remark = a.remark;
+			for(var i in remark){
+				html += "<option value='"+i+"'>"+remark[i]+"</option>";
+			}
+			html += "</select>";
+			option.select = html;
+			var el = Mustache.to_html(template,option);
+			domainAuditEnter(el,id,domain);
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+var domainAuditEnter = function(el,id,domain){
+	var dia = art.dialog({
+		id:'auditsite',
+		title:'站点审核',
+		content:el,
+		width:300,
+		lock:true
+	});
+	//var div = $("#cdn-site-audit-div");
+	var div = $("#site-audit-failure-div");
+	div.find("#enter").bind('click',function(){
+		var remark = div.find("[name=remark]").val();
+		dia.close();
+		$.ajax({
+			//url:'?c=cdnsite&a=auditSiteNo',
+			url:'/api/?c=cdn&a=auditSiteNo',
+			type:'POST',
+			data:{id:id,remark:remark,domain:domain},
+			dataType:'json',
+			success:function(a){
+				if(a.status.code != 1){
+					alert(a.ret);
+					return;
+				}
+				$("#tr"+id).find("#"+id).html("<b>不通过</b>");
+			},
+			error:function(a){
+				alert('error');
+			}
+		});
+	});
+}
+/*
+function siteAuditFailure(id,domain){	//审核不通过
+	var html = "<select name='remark' style='height:30px;'>";
+	$.ajax({
+		url:'?c=index&a=domainAuditRemark',
+		dataType:'json',
+		success:function(a){
+			//console.log(a.remark);
+			if(a.status.code != 1){
+				return;
+			}
+			var remark = a.remark;
+			for(var i in remark){
+				html += "<option value='"+i+"'>"+remark[i]+"</option>";
+			}
+			html += "</select>";
+			var option = [];
+			option.select = html;
+			domainAuditEnter(id,option);
+		},
+		error:function(a){alert('error');}
+	});
+}
+function domainAuditEnter(id,option){
+	var trid = $("#tr"+id);
+	var cdn_site_id = id;
+	var domain = trid.attr("data-domain");
+	var cbdomain = trid.attr("data-cbdomain");
+	var money = trid.attr("data-money");
+	var uid = trid.attr("data-uid");
+	var template = $("#site-audit-failure-template").html();
+	var el = Mustache.to_html(template,option);
+	var dia = art.dialog({
+		id:'siteauditfailure',
+		title:'站点审核不通过',
+		content:el,
+		lock:true
+	});
+	var div = $("#site-audit-failure-div");
+	div.find("#enter").bind('click',function(){
+		var remark = div.find("[name=remark]").val();
+		dia.close();
+		siteAuditFailureEnter(cdn_site_id,domain,cbdomain,money,remark,uid);
+	});
+	div.find("#esc").bind('click',function(){
+		dia.close();
+	});
+}
+function siteAuditFailureEnter(cdn_site_id,domain,cbdomain,money,remark,uid){
+	//alert(cdn_site_id+'--'+domain+'--'+cbdomain+'--'+money+'--'+pid+'--'+remark);
+	$.ajax({
+		url:'?c=cdn&a=auditSiteNo',
+		data:{id:cdn_site_id,remark:remark},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.ret);
+				return ;
+			}
+			$("#tr"+cdn_site_id).find("td").eq(0).html("<b>不通过</b>");
+			$("#tr"+cdn_site_id).find("td").eq(3).html("<b>不通过</b>");
+		},
+		error:function(a){
+			alert("error");
+		}
+	});
+}
+*/
+function siteAudit(domain,pid,id){ //站点审核通过
+	var trid = $("#tr"+id);
+	//var domain = trid.attr("data-domain");
+	//var cbdomain = trid.attr("data-cbdomain");
+	//var money = trid.attr("data-money");
+	//var pid = trid.attr("data-pid");
+	//alert(domain+'--'+cbdomain+'--'+money);
+	$.ajax({
+		//url:'?c=cdn&a=auditSiteYes',
+		url:'/api/?c=cdn&a=auditSiteThrough',
+		type:'POST',
+		data:{id:id,domain:domain,pid:pid},
+		dataType:'json',
+		success:function(a){
+			//alert('success');
+			if(a.status.code != 1){
+				alert(a.ret);
+				return;
+			}
+			trid.find('td').eq(0).html("<b>通过</b>");
+			trid.find('td').eq(3).html("<b>通过</b>");
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+</script>
+{[include file='common/foot.html']}

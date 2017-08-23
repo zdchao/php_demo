@@ -1,0 +1,105 @@
+{[include file='public/head.html']}
+<script type='text/javascript' src="{[$STATIC]}style/js/domainsearch.js?v={[$jsversion]}"></script>
+<div class="wrap">
+<div class="contain">
+	<div class="register_box">
+		<!-- 域名搜索框开始 -->
+		<div class="d_list">
+			<form action="?c=public&a=domainRegister" class="form-inline" role="form" method="POST">
+					<input type="text" value="{[$domain]}" name="domain" id="domain"/>
+					<input type="submit" value="搜索"/>
+			</form>
+		</div>
+		<!-- 域名搜索框结束 -->
+		<div style="margin-top:30px;position:relative;">
+			<div class="domain_search_list">
+				<div style="position:relative;margin-bottom:10px;">
+					<ul class="nav nav-tabs" id="ul_tab">
+						<li><a href="javascript:;" id="domain_all">全部</a></li>
+						<li><a href="javascript:;" id="domain_register">未注册</a></li>
+					</ul>
+					<a href="?c=public&a=showSuffixMoney" class="ds_domain_serach_money" target="_Blank" style="position:absolute;top:15px;right:5px;">价格列表</a>
+				</div>
+				<table class="domain_table" width="100%">
+					<thead>
+						<tr>
+							<th><span>域名</span></th>
+							<th><span>价格(元)</span></th>
+							<th><span>操作</span></th>
+						</tr>
+					</thead>
+					<tbody id="table_html" >
+					</tbody>
+				</table>
+			</div>
+			<div class="domain_serach_car">
+				<ul class="list-group" id="shop_cart_ul">
+					<li class="list-group-item">购物车</li>
+					<li id="shop_cart_tip" class="list-group-item">请选择域名</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 域名搜索列表框开始
+			<div>
+				<ul class="nav nav-tabs" id="ul_tab">
+					<li><a href="javascript:;" id="domain_all">全部</a></li>
+					<li><a href="javascript:;" id="domain_register">未注册</a></li>
+				</ul>
+				<a href="?c=public&a=showSuffixMoney" class="ds_domain_serach_money" target="_Blank">价格列表</a>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="45%"><span>域名</span></th>
+							<th width="35%"><span>价格(元)</span></th>
+							<th width="20%"><span>操作</span></th>
+						</tr>
+					</thead>
+					<tbody id="table_html" >
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<ul class="list-group" id="shop_cart_ul">
+					<li class="list-group-item">购物车</li>
+					<li id="shop_cart_tip" class="list-group-item">请选择域名</li>
+				</ul>
+			</div>
+		 域名搜索列表框结束 -->
+	</div>
+</div>
+</div>
+{[include file='public/foot.html']}
+<script type="text/template" id="search-tip-template">
+<tr id="search-tip-tr">
+	<td width="45%"><span></span></td>
+	<td width="35%"><span>正在查询...</span></td>
+	<td width="20%"><span></span></td>
+</tr>
+</script>
+<script type="text/template" id="domain-all-list-template">
+<tr>
+	<td width="45%"><span>{{domain}}</span></td>
+	<td width="35%"><span>{{status}}</span></td>
+	<td width="20%"><span>{{{op}}}</span></td>
+</tr>
+</script>
+<script type="text/template" id="domain-register-list-template">
+<tr>
+	<td class="text-center" colspan="3">您搜索的域名已被注册，请尝试其他的域名</td>
+</tr>
+</script>
+<script type="text/template" id="shop-cart-list-template">
+	<li class="list-group-item" id="{{key}}">{{domain}}<a href="javascript:delShopCart('{{key}}')" class="badge">删除</a></li>
+</script>
+<script type="text/template" id="shop-cart-btn-template">
+	<li id="enter_buy" class="list-group-item"><button type="button" class="btn btns btn-success btn-sm btn-block" onclick="buyDomainEnter()">购买</button></li>
+</script>
+
+<!-- 搜索可注册域名模板 -->
+<script type="text/template" id="domain-serach-init-template">
+<tr id="tr{{key}}">
+	<td width="45%"><span>{{domain}}</span></td>
+	<td width="35%"><span>{{price}}</span></td>
+	<td width="20%"><span>正在查询</span></td>
+</tr>
+</script>

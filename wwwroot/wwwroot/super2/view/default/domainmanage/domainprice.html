@@ -1,0 +1,274 @@
+{[include file='common/head.html']}
+<body text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+	<div class="wid_main mar_main" align="left">
+		<div class="block_top" align="left">当前位置：域名注册管理 --> 域名价格</div>
+		<div style="margin-top:5px;"><input type="button" value="增加域名后缀" onclick="showAddDomainSuffixArt()"/></div>
+		<table class="table_main2" cellpadding="0" cellspacing="1">
+			<tr>
+				<td colspan="7" class="bg_main"><b>域名价格</b></td>
+			</tr>
+			<tr>
+				<td>操作</td>
+				<td>域名</td>
+				<td>域名类型</td>
+				<td>优惠价格(元)</td>
+				<td>首年注册价格(元)</td>
+				<td>续费(元)</td>
+				<td>转入(元)</td>
+			</tr>
+			{[foreach from=$list item=row]}
+			<tr id="{[md5({[$row['suffix']]})]}">
+				<td>
+					<a href="javascript:delSuffix('{[$row['suffix']]}','{[$row['suffix_type']]}')">[删除]</a>
+					<a href="javascript:editSuffix('{[$row['suffix']]}','{[$row['suffix_type']]}')">[修改]</a>
+				</td>
+				<td>{[$row.suffix]}{[if $row['suffix_type'] == "1"]}{[else if $row['suffix_type'] == '2']}{[/if]}</td>
+				<td>{[if $row['suffix_type'] == 1]}英{[else if $row['suffix_type'] == 2]}中{[else]}中英{[/if]}</td>
+				<td>{[$row.preferential_price / 100]}</td>
+				<td>{[$row.first_price / 100]}</td>
+				<td>{[$row.renewal_price / 100]}</td>
+				<td>{[$row.entrust_price / 100]}</td>
+			</tr>
+			{[/foreach]}
+			<tr>
+					<td colspan="7" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+		</table>
+	</div>
+</div>
+</body>
+{[include file='common/foot.html']}
+<script type="text/javascript">
+function showAddDomainSuffixArt(){
+	var template = $("#add-domain-suffix-template").html();
+	art.dialog({
+		id:'showadddomainsuffixart',
+		title:'增加域名后缀',
+		content:template,
+		lock:true
+	});
+	var div = $("#add-domain-suffix-div");
+	div.find("#add").bind('click',function(){
+		var suffix = div.find("[name=suffix]").val();
+		var preferential_price = div.find("[name=preferential_price]").val();
+		var first_price = div.find("[name=first_price]").val();
+		var renawal_price = div.find("[name=renawal_price]").val();
+		var entrust_price = div.find("[name=entrust_price]").val();
+		var suffix_type = div.find("[name=suffix_type]").val();
+		addDomainSuffixEnter(suffix,preferential_price,first_price,renawal_price,entrust_price,suffix_type);
+	});
+}
+function addDomainSuffixEnter(suffix,preferential_price,first_price,renawal_price,entrust_price,suffix_type){
+	$.ajax({
+		url:'?c=domainmanager&a=addDomainSuffix',
+		type:'POST',
+		data:{
+			suffix:suffix,
+			preferential_price:preferential_price,
+			first_price:first_price,
+			renawal_price:renawal_price,
+			entrust_price:entrust_price,
+			suffix_type:suffix_type
+		},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			window.location.href = "?c=domainmanager&a=domainSuffixPage";
+		},
+		error:function(a){
+			alert("error");
+		}
+	});
+}
+function delSuffix(suffix,suffix_type){
+	var template = $("#del-suffix-template").html();
+	var dia = art.dialog({
+		id:'delsuffix',
+		title:'删除域名后缀',
+		content:template,
+		lock:true
+	});
+	$("#del-suffix-div").find("#esc").bind("click",function(){
+		dia.close();
+	});
+	$("#del-suffix-div").find("#enter").bind("click",function(){
+		$.ajax({
+			url:'?c=domainmanager&a=delSuffix',
+			type:'POST',
+			data:{suffix:suffix,suffix_type:suffix_type},
+			dataType:'json',
+			success:function(a){
+				if(a.status.code != 1){
+					alert('删除失败');
+					return;
+				}
+				window.location.href = "?c=domainmanager&a=domainSuffixPage";
+			},
+			error:function(a){
+				
+			}
+		});
+	});
+}
+function editSuffix(suffix,suffix_type){
+	$.ajax({
+		url:'?c=domainmanager&a=getSingleSuffix',
+		type:'POST',
+		data:{suffix:suffix,suffix_type:suffix_type},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert("获取数据失败");
+				return;
+			}
+			showSuffixInformationArt(a.ret,suffix,suffix_type);
+		},
+		error:function(a){
+			
+		}
+	});
+}
+function showSuffixInformationArt(domain,suffix,suffix_type){
+	var template = $("#show-suffix-information-template").html();
+	var option = [];
+	/*
+	if(domain['suffix_type'] == 0){
+		option.suffix = domain['suffix'];
+	}else{
+		if(domain['suffix_type'] == 1){
+			option.suffix = domain['suffix']+"(英文)";
+		}
+		if(domain['suffix_type'] == 2){
+			option.suffix = domain['suffix']+"(中文)";
+		}
+	}
+	*/
+	option.suffix = domain['suffix'];
+	option.preferential_price = domain['preferential_price'] / 100;
+	option.first_price = domain['first_price'] / 100;
+	option.renewal_price = domain['renewal_price'] / 100;
+	option.entrust_price = domain['entrust_price'] / 100;
+	option.suffix_type = getSuffixTypeSelect(suffix_type);
+	var el = Mustache.to_html(template,option);
+	var dia = art.dialog({
+		id:'showsuffixinformationart',
+		title:'修改域名后缀',
+		content:el,
+		lock:true
+	});
+	var div = $("#show-suffix-information-div");
+	div.find("#esc").bind("click",function(){
+		dia.close();
+	});
+	div.find("#enter").bind("click",function(){
+		var preferential = div.find("#preferential").val();
+		var first = div.find("#first").val();
+		var renewal = div.find("#renewal").val();
+		var entrust = div.find("#entrust").val();
+		var update_suffix_type = div.find("[name=suffix_type]").val();
+		editSuffixEnter(preferential,first,renewal,entrust,suffix,suffix_type,update_suffix_type);
+	});
+}
+function getSuffixTypeSelect(suffix_type){
+	var arr = ['中英','英','中'];
+	var html = "<select name='suffix_type' style='height:30px;'>";
+	html += "<option value='"+suffix_type+"'>"+arr[suffix_type]+"</option>";
+	for(i in arr){
+		if(i == suffix_type){
+			continue;
+		}
+		html += "<option value='"+i+"'>"+arr[i]+"</option>";
+	}
+	html += "</select>";
+	return html;
+}
+function editSuffixEnter(preferential,first,renewal,entrust,suffix,suffix_type,update_suffix_type){
+	//alert(preferential+"--"+first+"--"+renewal+"--"+entrust);
+	$.ajax({
+		url:'?c=domainmanager&a=updateSuffixPrice',
+		type:'POST',
+		data:{
+			preferential:preferential,
+			first:first,
+			renewal:renewal,
+			entrust:entrust,
+			suffix:suffix,
+			suffix_type:suffix_type,
+			update_suffix_type:update_suffix_type
+		},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert("修改失败");
+				return;
+			}
+			window.location.href = "?c=domainmanager&a=domainSuffixPage";
+		},
+		error:function(a){
+			
+		}
+	});
+}
+</script>
+<script type="text/template" id="add-domain-suffix-template">
+<div id="add-domain-suffix-div">
+	<div><lable style="display:inline-block;width:90px;">域名后缀名称:</lable><input type="text" name="suffix" placeholder=".com"/></div>
+	<div><lable style="display:inline-block;width:90px;">优惠价格:</lable><input type="text" name="preferential_price" value="0"/><lable>元</lable></div>
+	<div><lable style="display:inline-block;width:90px;">首年注册价格:</lable><input type="text" name="first_price"/><lable>元</lable></div>
+	<div><lable style="display:inline-block;width:90px;">续费价格:</lable><input type="text" name="renawal_price"/><lable>元</lable></div>
+	<div><lable style="display:inline-block;width:90px;">转入价格:</lable><input type="text" name="entrust_price"/><lable>元</lable></div>
+	<div><lable style="display:inline-block;width:90px;">域名类型:</lable>
+		<select name="suffix_type" style="height:30px;">
+			<option value="0">中英文</option>
+			<option value="1">英文</option>
+			<option value="2">中文</option>
+		</select>
+	</div>
+	<div>&nbsp;</div>
+	<div style="padding-left:65%;"><button type="button" class="btn btn-success" id="add">增加</button></div>
+</div>
+</div>
+</script>
+<script type="text/template" id="del-suffix-template">
+<div id="del-suffix-div">
+	<div>你确定要删除此域名后缀吗?</div>
+	<div>&nbsp;</div>
+	<div><input type="button" value="确定" id="enter"/><input type="button" value="取消" id="esc"/></div>
+</div>
+</script>
+<script type="text/template" id="show-suffix-information-template">
+<div id="show-suffix-information-div">
+	<div>后&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;缀:&nbsp;
+		<input type="text" value="{{suffix}}"/>
+	</div>
+	<div>优&nbsp;&nbsp;惠&nbsp;&nbsp;价:&nbsp;&nbsp;
+		<input type="text" id="preferential" value="{{preferential_price}}"/>元
+	</div>
+	<div>首次注册价:
+		<input type="text" id="first" value="{{first_price}}"/>元
+	</div>
+	<div>续&nbsp;&nbsp;费&nbsp;&nbsp;价:&nbsp;&nbsp;
+		<input type="text" id="renewal" value="{{renewal_price}}"/>元
+	</div>
+	<div>转&nbsp;&nbsp;入&nbsp;&nbsp;价:&nbsp;&nbsp;
+		<input type="text" id="entrust" value="{{entrust_price}}"/>元
+	</div>
+	<div>
+		域名类型:
+		{{{suffix_type}}}
+	</div>
+	<div>&nbsp;</div>
+	<div><input type="button" id="enter" value="修改"/><input type="button" id="esc" value="取消"/></div>
+</div>
+</script>

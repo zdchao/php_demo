@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+{[include file='public/head.html']}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>绑定页面</title>
+<meta name="description" content="">
+<meta name="Keywords" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="baidu-tc-cerfication" content="e907a7e3cf8e28494d30c67915af6dae" />
+<style type="text/css">
+* { margin:0px; padding:0px; }
+body { width:100%;height:100%; text-align:center; font:1rem/1 "\5FAE\8F6F\96C5\9ED1", "\5b8b\4f53", Tahoma, Helvetica, Arial, sans-serif; background-color:#f0efe9;overflow:hidden;font-family:"微软雅黑";}
+#top{ width:100%; height:90px; background: url() repeat-x; overflow:hidden;}
+.pic{ width:80px; height:80px; margin:auto;border:4px solid #FFF; border-radius:50%; z-index:200;
+ background:url(); overflow:hidden; }
+.pic img{width:80px; height:80px;}
+.wxname{width:100%; height:30px; line-height:30px; color:#0280f9; font-size:16px; font-weight:700;text-align:center; background:#f4f4f4; border-bottom:2px solid #eae7e7;}
+.main{width:100%;height:68%; min-height:430px;border-top:1px solid #c5c5c3; padding-top:40px;}
+.xmain{width:98%;height:auto;margin-top:50px;}
+.uersinf { width:95%; margin:auto;margin-top:10px; overflow:hidden;display:block; }
+.uersinf li{height:32px; line-height:32px;list-style: none;margin: 0px;padding: 0px;float:left; font-size:16px;}
+.lileft{ width:43%;text-align:center;height:32px; line-height:32px; text-indent:10px;}
+.liright{ width:53%;text-align:left;color:#1e53b2; height:32px;line-height:32px;}
+.uersid{ width:78%;}
+input{height:27px;line-height:20px;font-size:15px;border:1px solid #b6b6b6; border-color:#9a9a9a #cdcdcd #9a9a9a #cdcdcd; 
+color:#1e53b2;font-family:"微软雅黑";}
+input:hover{border:2px solid #7cd3d0; color:#1e53b2;}
+.sbmit{ width:80%; height:38px; line-height:38px; text-align:center; margin:auto; font-size:16px; color:#ffffff; background:#277ce6;border-radius:5px; margin-top:55px; margin-bottom:18px;letter-spacing:4px; cursor:pointer;}
+.sbmit:hover{ background:#0277e8;}
+</style>
+
+</head>
+<body>
+<div id='top'>
+<script type= "text/javascript" >
+function submitNew(){
+	var openid="{[$userinfo.openid]}";
+	var  email=  $("#mb").val();	
+	var  password =  $("#mm").val();	
+	if(email.length==0||password.length==0){
+		alert("帐号或者密码不能为空！");
+		return;
+	}
+	 $.ajax({
+		data:{email:email,openid:openid,password:password},
+		url:"?c=binding&a=getdata",
+		dataType:"json",
+		success:function(a){
+			if(a.status.code!=1){
+				alert(a.status.message);
+				return;
+			}
+		  alert("绑定成功");
+		  $.ajax({
+			data:{email:email,openid:openid},
+			url:"?c=binding&a=sendTemplate",
+			dataType:"json"
+		 });
+			location.href ="?c=binding&a=success";
+		}
+	});
+
+}
+  
+</script>
+<div class="pic"><img src="{[$userinfo.headimgurl]}"/></div>
+</div>
+<div class="wxname">头像</div>
+<div class="main">
+<div class="xmain">
+ <ul class="uersinf">
+   		<li class="lileft">昵称：</li>
+		<li class="liright">{[$userinfo.nickname]}
+			</li>
+</ul>
+ <ul class="uersinf">
+   		<li class="lileft">DNS帐号</li>
+		<li class="liright"><input id="mb" name="email" type="text" class="uersid"/>
+	    </li>
+</ul>
+<ul class="uersinf">
+   		<li class="lileft">密码</li>
+		<li class="liright"><input id="mm" name="password"  type="password" class="uersid"/>
+	    </li>
+</ul>
+</div>
+<div class="sbmit" onClick="submitNew()">授权绑定DNS帐号</div>
+</div>
+</body>
+</html>

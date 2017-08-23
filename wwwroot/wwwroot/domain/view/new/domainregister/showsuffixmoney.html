@@ -1,0 +1,31 @@
+{[include file='public/head.html']}
+<div class="wrap">
+	<div class="contain">
+		<div class="domain_box">
+		<table class="domain_table" style="width:100%;">
+			<caption>域名新购、续费、转入价格列表</caption>
+			<thead>
+				<tr>
+					<th>域名</th>
+					<th>优惠活动价格(元/年)</th>
+					<th>首年注册(元/年)</th>
+					<th>续费(元/年)</th>
+					<th>转入(元/年)</th>
+				</tr>
+			</thead>
+			<tbody>
+			{[foreach from=$list item=row]}
+				<tr>
+					<td>{[$row.suffix]}{[if $row['suffix_type'] == 1]}(英文){[else if $row['suffix_type'] == 2]}(中文){[/if]}</td>
+					<td>{[if $row.preferential_price == 0]}/{[else]}{[$row.preferential_price / 100]}{[/if]}</td>
+					<td>{[$row.first_price / 100]}</td>
+					<td>{[$row.renewal_price / 100]}</td>
+					<td>{[$row.entrust_price / 100]}</td>
+				</tr>
+				{[/foreach]}
+			</tbody>
+		</table>
+		</div>
+	</div>
+</div>
+{[include file="public/foot.html"]}

@@ -1,0 +1,147 @@
+{[dispatch c='public'  a='head']}
+<script type="text/template" id="buy-template">
+月数：<i class="icon-minus" id="minus"></i><input type="text" name="months"class="input-mini" value="1"/><i class="icon-plus" id="add"></i>
+<button id="enter" class="btn btns btn-success" data-loading-text="正在执行...">提交</button>
+<button id="esc"  class="btn">取消</button>
+</script>
+<script type="text/template" id="buy-success-template">
+<div style="background:F5F5F5">
+	<image src="/style/img/buy_success.png" style="margin:5% 40%;">
+    <div class="buy_message">您的产品已经购买成功！</div>
+     <div class="buy_message"> 您可以在<a href="?c=containerproduct&a=usercontainer">我的容器-->未使用</a>查看您购买的产品</div>
+    <div class="buy_button" style="margin-left:20%">该页面会在<span id="time">10</span>秒之后自动跳转</div>
+</div>
+</script>
+
+<script type="text/javascript">
+function buy(id){
+	var div = $("#tr"+id);
+	var html = $("#buy-template").html();
+	div.find("#buy").html(html);
+	div.find("#enter").bind("click",function(){
+		submit(id);
+	});
+	div.find("#esc").bind("click",function(){
+		div.find("#buy").html('<button class="btn btn-success btns" onclick="buy('+id+')">立即购买</button>');
+		 div.find("#price").html("<em>"+div.attr('data-price')+"元(月)</em>");
+	})
+	div.find("#add").bind('click',function(){
+		addChange(div);
+	})
+	div.find("#minus").bind('click',function(){
+		minusChange(div);
+	})
+}
+function submit(id){
+	var div = $("#tr"+id);
+	var months =  parseInt(div.find("input[name=months]").val());
+	if(months <=0){
+		alert("月数不能少于1")
+	}
+	$.ajax({
+		url:'?c=containerproduct&a=buy',
+		type:'POST',
+		data:{pid:id,months:months},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.status.message);
+				return;
+			}
+			buy_success();
+			
+		},
+		error:function(a){
+			alert("error");
+		}
+	});
+}
+function buy_success(){
+	var div = $("#piao-modal");
+	var html = $("#buy-success-template").html();
+	div.find(".modal-body").html(html);
+	div.modal('show');
+    i = 10;
+	setInterval('out()',1000);
+}
+function out(){
+    if (i>0){
+      i--;
+    }else{
+    	window.location.href = "?c=containerproduct&a=usercontainer";
+    }
+    $("#piao-modal").find("#time").text(i);
+  }
+function addChange(div){
+	var months =  parseInt(div.find("input[name=months]").val());
+	 div.find("input[name=months]").attr('value',months+1);
+	 var price = div.attr("data-price");
+	 div.find("#price").html("<em>"+price*(months+1)+"元(月)</em>");
+}
+function minusChange(div){
+	var months =  parseInt(div.find("input[name=months]").val());
+    months = months<=1?1:months-1;
+	 div.find("input[name=months]").attr('value',months);
+	 var price = div.attr("data-price");
+	 div.find("#price").html("<em>"+price*months+"元(月)</em>");
+}
+pid = '{[$pid]}';
+function showBuy(){
+	if(pid == 0){
+		return 
+	}
+	buy(pid);
+}
+$(function(){
+	showBuy()
+})
+
+</script>
+<link href="/style/user/css/container.css" rel="stylesheet">
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<div class="row-fluid" style="height:30px;">
+		<span id="domain_error" class="offset3"></span>
+</div>
+<div class="wrap" id="left">
+    <div class="cl mtb20">
+		<div class="menus_aside">
+            <div id="left_group_list">
+            	<div class="cur">
+					<a href="?c=public&a=container"><span class="container_left">产品列表</span></a>
+				</div>
+				<div >
+					<a  href="?c=containerproduct&a=usercontainer"><span  class="container_left left_color">我的容器<sup>({[$count]})</sup></span></a>
+				</div>
+				<div>
+					<a  href="?c=customimage&a=pagelist"><span  class="container_left left_color">镜像管理</span></a>
+				</div>
+            </div>
+        </div>
+ 		<div class="cont_main">
+ 			<div class="domain_box">
+ 			{[foreach from=$rows item=row]}
+ 				 <div id="tr{[$row.id]}" data-price="{[$row.price/100]}"  style="width:40%;float:left;margin:15px 10px;">
+	 				<table class="domain_table" style="width:100%">
+						 <caption class="alert-danger"><h4>{[$row.name]}<h4></caption>
+						 	<tr><td>价格</td><td id="price"><em>{[$row.price/100]}元(月)</em></td></tr>
+						 	<tr><td>核心数</td><td>{[$row.core]}</td></tr>	  
+						 	<tr><td>内存</td><td>{[$row.memory]}M</td></tr>    
+							<tr><td>硬盘</td><td>{[$row.disk_space]}G</td></tr>
+							<tr><td colspan="2"> <div id="buy"><button class="btn btn-success btns"  onclick="buy({[$row.id]})">立即购买</button></div></td></tr>	      
+					</table>
+				</div>
+			{[/foreach]}
+ 			</div>
+ 		</div>
+  </div>
+</div>
+ <div class="modal hide fade" id="piao-modal">
+    	<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    		<div style="font-size:16px;color:F5F5F5">购买成功</div>
+    	</div>
+    	<div class="modal-body">
+    		
+    	</div>
+    </div>
+{[include file='public/foot.html']}

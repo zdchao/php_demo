@@ -1,0 +1,38 @@
+{[include file='common/head.html']}
+<link rel="stylesheet" rev="stylesheet" href="{[$STATIC]}style/left.css"
+	type="text/css" media="all" />
+<link rel="stylesheet" rev="stylesheet"
+	href="{[$STATIC]}style/public.css" type="text/css" media="all" />
+<style type='text/css'>
+.one {
+	font-size: 20;
+	color: red;
+}
+</style>
+<script type="text/javascript">
+	function SwitchMenu(obj, sty) {
+		if (document.getElementById) {
+			var el = document.getElementById(obj);
+			var ml = document.getElementById(sty);
+			var ar = document.getElementById("masterdiv").getElementsByTagName("ul");
+			var mr = document.getElementById("masterdiv").getElementsByTagName("h1");
+			if (el.style.display == "none") {
+				el.style.display = "block";
+				ml.className = "menu";
+			} else {
+				el.style.display = "none";
+				ml.className = "menu1";
+			}
+		}
+	}
+</script>
+<body style="overflow-x:hidden; overflow-y:hidden;">
+	<div id="masterdiv">
+		<h1 id="m1" onClick="SwitchMenu('sub1','m1')" class="menu">CDN站点</h1>
+			<ul class="submenu left_linght" id="sub1">
+				<li><a href="?c=index&a=main" target='main'>站点审核</a></li>
+				<li><a href="?c=index&a=cdnlog" target="main">消费记录</a></li>
+			</ul>
+	</div>
+</body>
+{[include file='common/foot.html']}

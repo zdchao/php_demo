@@ -1,0 +1,163 @@
+@CHARSET "UTF-8";
+body{
+	padding:10px;
+}
+/* 大屏幕 */
+@media (min-width: 1200px) {
+	.r-nav{
+		border:1px solid #00CC00;
+		width:1200px;
+		height:50px;
+		margin:0 auto;
+		border-radius:5px;
+		background:#00CC00;
+	}
+	.r-nav ul{
+		margin:0 auto;
+		display:block;
+		height:50px;
+		width:45%;
+	}
+	.r-nav ul li{
+		list-style:none;
+		float:left;
+	}
+	.r-nav ul a{
+		text-decoration:none;
+		color:#fff;
+		display:block;
+		width;auto;
+		height:50px;
+		line-height:50px;
+		padding:0 10px;
+	}
+	.r-nav ul a:hover{
+		background:#269926;
+		color:#BF3030;
+	}
+	.icon-nav-menu{
+		display:none;
+	}
+	.r-max{
+		width:1200px;
+		margin:0 auto;
+	}
+}
+
+/* 平板电脑和小屏电脑之间的分辨率 */
+@media (min-width: 768px) and (max-width: 1199px) {
+	.r-nav{
+		border:1px solid #009933;
+		width:100%;
+		height:50px;
+		margin:0 auto;
+		border-radius:5px;
+		background:#009933;
+	}
+	.r-nav ul{
+		margin:0 auto;
+		display:block;
+		height:50px;
+		width:500px;
+	}
+	.r-nav ul li{
+		list-style:none;
+		float:left;
+	}
+	.r-nav ul a{
+		text-decoration:none;
+		color:#fff;
+		display:block;
+		width;auto;
+		height:50px;
+		line-height:50px;
+		padding:0 10px;
+	}
+	.icon-nav-menu{
+		display:none;
+	}
+}
+/* 横向放置的手机和竖向放置的平板之间的分辨率 */
+@media (min-width:481px) and (max-width: 767px) {
+	.r-nav{
+		border:1px solid #009933;
+		width:100%;
+		height:50px;
+		margin:0 auto;
+		border-radius:5px;
+		background:#009933;
+	}
+	.r-nav ul{
+		margin:0 auto;
+		display:block;
+		height:50px;
+		width:460px;
+	}
+	.r-nav ul li{
+		list-style:none;
+		float:left;
+	}
+	.r-nav ul a{
+		text-decoration:none;
+		color:#fff;
+		display:block;
+		width;auto;
+		height:50px;
+		line-height:50px;
+		padding:0 8px;
+	}
+	.icon-nav-menu{
+		display:none;
+	}
+}
+/* 横向放置的手机及分辨率更小的设备 */
+@media (max-width: 480px) {
+	.r-nav{
+		border:1px solid #009933;
+		width:100%;
+		height:40px;
+		margin:0 auto;
+		border-radius:5px;
+		background:#009933;
+		position:relative;
+	}
+	.r-nav ul{
+		margin:0;
+		border:1px solid #37b059;
+		z-index:30;
+		position:absolute;
+		width:200px;
+		right:2px;
+		top:45px;
+		background:#37b059;
+		border-radius:5px;
+		display:none;
+	}
+	.r-nav ul li{
+		list-style:none;
+		padding:5px 0 5px 10px;
+	}
+	.r-nav a{
+		text-decoration:none;
+		color:#fff;
+		width:100%;
+		display:block;
+	}
+	.r-nav-menu{
+		display:block;
+		position:absolute;
+		right:10px;
+		width:32px;
+		height:32px;
+		top:4px;
+		background:url("/style/img/nav-menu.png") no-repeat;
+	}
+}
+
+
+.r-nav .icon-home{
+	width:24px;
+	height:24px;
+	vertical-align:middle;
+	background:url("/style/img/home.png") no-repeat;
+}

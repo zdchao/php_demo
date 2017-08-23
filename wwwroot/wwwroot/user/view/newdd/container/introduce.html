@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>容器操作引导</title>
+<link href="/style/common/bootstrap2/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<script type='text/javascript' src="/style/common/jq.js"></script>
+<script type="text/javascript" src="/style/common/bootstrap2/bootstrap.js"></script>
+<style type="text/css">
+    ul.nav-tabs{
+        width: 140px;
+        margin-top: 20px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    }
+    ul.nav-tabs li{
+        margin: 0;
+        border-top: 1px solid #ddd;
+    }
+    ul.nav-tabs li:first-child{
+        border-top: none;
+    }
+    ul.nav-tabs li a{
+        margin: 0;
+        padding: 8px 16px;
+        border-radius: 0;
+    }
+    ul.nav-tabs li.active a, ul.nav-tabs li.active a:hover{
+        color: #fff;
+        background:  #09a5cc;
+        border: 1px solid  #09a5cc;
+    }
+    ul.nav-tabs li:first-child a{
+        border-radius: 4px 4px 0 0;
+    }
+    ul.nav-tabs li:last-child a{
+        border-radius: 0 0 4px 4px;
+    }
+    ul.nav-tabs.affix{
+        top: 30px; /* Set the top position of pinned element */
+    }
+    img{
+    	border:3px solid #000;
+    	width:100%;
+    	height:100%;
+    	padding:10px;
+    	margin:2% 0%;
+    }
+    p{
+    	color:#4F4D4D;
+    }
+</style>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="container">
+	<div class="hero-unit">
+		<h1>容器操作引导</h1>
+		<p>当您购买了一个容器，可以根据此手册架设您的站点</p>
+	</div>
+	<div class="row">
+		<div class="span3" id="myScrollspy">
+			<ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="125">
+				<li class="active"><a href="#section-1">第一步</a></li>
+				<li><a href="#section-2">第二步</a></li>
+				<li><a href="#section-3">第三步</a></li>
+				<li><a href="#section-4">第四步</a></li>
+				<li><a href="#section-5">第五步</a></li>
+			</ul>
+		</div>
+		<div class="span9">
+			<h2 id="section-1">第一步 创建容器</h2>
+			<ul>
+			<li><p>在"<a href="?c=containerproduct&a=usercontainer" target="_blank">我的容器</a>"---"<a href="?c=containerproduct&a=usercontainer" target="_blank">未使用</a>"页面，然后点击“创建容器”；</p>
+			    <img src="/style/img/createContainer.png">
+			</li>
+			<li><p>按照页面提示填写容器信息,点击“提交”</p>
+				<img src="/style/img/createContainer2.png">
+			</li>
+			<li>
+				<p>点击提交后，可在"<a href="?c=containerproduct&a=usercontainer" target="_blank">我的容器</a>"--"<a href="?c=containerproduct&a=usercontainer" target="_blank">使用中</a>"页面中查看，页面中新增加了一条容器名称为“doken”的容器；当容器的状态为"正在创建中"，请等待并刷新页面。</p>
+				<img src="/style/img/createContainer3.png">
+			</li>
+			<li><p>容器创建完毕,点击上面页面中“doken”，可以进入该容器的设置页面、域名列表、数据库等页面！</p></li>
+			</ul>
+			<hr>
+			<h2 id="section-2">第二步 绑定域名</h2>
+			<ul>
+				<li>
+					<p>进入域名列表页面:在"<a href="?c=containerproduct&a=usercontainer" target="_blank">我的容器</a>"--"<a href="?c=containerproduct&a=usercontainer" target="_blank">使用中</a>"，点击第一步添加的记录“doken”；</p>
+				    <img src="/style/img/createContainer3.png">
+				</li>
+				<li>
+					<p>在"域名列表"页面，点击左上方“添加域名”按钮,点击提交，添加一条域名；</p>
+					<img src="/style/img/addDomain2.png">
+				</li>
+				<li>	
+					<p>提交，出现一个确认对话框，根据您的实际情况选择，建议点击“是”；</p>
+						<img src="/style/img/addDomain3.png">
+				</li>
+				<li>
+					<p>如果点击“是”，则会出现下面的提示，出现对勾表示系统已经正确完成，出现错误叉，表示需要用户手动完成！</p>
+					<img src="/style/img/addDomain4.png">
+				</li>
+				<li><p>添加域名完毕！</p></li>
+			</ul>
+			<hr>
+			<h2 id="section-3">第三步 添加 FTP</h2>
+				<ul>
+					<li>
+						<p>进入FTP页面</p>
+						<img src="/style/img/addFtp1.png">
+					</li>
+					<li>
+						<p>在"FTP列表"页面，点击左上方“添加FTP”按钮；出现一个模态框，输入FTP账号，密码，还有您的应用目录，点击提交；</p>
+						<img src="/style/img/addFtp2.png">
+					</li>
+					<li>
+						<p>添加FTP完毕！</p>
+						<img src="/style/img/addFtp3.png">
+					</li>
+				</ul>
+			<hr>
+			<h2 id="section-4">第四步 上传程序</h2>
+				<ul>
+					<li><p>FTP主机："FTP列表"页面显示的FTP主机；</p></li>
+					<li><p>FTP账号：第四步添加的FTP账号；</p></li>
+					<li><p>FTP密码：第四步添加的FTP账号对应的密码。</p></li>
+				</ul>
+			<hr>
+			<h2 id="section-5">第五步 打开站点</h2>
+			<ul>
+				<li><p>在浏览器中输入第三步添加的域名。</p></li>
+			</ul>
+		</div>
+	</div>
+</div>
+</body>
+</html>

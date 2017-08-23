@@ -1,0 +1,212 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type='text/javascript'>
+var default_rrl = '{[$default_rrl]}';
+$(document).ready(function() {
+
+});
+var dia;
+var thisname;
+function getNsList()
+{
+	if (nslist.length ==0) {
+		$.ajax({
+			url:'?c=ns&a=getList',
+			async:false,
+			dataType:'json',
+			success:function(a) {
+				if (a.status.code != 1) {
+					alert(a.status.message);
+					return;
+				}
+				if (a.list != null) {
+					nslist = a.list;
+				}
+			},
+			error:function(e) {
+			}
+		});
+	}
+}
+function getNsName(id)
+{
+	for (var i in nslist) {
+		if (i == id) {
+			return nslist[i];
+		}
+	}
+	return '';
+}
+function idToName()
+{
+	$(".nstd").each(function(){
+		var name = getNsName($(this).attr('data-id'));
+		if (name) {
+			$(this).text(name);
+		}
+	});
+}
+function createNsSelectHtml(nsid,nsname)
+{
+	var html = '<select name="'+nsname+ '" style="width:160px">';
+	html += '<option value=0>无</option>';
+	for ( var i in nslist) {
+		html += '<option value='+i;
+		if (i == nsid) {
+			html += ' selected';
+		}
+		html += '>'+nslist[i]+'</option>'; 
+	}
+	html += '</select>';
+	return html;
+}
+
+function piao_edit_ns(domain)
+{
+	var template = $("#piao-edit-ns-template").html();
+	var option = [];
+	var tr = $("#"+MD5_hexhash(domain));
+	getNsList();
+	option.ns1html = createNsSelectHtml(tr.find('#ns1').attr('data-id'), 'ns1id');
+	option.ns2html = createNsSelectHtml(tr.find('#ns2').attr('data-id'), 'ns2id');
+	option.ns3html = createNsSelectHtml(tr.find('#ns3').attr('data-id'), 'ns3id');
+	option.ns4html = createNsSelectHtml(tr.find('#ns4').attr('data-id'), 'ns4id');
+	var el = Mustache.to_html(template,option);
+	dia = art.dialog({id:'piao_edit_ns',content:el,lock:true,top:'10%'});
+	var div = $("#piao-edit-ns-div");
+	div.find("#enter").bind('click',function(){
+		edit_ns(domain);
+	});
+}
+function edit_ns(domain)
+{
+	var tr = $("#"+MD5_hexhash(domain));
+	var div = $("#piao-edit-ns-div");
+	var ns1 = div.find("[name=ns1id]").val();
+	var ns2 = div.find('[name=ns2id]').val();
+	var ns3 = div.find('[name=ns3id]').val();
+	var ns4 = div.find('[name=ns4id]').val();
+	dia.content('<img src="/style/busy.gif">正在执行中...');
+	$.ajax({
+		url:'?c=domains&a=changeNs',
+		data:{domain:domain,ns1:ns1,ns2:ns2,ns3:ns3,ns4:ns4},
+		dataType:'json',
+		success:function(a) {
+			if (a.status.code != 1) {
+				dia.content('修改失败'+a.status.message);
+				return;
+			}
+			tr.find('#ns1').find('a').text(getNsName(ns1));
+			tr.find('#ns2').text(getNsName(ns2));
+			tr.find('#ns3').text(getNsName(ns3));
+			tr.find('#ns4').text(getNsName(ns4));
+			dia.close();
+		},
+		error:function(e) {
+			alert(e.responseText);
+			dia.close();
+		}
+	});
+}
+</script>
+<script type='text/template' id="piao-edit-ns-template">
+<div id="piao-edit-ns-div">
+	<div class="piao_div">
+		<span class="piao_left">NS1:</span>
+		<span class="piao_right">{{{ns1html}}}</span>
+	</div>
+	<div class="piao_div">
+		<span class="piao_left">NS2:</span>
+		<span class="piao_right">{{{ns2html}}}</span>
+	</div>
+	<div class="piao_div">
+		<span class="piao_left">NS3:</span>
+		<span class="piao_right">{{{ns3html}}}</span>
+	</div>
+	<div class="piao_div">
+		<span class="piao_left">NS4:</span>
+		<span class="piao_right">{{{ns4html}}}</span>
+	</div>
+	<div class="piao_div">
+		<span class="pull-right"><button class="btn" id="enter">修改</button></span>
+	</div>
+</div>
+</script>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：域名解析 --> 域名列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 域名搜索: <input name='domain' size=32>
+						<input type='submit' value='搜索'>
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+					<span id="show_msg" class="blink"></span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="12" class="bg_main"><b>域名列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>域名</td>
+					<td>会员ID</td>
+					<td>会员账号</td>
+					<td>NS1</td>
+					<td>NS2</td>
+					<td>NS3</td>
+					<td>NS4</td>
+					<td>rrl</td>
+					<td>创建时间</td>
+					<td>线路组</td>
+					<td>状态</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				{[if ($row.flags & 64)>0 || ($row.flags & 4096) > 0]}
+				<tr style=" background-color:gray" id="{[md5($row.name)]}">
+				{[else]}
+				<tr id="{[md5($row.name)]}">
+				{[/if]}
+					<td title="{[$row.soa]}"><a href="?c=domains&a=loginDomain&domain={[$row.name]}" target=_blank>{[$row.name]}</a></td>
+					<td >{[$row.uid]}</td>
+					<td><a href="?c=users&a=impLogin&user={[$row.email]}" target=_blank title='点击登录'>{[$row.email]}</a></td>
+					<td id="ns1" data-id='{[$row.ns1]}'><a href="javascript:;" onclick="piao_edit_ns('{[$row.name]}')">{[$row.ns1]}</a></td>
+					<td id="ns2" data-id='{[$row.ns2]}'>{[$row.ns2]}</td>
+					<td id="ns3" data-id='{[$row.ns3]}'>{[$row.ns3]}</td>
+					<td id="ns4" data-id='{[$row.ns4]}'>{[$row.ns4]}</td>
+					<td >{[if $row.rrl]}{[$row.rrl]}{[else]}无{[/if]}</td>
+					<td>{[$row.created_on]}</td>
+					<td >{[$row.group_view]}</td>
+					<td title="co:1 ci:2 ru:4 ns已修改:8 st:16 diyview:32 notdel:64">
+						{[if ($row.flags & 1)==1]}co{[/if]}
+						{[if ($row.flags & 2)==2]}ci{[/if]}
+						{[if ($row.flags & 4)==4]}ru{[/if]}
+						{[if ($row.flags & 8)==8]}ns{[/if]}
+						{[if ($row.flags & 16)==16]}st{[/if]}
+						{[if ($row.flags & 32)==32]}dv{[/if]}
+						{[if ($row.flags & 64)==64]}nd{[/if]}
+						{[if ($row.flags & 128)==128]}tc{[/if]}
+					</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="12" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

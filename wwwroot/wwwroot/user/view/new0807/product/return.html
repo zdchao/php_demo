@@ -1,0 +1,25 @@
+{[dispatch c='public'  a='head']}
+<div class="wrap">
+<div class="contain" style="padding:10px 15px">
+	<div>
+		<fieldset>
+			<legend>套餐购买</legend>
+		</fieldset>
+	</div>
+	<div class="row">
+
+		<div class="span6">
+			{[if $successmsg]}
+			<div class="alert alert-success">
+			{[$successmsg]}
+			</div>
+			{[else]}
+				<div><b class='alert alert-error'>{[$errormsg]}</b></div>
+			{[/if]}
+			<div style="padding-top:20px;"><a href="?c=public&a=index" class="btn btns btn-success">返回</a></div>
+		</div>
+		<div class="span6">{[include file='product/right.html']}</div>
+	</div>
+</div>
+</div>
+{[include file='public/foot.html']}

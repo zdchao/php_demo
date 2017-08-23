@@ -1,0 +1,73 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type="text/javascript">
+function siteRemove(name){
+	//alert(id);
+	$.ajax({
+		url:'?c=cdnsite&a=siteRemove',
+		data:{name:name},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			//$("#tr"+id).remove();
+			window.location.href = "?c=cdnsite&a=siteList";
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+</script>
+<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：cdn站点列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索: <input name='search' value='{[$search]}' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="7" class="bg_main"><b>站点列表</b></td>
+				</tr>
+				<tr>
+					<td>操作</td>
+					<td>UID</td>
+					<td>站点名称</td>
+					<td>审核状态</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}">
+					<td>{[if $row.cdn_status > 2 || $row.cdn_status ==0]}<a href="javascript:siteRemove('{[$row.name]}')">[解除]</a>{[/if]}</td>
+					<td>{[$row.uid]}</td>
+					<td><a href="?c=domains&a=loginDomain&domain={[$row.name]}" target=_blank">{[$row.name]}</a></td>
+					{[if $row.cdn_status == 0]}<td>{[$row.remark]}</td>{[else if $row.cdn_status == 1]}<td>通过</td>{[else if $row.cdn_status > 2]}<td>{[$row.remark]}</td>{[/if]}
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="16" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

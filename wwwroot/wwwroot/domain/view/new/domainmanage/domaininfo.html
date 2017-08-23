@@ -1,0 +1,208 @@
+{[include file="public/head.html"]}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-2">
+			<ul class="nav nav-pills nav-stacked" role="tablist" id="left_ul">
+				<li><a href="?c=managedomain&a=domainManagement">我的域名</a></li>
+			</ul>
+		</div>
+		<div class="col-lg-10 col-xs-10">
+			<div style="padding:0 0 0 15px;">修改域名</div>
+			<div id="domain_list" style="padding:0 0 0 15px;">
+			</div>
+			<form class="form-horizontal">
+				<!--  
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">域名所有者:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="user_master"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">英文名:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="user_master_en"/>
+					</div>
+				</div>
+				-->
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">联系人:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="contact"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">英文名:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="contact_en"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">邮箱:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="email"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-4">地区:</label>
+					<div class="col-lg-1 clear_padding">
+						<input type="text" class="form-control" name="countries_region" value="中国"/>
+					</div>
+					<div class="col-lg-1 clear_padding">
+						<input type="text" class="form-control" name="province" placeholder="省份拼音"/>
+					</div>
+					<div class="col-lg-1 clear_padding">
+						<input type="text" class="form-control" name="city" placeholder="城市名"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">城市英文:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="city_en"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">通信地址:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="address"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">英文地址:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="address_en"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">邮编:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="zip_code"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1 col-xs-5">手机:</label>
+					<div class="col-lg-2 col-xs-7 clear_padding">
+						<input type="text" class="form-control" name="mobile_phone"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-1">传真:</label>
+					<div class="col-lg-1 clear_padding">
+						<input type="text" class="form-control" name="fax0" value="086"/>
+					</div>
+					<label class="control-label col-lg-1 clear_padding" style="width:10px;">-</label>
+					<div class="col-lg-1 clear_padding">
+						<input type="text" class="form-control" name="fax1"/>
+					</div>
+					<label class="control-label col-lg-1 clear_padding" style="width:10px;">-</label>
+					<div class="col-lg-1 clear_padding">
+						<input type="text" class="form-control" name="fax2"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-3 col-lg-offset-3 col-xs-3 col-xs-offset-3">
+						<button type="button" class="btn btn-success" id="modify_enter">确定修改</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{[include file="public/foot.html"]}
+<script type="text/javascript">
+function MainModifyDomaininfo(){
+	this.domains = [];
+	this.mainInit = function(){
+		var that = this;
+		that.getDomainsSession();
+		that.bindEvent();
+	}
+	this.bindEvent = function(){
+		var that = this;
+		$("#modify_enter").bind('click',function(){
+			that.modifyDomain();
+		});
+	}
+	this.getDomainsSession = function(){
+		var that = this;
+		$.ajax({
+			url:'?c=managedomain&a=getDomainSession',
+			dataType:'json',
+			success:function(a){
+				that.domains = a.ret;
+				if(that.domains.length > 0){
+					for(var i in that.domains){
+						var html = "<div id='"+i+"'>"+that.domains[i]+"</div>";
+						$("#domain_list").append(html);
+					}
+				}
+			},
+			error:function(a){
+			}
+		});
+	}
+	this.modifyDomain = function(){
+		var that = this;
+		var contact = $("[name=contact]").val();
+		var contact_en = $("[name=contact_en]").val();
+		var email = $("[name=email]").val();
+		var countries_region = $("[name=countries_region]").val();
+		var province = $("[name=province]").val();
+		var city = $("[name=city]").val();
+		var city_en = $("[name=city_en]").val();
+		var address = $("[name=address]").val();
+		var address_en = $("[name=address_en]").val();
+		var zip_code = $("[name=zip_code]").val();
+		var mobile_phone = $("[name=mobile_phone]").val();
+		var fax0 = $("[name=fax0]").val();
+		var fax1 = $("[name=fax1]").val();
+		var fax2 = $("[name=fax2]").val();
+		for(var i in that.domains){
+			that.modifyDomainEnter(i,that.domains[i],contact,contact_en,email,countries_region,province,city,city_en,address,address_en,zip_code,mobile_phone,fax0,fax1,fax2);
+		}
+	}
+	this.modifyDomainEnter = function(key,domain,contact,contact_en,email,countries_region,province,city,city_en,address,address_en,zip_code,mobile_phone,fax0,fax1,fax2){
+		$.ajax({
+			url:'?c=managedomain&a=modifyDomaininfo',
+			type:'POST',
+			data:{
+				domain:domain,
+				contact:contact,
+				contact_en:contact_en,
+				email:email,
+				countries_region:countries_region,
+				province:province,
+				city:city,
+				city_en:city_en,
+				address:address,
+				address_en:address_en,
+				zip_code:zip_code,
+				mobile_phone:mobile_phone,
+				fax0:fax0,
+				fax1:fax1,
+				fax2:fax2
+			},
+			dataType:'json',
+			success:function(a){
+				if(a.status.code != 1){
+					$("#domain_list").find("#"+key).html(domain+":修改失败");
+					return;
+				}
+				$("#domain_list").find("#"+key).html(domain+":"+a.ret);
+			},
+			error:function(a){
+			}
+		});
+	}
+}
+$(document).ready(function(){
+	$("#left_ul").find("li").eq(0).attr("class",'active');
+	var mmd = new MainModifyDomaininfo();
+	mmd.mainInit();
+});
+</script>
+<style type="text/css">
+.clear_padding{
+	padding:0;
+}
+</style>

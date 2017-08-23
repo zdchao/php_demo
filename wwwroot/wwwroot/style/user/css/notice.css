@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+.record-head{width:100%;background:#f9f9f9}
+.record-head > span{float:left;margin:0 5px;padding-top:5px;text-align: left;height:40px;line-height:40px;vertical-align: top;font-weight: bold;}
+.record{width:100%;background:#f9f9f9}
+.record >span{float:left;margin:0 5px;padding-top:5px;text-align: left;height:40px;line-height:40px;vertical-align: top;font-weight: bold;}
+.record >span>input {font-weight: bold;}
+.record:hover{background-color: #F5F5F5;}
+.record:nth-child(even){ background: #f9f9f9}
+.record-ip{width:15%;}
+.record-status{width:10%;}
+.record-message{width:25%;}
+.record-time{width:20%;}
+.record-auto{width:auto;}
+.record-time{
+	width:20%;
+}
+.record-title{
+	width:70%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}

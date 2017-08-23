@@ -1,0 +1,30 @@
+{[dispatch c='public'  a='head']}
+<div class="container">
+	<div class="row">
+		<fieldset>
+			<legend>注册确认</legend>
+		</fieldset>
+	</div>
+	<div class="row">
+		<div class="span6">
+
+			{[if $successmsg]}
+			<div class="alert alert-success">{[$successmsg]}</div>
+			{[else]} 
+				{[if $errormsg]}
+				<div class="alert alert-error">{[$errormsg]}</div>
+				{[/if]}
+			{[/if]}
+		</div>
+		<div class="span6">{[include file='public/right.html']}</div>
+	</div>
+	<fieldset>
+		<legend>
+			<!-- 一条线和foot分开 -->
+		</legend>
+	</fieldset>
+
+</div>
+					
+
+{[include file='public/foot.html']}

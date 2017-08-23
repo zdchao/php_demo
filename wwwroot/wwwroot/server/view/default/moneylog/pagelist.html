@@ -1,0 +1,61 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff'  leftmargin='0' topmargin='0'>
+<script type='text/javascript'>
+var dia;
+</script>
+	<div align="center">
+		<div align="left" class="wid_main mar_main">
+			<div class="block_top" align="left">当前位置：充值消费记录 --> 列表<span style="float:right"> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span></div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr id="bg_yellow">
+					<td style="width:60px">用户ID</td>
+					<td style="width:160px">域名</td>
+					<td style="width:60px">类型</td>
+					<td style="width:70px">金额</td>
+					<td style="width:140px">时间</td>
+					<td style="width:60px">状态</td>
+					<td style="width:auto">备注/订单号</td>
+					
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id='tr{[$row.id]}' >
+					<td>{[$row.uid]}</td>
+					<td >{[$row.domain]}</td>
+					<td>{[if $row.type=='moneyin']}充值{[else]}消费{[/if]}</td>
+					<td id="money">
+					{[if $row.type=='moneyout']}
+						{[if totime($row.create_time)> totime('2015-01-12 12:00:00')]}
+							{[$row.money/100]}
+						{[else]}
+							{[$row.money]}
+						{[/if]}
+					{[else]}
+						{[$row.money/100]}
+					{[/if]}</td>
+					<td>{[$row.create_time]}</td>
+					<td >{[if $row.status==0]}正常{[else]}<b class='red'>充值中</b>{[/if]}</td>
+					<td>{[$row.mem]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="10" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+$(document).ready(function(){
+});
+var i=0;
+/*
+ * 迁引操作
+ */
+ var contentList = [];
+ var moveLed = function(domain,t,c)
+ {
+	//alert(domain);
+	 $.ajax({
+			url:'?c=records&a=getDomainMoveLedSta',
+			data:{domain:domain},
+			dataType:'json',
+			success:function(a){
+				var description = "";
+				for(i in a.list){
+					if((a.list[i]['flags'] & 8448) > 0){
+						alert("迁引中");
+						return;
+					}else{
+						piao_add_movecited(domain,t,c);
+					}
+				}
+			},
+			error:function(e){
+				alert('后台数据出错'+e.responseText);
+			}
+		});
+}
+ function piao_add_movecited(domain,t,c)
+ {
+ 	var template = $("#domain-add-movecited-template").html();
+ 	var option = [];
+ 	option.name = domain;
+ 	var el = Mustache.to_html(template,option);
+ 	dia = art.dialog({id:'piao_add_movecited',content:el,lock:true,lock:'10%'});
+ 	var div = $("#domain-add-movecited-div");
+ 	div.find('[name=minute]').trigger('focus');
+ 	div.find('[name=remark]').trigger('focus');
+ 	div.find('#enter').bind('click',function(){
+ 		add_movecited(domain,t,c);
+ 	});
+ }
+ function add_movecited(domain,t,c)
+ {
+ 	var div = $("#domain-add-movecited-div");
+ 	var minute = div.find("[name=minute]").val();
+ 	var remark = div.find("[name=remark]").val();
+ 	if (!minute) {
+ 		alert('解除时间不能为空');
+ 		return;
+ 	}
+ 	if (!remark) {
+ 		alert('请填写迁引的原因');
+ 		return;
+ 	}
+ 	dia.close();
+ 	$.ajax({
+ 		url:'?c=domains&a=addMovecited',
+ 		data:{domain:domain,minute:minute,remark:remark},
+ 		dataType:'json',
+ 		success:function(a) {
+ 			if (a.status.code != 1) {
+ 				dia.content(a.status.message);
+ 				return;
+ 			}
+ 			//alert('迁引成功');
+ 			var tr = $("#tr"+t+c);
+ 			tr.find("#moveLed").html("<span class='red'>[迁引成功]</span>");
+ 		},
+ 		error:function(e) {
+ 			alert("迁引失败");
+ 		}
+ 	});
+ }
+</script>
+<script type='text/template' id="domain-add-movecited-template">
+<div id="domain-add-movecited-div" style="width:400px">
+	<div class="piao_div">当前域名:<big class="green"><b>{{name}}</b></big></div>
+	<div class="piao_div"><input type='text' name="minute" size="8" value=5>分钟解除,为0则管理员手动解除(不会产生迁引记录)</div>
+	<div class="piao_div">迁引备注:<input type='text' name="remark" size="30" value="攻击过大"/></div>
+	<div class="piao_div"><span class="pull-right"><button class="btn" id="enter">迁引</button></span></div>
+</div>
+</script>
+
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：解析量排名</div>
+			
+					<div>
+					往前&nbsp;
+					<a href="{[$action]}&d=qchour&t=0"><b >当前</b></a>&nbsp;
+					{[for $i=1;$i< 24;$i++]}
+						<a href="{[$action]}&d=qchour&t={[$i]}"><b >{[$i]}</b></a>&nbsp;
+					{[/for]}
+					小时
+				</div>
+				<br>
+				<div >
+				往前&nbsp;
+				<a href="{[$action]}&d=qcday&t=0"><b > 当天</b></a>&nbsp;
+				{[for $i=1;$i< 31;$i++]}
+						<a href="{[$action]}&d=qcday&t={[$i]}"><b > {[$i]}</b></a>&nbsp;
+					{[/for]}
+					天
+				</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="12" class="bg_main"><b>解析量列表</b>
+						<form name="form1" action='{[$action]}' method='post'>
+						 选择显示:<select name='page_count'
+							onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+								60;$i++]} {[if $i%5==0]}
+								<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+								{[/if]} {[/for]}
+						</select>
+						</form>
+					</td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>时间</td>
+					<td>域名</td>
+					<td>解析量</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id='tr{[$row.t]}{[$row.c]}'>
+					<td>{[$row.t]}</td>
+					<td>
+						<a href="?c=domains&a=pagelist&name={[$row.domain]}">[查看域名信息]</a>
+						<a id='moveLed' href="javascript:;" onclick="moveLed('{[$row.domain]}','{[$row.t]}','{[$row.c]}');">[迁引]</a>
+						<a href="?c=domains&a=loginDomain&domain={[$row.domain]}" target=_blank>{[$row.domain]}</a>
+						
+					</td>
+					<td>{[$row.c]}</td>
+				</tr>
+				{[foreachelse]}
+				<tr><td>&nbsp;<td colspan=2 class='red'>没有&nbsp;<b>{[$date]}</b>&nbsp;的数据</td></tr>
+				
+				{[/foreach]}
+				<tr>
+					<td colspan="12" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&d={[$d]}&t={[$t]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&d={[$d]}&t={[$t]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&d={[$d]}&t={[$t]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&d={[$d]}&t={[$t]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

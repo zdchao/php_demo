@@ -1,0 +1,278 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+	$(document).ready(function() {
+		$.ajax({
+			url : '?c=views&a=getList',
+			dataType : 'json',
+			async : false,
+			success : function(ret) {
+				$(".view_row").each(function() {
+					var id = $(this).text();
+					if (id==0) {
+						$(this).html('默认');
+					}else {
+						for ( var i in ret) {
+							if (ret[i]['id'] == id) {
+								//var html = '<a href="?c=ip&a=pagelist&view='+ id + '">' + ret[i]['name'] + '</a>';
+								var html = ret[i]['name'];
+								$(this).html(html);
+							}
+						}
+					}
+				});
+			}
+		});
+	});
+	var dia;
+	var groupview = [];
+	function get_groupview()
+	{
+		if (groupview.length > 0) {
+			return groupview;
+		}
+		$.ajax({
+			url:'?c=groupview&a=lists',
+			dataType:'json',
+			async:false,
+			success:function(ret){
+				if (ret.count > 0) {
+					groupview = ret['list'];
+				}
+			},
+			error:function(e) {
+				alert("数据出错"+e.responseText);
+			}
+		});
+	}
+	function get_groupname(id)
+	{
+		get_groupview();
+		if (groupview.length ==0 ){
+			return '';
+		}
+		for ( var i in groupview) {
+			if (groupview[i]['id']==id) {
+				return groupview[i]['name'];
+			}
+		}
+		return '';
+	}
+	function piao_add_lines() 
+	{
+		$.ajax({
+			url : '?c=views&a=get',
+			dataType : 'json',
+			success : function(ret) {
+				var html = '';
+				html += '<p>线路组:</p><p id="group_id"></p>';
+				html += '<p>中文名称:</p><p><input name="name" id="line_add_name" placeholder="如:电信"></p>';
+				html += '<p>IP段,一行一个,例:192.168.1.0/8:</p><p><textarea rows=5 id="line_add_ips" cols=65 name="ips"></textarea></p>';
+				html += '<p><input type="button" onclick="add_lines()" value="增加"></p>';
+				html += '</form>';
+				get_groupview();
+				if (groupview.length <=0) {
+					alert('线路组数据出错');
+					return;
+				}
+				dia = art.dialog({id : 'id22',content : html,title : '增加线路'});
+				html = '<select name="group_name" id="line_add_groupname">';
+				var j = 0;
+				var fid;
+				for (var i in groupview) {
+					if (groupview[i]['uid']==0 && groupview[i]['name']=='默认') {
+						fid = groupview[i]['id'];
+					}
+					html += '<option value="'+groupview[i]['id'] + '">'+groupview[i]['name'] + '</option>'; 
+				}
+				html += '</select>';
+				$("#group_id").html(html);
+				show_server(fid);
+			}
+		});
+	}
+	function add_lines()
+	{
+		var groupname = $("#line_add_groupname").val();
+		var ips = $("#line_add_ips").val();
+		var name = $("#line_add_name").val();
+		if (!name) {
+			alert('线路名称不能为空');
+			return ;
+		}
+		$.ajax({
+			url:'?c=views&a=add',
+			data:{group_name:groupname,ips:ips,name:name},
+			dataType:'json',
+			success:function(a) {
+				if(a.code != 200) {
+					alert(a.message);
+					return ;
+				}
+				window.location = '?c=views&a=pagelist';
+			},
+			error:function(e) {
+				alert('数据出错'+e.responseText);
+			}
+		});
+		
+	}
+	function ip_version_change() {
+		if (confirm("确定要对IP的版本进行升级?请确认IP已经变更.") === false) {
+			return;
+		}
+		$.ajax({
+			url : '?c=views&a=change_ip_version',
+			dataType : 'json',
+			success : function(ret) {
+				if (ret['code'] != 200) {
+					alert(ret['msg']);
+				}
+				setTimeout(function(){
+					window.location = window.location;
+				},2000);
+			}
+		});
+	}
+	function piao_edit(id)
+	{
+		$.ajax({url:'?c=views&a=getById&id='+id,dataType:'json',success:function(ret) {
+			var html = '';
+				html += '<p>上级线路:<select name="parent" id="piao_edit_parent">';
+				for (var i in ret['views']) {
+					if (ret['views'][i]['id']==id) {
+						continue;
+					}
+					html += '<option value='+ret['views'][i]['id'] ;
+					if (ret['info']['parent'] == ret['views'][i]['id']) {
+						html += ' selected ';
+					}
+					html +=  '>'+ ret['views'][i]['name']+ '</option>';
+				}
+				html += '</select></p>';
+				html += '<p>线路名称:<input name="name" id="piao_edit_name" value="'+ ret['info']['name'] + '"></p>';
+				html += '<p><input type="button" onclick="edit_view('+id+')" value="提交"></p>';
+				html += '</form>';
+				dia = art.dialog({id:'view_edit',content:html,title:'修改线路'});
+		}});
+	}
+	function edit_view(id)
+	{
+		var parent = $("#piao_edit_parent").val();
+		var name = $("#piao_edit_name").val();
+		if (!name) {
+			alert('线路名称不能为空');
+			return ;
+		}
+		var groupname = $("#edit_groupname"+id).text();
+		dia.content('正在执行中...');
+		$.ajax({
+			url:'?c=views&a=editParent',
+			data:{id:id,parent:parent,name:name,groupname:groupname},
+			dataType:'json',
+			success:function(a) {
+				dia.close();
+				if (a.code!=200) {
+					alert(a.message);
+					return ;
+				}
+				$("#edit_name"+id).html(name);
+				$("#edit_parent"+id).html(parent);
+			},
+			error:function(e) {
+				dia.close();
+				alert("数据出错"+e.responseText);
+			}
+		});
+		
+	}
+	function piao_edit_ips(id)
+	{
+		var ips = $("#edit_id"+id).attr('data-ips');
+		var html = '';
+			html += '<p>IP段:<textarea rows=25 id="piao_edit_ips" cols=65 name="ips">'+ips+'</textarea>';
+			html += '<p><input type="button" onclick="edit_ips('+id+')" value="提交"></p>';
+			dia = art.dialog({id:'view_edit',content:html,title:'更新IP段'});
+	}
+	function edit_ips(id)
+	{
+		var ips =$.trim($("#piao_edit_ips").val());
+		if (!ips) {
+			alert('ip段不能为空');
+			return ;
+		}
+		dia.content('正在执行中...');
+		$.ajax({
+			url:'?c=views&a=editIps',
+			data:{id:id,ips:ips},
+			type:'POST',
+			dataType:'json',
+			success:function(a){
+				dia.close();
+				if (a.code != 200) {
+					alert(a.message);
+					return ;
+				}
+				$("#edit_id"+id).attr('data-ips',ips);
+			},
+			error:function(e) {
+				dia.close();
+				alert('数据出错'+e.responseText);
+			}
+		});
+	}
+	function del_lines(id,group_name,server) 
+	{
+		if (!confirm('确定要删除? 这将对所有已解析的域名产生影响.')) {
+			return;
+		}
+		ajax('?c=views&a=del', 'id=' + id );
+	}
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：解析线路 --> 列表</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="7" class="bg_main"><a
+						href="javascript:piao_add_lines();" target='main'><b>[增加线路]</b></a>
+					</td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>线路ID</td>
+					<td>线路组</td>
+					<td>server</td>
+					<td>上层线路</td>
+					<td>线路名称</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr class='view_edit_tr' id='{[$row.id]}'>
+					<td>[<a href="javascript:del_lines({[$row.id]})">删除</a>] [<a
+						href="javascript:piao_edit({[$row.id]})">修改</a>] [<a
+						href="javascript:piao_edit_ips({[$row.id]})">修改IP段</a>]
+					</td>
+					<td class="wid_general" id="edit_id{[$row.id]}"
+						data-ips="{[$row.ips]}">{[$row.id]}</td>
+					<td id="edit_groupname{[$row.id]}">{[$row.group_name]}</td>
+					<td id="edit_server{[$row.id]}">{[$row.server]}</td>
+					<td id="edit_parent{[$row.id]}" {[if $row.id!=0]}class="view_row"{[/if]}>{[$row.parent]}</td>
+					<td id="edit_name{[$row.id]}" class="wid_general">{[$row.name]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="13" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

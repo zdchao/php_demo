@@ -1,0 +1,35 @@
+<p>尊敬的{[$user]}用户：</p>
+
+<p>{[$monitor.record_name]}.{[$monitor.domain]}监控通知:</p>
+
+<p>域名:{[$domain]}</p>
+
+<p>服务器:{[$domainip]}</p>
+
+<p>时间:{[$date]}</p>
+
+<p>状态:{[if $status===0]} 已恢复正常访问 {[else if $status===1]} 宕机 {[else]} 开启监控成功 {[/if]}</p>
+
+<p>系统发信，请勿回复</p>
+
+<p>{[$web_name]}官方网站：<a href="http://www.cloud.ph" target="_blank">http://www.cloud.ph</a></p>
+
+<p>-------------------------------------------------------------------------------</p>
+
+<p>To our valued {[$user]} customer：</p>
+
+<p>{[$monitor.record_name]}.{[$monitor.domain]} Monitor notification:</p>
+
+<p>Domain:{[$domain]}</p>
+
+<p>Server:{[$domainip]}</p>
+
+<p>Time:{[$date]}</p>
+
+<p>Status:{[if $status===0]} Back online {[else if $status===1]} Down {[else]} Monitor has been turned on {[/if]}</p>
+
+<p>(Sytem auto-message , please don't reply)</p>
+
+<p>Regards</p>
+
+<p>{[$web_name]} Support Team: <a href="http://www.cloud.ph" target="_blank">http://www.cloud.ph</a></p>

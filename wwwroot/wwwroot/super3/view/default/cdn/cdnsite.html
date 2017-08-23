@@ -1,0 +1,183 @@
+{[include file='common/head.html']}
+<script type="text/template" id="cdn-site-audit-template">
+<div id="cdn-site-audit-div">
+	<div><span style="font-size:20px;">cdn站点审核不通过?</span></div>
+	<div>
+		<br/>
+		<span>备注:
+			{{{select}}}
+		</span>
+		<span><br/><input id="enter" type="button" value="确定"/></span>
+	</div>
+</div>
+</script>
+<script type="text/javascript">
+//审核站点
+var auditSiteYes = function(domain,pid,id){
+	$.ajax({
+		//url:'?c=cdnsite&a=domainAudit',
+		url:'/api/?c=cdn&a=auditSiteThrough',
+		type:'POST',
+		data:{domain:domain,pid:pid,id:id},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.ret);
+				return;
+			}
+			$("#tr"+id).find("#"+id).html("<b>通过</b>");
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+var auditSiteNo = function(id,domain){
+	var template = $("#cdn-site-audit-template").html();
+	var html = "<select name='remark' style='height:30px;'>";
+	var option = [];
+	$.ajax({
+		url:'?c=cdnsite&a=domainAuditRemark',
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			var remark = a.remark;
+			for(var i in remark){
+				html += "<option value='"+i+"'>"+remark[i]+"</option>";
+			}
+			html += "</select>";
+			option.select = html;
+			var el = Mustache.to_html(template,option);
+			domainAuditEnter(el,id,domain);
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+var domainAuditEnter = function(el,id,domain){
+	var dia = art.dialog({
+		id:'auditsite',
+		title:'站点审核',
+		content:el,
+		width:300,
+		lock:true
+	});
+	var div = $("#cdn-site-audit-div");
+	div.find("#enter").bind('click',function(){
+		var remark = div.find("[name=remark]").val();
+		dia.close();
+		$.ajax({
+			//url:'?c=cdnsite&a=auditSiteNo',
+			url:'/api/?c=cdn&a=auditSiteNo',
+			type:'POST',
+			data:{id:id,remark:remark,domain:domain},
+			dataType:'json',
+			success:function(a){
+				if(a.status.code != 1){
+					alert(a.ret);
+					return;
+				}
+				$("#tr"+id).find("#"+id).html("<b>不通过</b>");
+			},
+			error:function(a){
+				alert('error');
+			}
+		});
+	});
+}
+var domainDig = function(){
+	window.open("http://www.kloth.net/services/dig.php");
+}
+//删除pid为0的站点
+var delAuditSite = function(id){
+	$.ajax({
+		url:'/api/?c=cdn&a=delAuditSite',
+		type:'POST',
+		data:{id:id},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.ret);
+				return;
+			}
+			$("#tr"+id).remove();
+		},
+		error:function(a){
+			alert('网络响应失败');
+		}
+	});
+}
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：cdn站点审核</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索: <input name='search' value='{[$search]}' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="6" class="bg_main"><b>站点列表</b></td>
+				</tr>
+				<tr>
+					<td>操作</td>
+					<td>站点名称</td>
+					<td>uid</td>
+					<td>产品ID</td>
+					<td>购买时间</td>
+					<!--  
+					<td>站点状态</td>
+					-->
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}">
+					<td id="{[$row.id]}">
+					{[if $row['status'] == 1]}
+						<a href="javascript:delAuditSite({[$row['id']]})">[删除]</a>
+					{[else]}
+						<a href="javascript:auditSiteNo({[$row.id]},'{[$row['domain']]}')">[不通过]</a>
+						<a href="javascript:auditSiteYes('{[$row.domain]}',{[$row.pid]},{[$row.id]})">[通过]</a>
+					{[/if]}
+					</td>
+					<td>
+						<a href="?c=domains&a=loginDomain&domain={[$row.domain]}" target=_blank>{[$row.domain]}</a>
+						<a href="javascript:;" onclick="domainDig()">[dig]</a>
+					</td>
+					<td>{[$row.uid]}</td>
+					<td>{[$row.pid]}{[if $row['pid'] == 0]}<a href="javascript:delAuditSite({[$row['id']]})">[删除]</a>{[/if]}</td>
+					<td>{[$row.add_time]}</td>
+					<!-- 
+					<td id="{[$row.id]}">{[if $row.status == 0]}<a href="javascript:auditSite('{[$row.id]}')"><b>审核</b></a>{[else]}<span style="color:green;"><b>通过</b></span>{[/if]}</td>
+					 -->
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="16" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

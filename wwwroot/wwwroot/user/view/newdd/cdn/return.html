@@ -1,0 +1,28 @@
+{[dispatch c='public'  a='head']}
+<div class="container">
+	<div class="row">
+		<fieldset>
+			<legend>套餐购买</legend>
+		</fieldset>
+	</div>
+	<div class="row">
+
+		<div class="span6">
+			{[if $successmsg]}
+			<div class="alert alert-success">
+			{[$successmsg]}
+			</div>
+			{[else]}
+				<div><b class='alert alert-error'>{[$errormsg]}</b></div>
+			{[/if]}
+			<div style="padding-top:20px;"><a href="?c=public&a=index" class="btn btn-primary">返回</a></div>
+		</div>
+		<div class="span6">{[include file='cdn/right.html']}</div>
+	</div>
+	<fieldset>
+		<legend>
+			<!-- 一条线和foot分开 -->
+		</legend>
+	</fieldset>
+</div>
+{[include file='public/foot.html']}

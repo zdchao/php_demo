@@ -1,0 +1,81 @@
+{[dispatch c='public'  a='head']}
+<script type="text/javascript">
+$(function(){
+	  i =5;
+	   errorMessage = '{[$errormessage]}';
+		  setInterval('errorout()',1000);
+})
+function errorout(){
+    if (i>0){
+      i--;
+    }else{
+	     if(errorMessage){
+	    	window.location.href = "?c=containerproduct&a=buyProduct&id={[$pinfo.id]}";
+	    }else{
+	    	window.location.href = "?c=containerproduct&a=usercontainer";
+	    }
+    }
+  $("#time").text(i);
+  }
+</script>
+<link href="/style/user/css/container.css" rel="stylesheet">
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<div id="show_error"></div>
+<div class="wrap">
+	<div class="contain">
+	   <span style="margin:1px 1px"><h3>产品购买</h3></span>
+	   <div class="line"></div>
+		
+		 {[if $errormessage]}
+			  <div style="background:F5F5F5">
+				<image src="/style/img/buyerror.png" style="margin:3% 46%;">
+			    <div class="buy_message"> {[$errormessage]}</div>
+			     <div class="buy_message"> 
+			        <a href="?c=containerproduct&a=buyProduct&id={[$pinfo.id]}">重新购买</a>
+			           <a href="?c=public&a=container">产品列表</a>
+			      </div>
+			    <div class="buy_button" style="margin-left:32%;margin-buttom:5%">该页面会在<span id="time">5</span>秒之后自动跳转到购买页面</div>
+			</div>
+			
+	    {[else]}
+	       <div style="background:F5F5F5">
+				<image src="/style/img/buy_success.png" style="margin:3% 46%;">
+			    <div class="buy_message">购买成功</div>
+			     <div class="buy_message"> 
+			           你可以<a href="?c=containerproduct&a=usercontainer">点击这里</a>查看您购买的容器
+			      </div>
+			</div>
+			<form class="form-horizontal" id="form" style="width:60;margin-left:35%;">
+			 <div class="control-group">
+			    <label class="control-label" for="inputPassword">优惠金额</label>
+			    <div class="controls">
+			      -￥ {[$keyprice]}
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="inputPassword">产品总额</label>
+			    <div class="controls">
+			     ￥{[$pinfo.price/100]} * {[$months]}月 = ￥{[$pinfo.price/100*$months]}
+			    </div>
+			  </div>
+			    <div class="control-group">
+			    <label class="control-label" for="inputPassword">应付金额</label>
+			    <div class="controls">
+			      ￥{[$sum/100]}
+			    </div>
+			  </div>
+			  </form>
+			  <div class="buy_button" style="margin-left:32%;margin-buttom:5%">该页面会在<span id="time">5</span>秒之后自动跳转到我的容器</div>
+	    {[/if]}
+	</div>
+</div>
+ <div class="modal hide fade" id="piao-modal">
+    	<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    		<div style="font-size:16px;color:F5F5F5">购买成功</div>
+    	</div>
+    	<div class="modal-body">
+    		
+    	</div>
+    </div>
+{[include file='public/foot.html']}

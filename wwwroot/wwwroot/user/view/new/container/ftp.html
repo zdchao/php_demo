@@ -1,0 +1,117 @@
+{[dispatch c='public'  a='head']}
+<script type="text/template" id="ftptr-template">
+<tr id="tr{{id}}">
+    <td><input type="checkbox"/></td>
+   <td>{{name}}</td>
+   <td>{{subdir}}</td>
+ 	<td>{{permission}}</td>
+   <td>
+		<a href="#" id="deltr">删除</a>
+		<a href="#" id="editPasswd">修改</a>
+   </td>
+</tr>
+</script>
+<script type="text/template" id="refresh-ftptr-template">
+   <td><input type="checkbox"/></td>
+   <td>{{name}}</td>
+   <td>{{subdir}}</td>
+   <td>
+		<a href="#" id="del">删除</a>
+		<a href="#" id="editPasswd">修改</a>
+   </td>
+</script>
+<script type="text/template" id="edit-passwd-template">
+   <td><input type="checkbox"/></td>
+   <td><input type="password" name="passwd" placeholder="请输入密码"></td>
+   <td><input type="text" name="subdir" placeholder="请输入目录"></td>
+   <td>
+		<button type="button" class="btn btn-success btns" id="enter">提交</button>
+        <button type="button" class="btn" id="esc">取消</button>
+   </td>
+</script>
+<script type="text/template" id="add-ftp-template">
+<form class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label">账号</label>
+    <div class="controls">
+      <input type="text"name="name">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">密码</label>
+    <div class="controls">
+      <input type="password" name="passwd" placeholder="Password">
+    </div>
+  </div>
+
+<div class="control-group">
+    <label class="control-label">权限</label>
+    <div class="controls">
+      文件<input type="checkbox" value="file" name="permission"/>
+	 SSH<input type="checkbox" value="ssh" name="permission"/>
+    </div>
+  </div>
+
+ <div class="control-group">
+    <label class="control-label">目录</label>
+    <div class="controls">
+      <input type="text" name="subdir">
+    </div>
+  </div>
+</form>
+</script>
+<script type="text/javascript">
+ containername = '{[$name]}';
+</script>
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<link href="/style/user/css/container.css" rel="stylesheet">
+<script type='text/javascript' src="{[$STATIC]}container/ftp.js?v={[$jsversion]}"></script>
+<div class="row-fluid" style="height:30px;">
+		<span id="domain_error" class="offset3"></span>
+</div>
+<div class="wrap" id="left">
+    <div class="cl mtb20">
+		{[include file='container/containerleft.html']}
+ 		<div class="cont_main">
+ 			  {[include file='container/operattop.html']}
+			    <div class="mtb20 pr">
+			   		<div class="btn-group">
+						  <span id="add" class="btn btn-success btns">添加账户</span>
+					</div>
+		      		<div class="btn-group">
+						     <span id="del" class="btn">删除</span>
+					</div>
+	        </div>
+	        <div class="domain_box">
+		       <table class="domain_table" width="100%">
+		       <caption style="background:#DDF0ED"><span style="padding:20px;height:40px;line-height:40px;color:#ADA0A5">FTP主机 SSH主机</span><span  id="ftp_host" style="color:"></span></caption>
+		       		<thead>
+		       			<tr>
+			       			<th width="10%"><input type="checkbox" id="selectall"/></th>
+			       			<th width="15%">账号</th>
+			       			<th width="20%">目录</th>
+			       			<th width="30%">权限</th>
+			       			<th width="auto">操作</th>
+		       			</tr>
+		       		</thead>
+		       		<tbody></tbody>
+				</table>
+				
+			</div>	
+ 		</div>
+ 	</div>
+ </div>
+   <div class="modal hide fade" id="piao-modal">
+    	<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    		<h3>添加FTP</h3>
+    	</div>
+    	<div class="modal-body">
+    		<p></p>
+    	</div>
+    	<div class="modal-footer">
+            <a href="#" id="enter"  class="btn btn-success btns">提交</a>
+    		<a href="#"  class="btn" data-dismiss="modal">关闭</a>
+    	</div>
+    </div>
+{[include file='public/foot.html']}

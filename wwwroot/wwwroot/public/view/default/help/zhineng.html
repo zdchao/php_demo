@@ -1,0 +1,50 @@
+  <!-- index -->
+<div class="hbg2">
+	<div class="hbg_resize"></div>
+</div>
+<div class="content">
+	<div class="content_resize">
+	  <div class="mainbar">
+		<table cellpadding="0" cellspacing="1" class="help_tab">
+		  <tr><td class="help_pad" background="{[$STATIC]}images/help_bg2.jpg"><a href="?c=help&a=help">帮助中心</a> >>功能介绍</td></tr>
+		  <tr><td class="help_pad" background="{[$STATIC]}images/help_bg2.jpg"><b class="help_menu">dns盾智能监控如何使用</b></td></tr>
+		  <tr>
+			<td>
+               <b>什么是智能监控？</b><br />
+				智能监控就是：当您的一个服务器确认宕机后，系统会自动给您切换到可用的服务器，宕掉的服务器恢复后自动切换回原ip（注意：系统不默认开启智能监控，需要您手动启用智能监控）<br />
+				检测的原理：所有监控点会向目标服务器发起一次http请求，如果用户填写了内容我们会匹配内容，没有填写我们会匹配状态码。当所有监控点都得不到应答时，我们会认为服务器宕机，从而进行操作。<br />
+                
+                <b>什么情况下会用到智能监控功能？</b><br />
+
+                （1）需要注意的是，智能监控并没有做到服务器宕机，备用服务器立即生效。我们都知道解析记录是有缓存的，无论怎样修改，都需要等待旧记录缓存失效，新的记录才可能生效。<br />
+                （2）如果您担心服务器会在无人维护时宕机，如果您有事在身、不能手动更换备用服务器，或者说如果您只是图个省心，都可以尝试下智能监控。<br />
+                 
+                <b>怎样设置和使用智能监控？</b><br />
+                
+                目前智能监控支持A记录、AAAA记录和CNAME记录<br />
+                
+               <b> 下面以A记录的监控为例：</b><br />
+               （1）登录我们的网站管理<br />
+               （2）点击要添加智能监控的域名进入设置：<br />
+               <img src="{[$STATIC]}images/help/14.jpg" / border=0><br />
+               <p>如下图，点击加号图标：</p>
+               <img src="{[$STATIC]}images/help/15.jpg" / border=0><br />
+               <p>会弹出如下图界面，填写好后点确定：<br />
+               		监控网址已默认填写好了；<br />
+                    包含内容:可写可不写，如果用户填写了内容我们会匹配内容，没有填写我们会匹配状态码；<br />
+                    间隔时间:会按你设置的时间进行检查；<br />
+                    故障动作:选择自动切换，才会在节点宕机后自动切换；<br />
+                    切换类型:类型可以自已选择；<br />
+                    切换主机:输入节点宕机后需要切换到哪里的主机；<br />
+               </p>
+               <img src="{[$STATIC]}images/help/16.jpg" / border=0><br />
+               <p>添加好后如下图，红框中可修改或删除监控。</p>
+               <img src="{[$STATIC]}images/help/17.jpg" / border=0><br />
+
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	<div class="clr"></div>
+</div>
+</div>

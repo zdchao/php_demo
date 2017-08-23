@@ -1,0 +1,47 @@
+{[include file="public/head.html"]}
+<div class="container-fluid">
+	{[include file="domainmanage/left.html"]}
+	<div style="float:left;margin-left:5px;width:80%;">
+		<div>
+			<div class="col-sm-7 col-lg-9"><span>我的优惠券</span></div>
+			<div>
+				<form action="" method="GET" class="form-inline">
+					<div class="form-group">
+						<input type="text" class="form-control"/>
+						<input type="submit" value="搜索" class="form-control"/>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="col-lg-10" style="margin-top:20px;">
+			<div style="font-size:0.85em;border:1px solid #90EE90;border-radius:5px;padding:2px 0 0 10px;">
+				<p>使用说明：</p>
+				<p>1. 现金优惠券可以在购买商品时减免一定面额现金，不可重复使用，不可返现。</p>
+				<p>2. 每次订单结算时，仅可以使用一个优惠券，以最后一次输入为准。</p>
+				<p>3. 订单提交后优惠券立即被使用，任何原因的订单作废，优惠券不再返还。</p>
+				<p>4. 优惠券额度大于订单金额的部分作废，不作退回。</p>
+				<p>5. 每个优惠券有有效期限，过期的优惠券无法使用。</p>
+			</div>
+		</div>
+		<div class="col-lg-10" style="margin-top:20px;">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>优惠券</th>
+						<th>状态</th>
+						<th>有效期</th>
+						<th>内容</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		
+	</div>
+</div>
+{[include file="public/foot.html"]}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#left_ul").find("li").eq(3).attr("class",'active');
+});
+</script>

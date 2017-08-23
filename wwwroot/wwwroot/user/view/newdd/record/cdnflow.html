@@ -1,0 +1,50 @@
+{[dispatch c='public'  a='head']}
+<script type='text/template' id="site-nologin-template">
+	<div><a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a></div>
+</script>
+<script type='text/javascript' src='/style/js/highcharts/highcharts.js'></script>
+<script type='text/javascript' src='/style/js/highcharts/modules/exporting.js'></script>
+<script type='text/javascript' src='/style/js/highcharts/themes/grid.js'></script>
+<script type='text/javascript' src="{[$STATIC]}record/cdnflow.js?v={[$jsversion]}"></script>
+<div class="wrap">
+<div class="contain">
+		<div >{[include file='record/right-operat.html']}</div>
+		<div style="width:93.3333333333%;margin:0 auto;padding:20px 0 50px 0;">
+			<div id="h">
+			<div id="msg"></div>
+				<div class="popup" id="popup"></div>
+				<div id="query_day" class="left-row"></div>
+				<div id="query_month" ></div>
+			</div>
+		</div>
+</div>
+</div>
+<style type="text/css">
+.popup{
+ width:99%;
+ position:absolute;
+display:none;
+left:0.5%;
+ height:83%;
+ background-color:#fff;
+ filter:alpha(opacity=50);
+ opacity:0.5;
+ z-index:200;
+ }
+ #msg{
+	color:red;
+	text-align:center;
+	height:35px;
+	line-height:35px;
+	position:fixed;
+    left:30%;
+    top:40px;
+    background:#ccc;
+    border:1px solid #ccc;
+    width:500px;
+    height:35px;
+    display:none;
+    border : 1px solid #aaa;
+}
+</style>
+{[include file='public/foot.html']}

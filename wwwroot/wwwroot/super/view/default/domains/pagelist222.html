@@ -1,0 +1,181 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+{[include file='domains/temp.html']}
+<script type='text/javascript'>
+var default_rrl = '{[$default_rrl]}';
+var dia;
+var plist;
+var blocknslist = [];
+var wherename = '{[$name]}';
+$(document).ready(function() {
+	var msg = '{[$msg]}';
+	var success = '{[$success]}';
+	if (msg != '') {
+		if (success != '') {
+			art.dialog({id : '222',content : msg,title : '提示',time : 2,icon : 'succeed'});
+		} else {
+			art.dialog({id : '222',content : msg,title : '提示',time : 2,icon : 'error'});
+		}
+	}
+	$.ajax({
+		url:'?c=product&a=getList',
+		dataType:'json',
+		success:function(a){
+			var rows = a.rows;
+			plist = a.rows;
+			$(".show_pid_name").each(function(){
+				var id = $.trim($(this).text());
+				if (!id || id==0) {
+					$(this).html('未购买');
+				}else {
+					$(this).html('<b class="green">'+rows[parseInt(id)]['name'] +'</b>');
+				}
+			});
+		},
+		error:function(e){
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+});
+
+</script>
+<script type='text/javascript' src="{[$STATIC]}scripts/domains.js?v={[$jsversion]}"></script>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：域名列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 域名搜索: <input name='name' size=22><input type='submit' value='搜索'></span> 
+					<span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+					<span class="pull-right"><input id="addDomainAdmin" type="button" class="btn" onClick="AdminAddDomain()" value="添加域名"/></span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="15" class="bg_main"><b>域名列表{[$name]}</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>域名</td>
+					<td style="width:160px;">UID</td>
+					<td>套餐</td>
+					<td>价格</td>
+					<td>备注</td>
+					<td>rrl</td>
+					<td>CDN</td>
+					<td>server</td>
+					<td>创建</td>
+					<td>过期</td>
+					<td>线路</td>
+					<td>状态</td>
+				</tr>
+				{[foreach from=$list item=row key=key]}
+				<tr id="tr{[$key]}"  
+				data-name='{[$row.name]}' 
+				data-server='{[$row.server]}' 
+				data-uid="{[$row.uid]}" 
+				data-pid="{[$row.pid]}" 
+				data-rrl="{[$row.rrl]}"
+				data-groupview='{[$row.group_view]}'
+				data-pidprice='{[$row.pid_price]}'
+				data-pidexpiretime='{[$row.pid_expire_time]}'
+				{[if ($row.flags & 8448)>0]}
+				style="background-color:#FFB6C1"
+				{[else]}
+					{[if ($row.flags & 64)>0 || ($row.flags & 256)>0]}
+						style=" background-color:gray"
+					{[/if]}
+				{[/if]}				
+				>
+					<td id="operat">						
+						{[if ($row.flags & 64)>0]}
+						[<a href='?c=domains&a=adminStatus&domain={[$row.name]}&server={[$row.server]}&status=0' onClick="return confirm('确定要启用么？');">启用</a>]
+						{[else]}
+						[<a href='?c=domains&a=adminStatus&domain={[$row.name]}&server={[$row.server]}&status=1' onClick="return confirm('确定要禁用么？');">禁用</a>]
+						{[/if]}
+						{[if $allow_del]}
+						[<a href='javascript:;' onClick="piao_del_domain({[$key]})">删除</a>]
+						{[/if]}
+					</td>
+					<td title="{[$row.soa]}">
+						<a href="?c=domains&a=loginDomain&domain={[$row.name]}" target=_blank>{[$row.name]}</a>
+					</td>
+					<td  id="uid">
+						<span title="只看该用户域名">[<a href="{[$action]}&uid={[$row.uid]}">{[$row.uid]}</a>]</span>
+						<span title="查看域名用户信息">[<a href='?c=users&a=pagelist&uid={[$row.uid]}'>信息</a>]</span>
+						<span title='点击可过户'>[<a href='javascript:edit_uid({[$key]})'>过户</a>]</span>
+					</td>
+					<td id="pid">
+						{[if $row.pid]}
+						<span >[<a href="javascript:piao_shift_pid({[$key]})">转移</a>]</span>
+						{[/if]}
+						[<a href="javascript:piao_set_pid({[$key]})"><span class="show_pid_name" id="pid_span" data-pid="{[$row.pid]}">{[$row.pid]}</span></a>]
+					</td>
+					
+					<td ><span id="pid_price">{[$row.pid_price]}</span></td>
+					
+					<td id="admin_remark">
+						<span>[<a href="javascript:piao_set_adminremark({[$key]})">备注</a>]</span>
+						<span id="admin_remark_span" title="{[$row.admin_remark]}">{[$row.admin_remark|truncate:8]}</span>
+					</td>
+					
+					<td id="rrl" data-rrl='{[$row.rrl]}' title='点击可修改'>
+						<a href='javascript:piao_edit_rrl({[$key]})'>{[if $row.rrl]}{[$row.rrl]}{[else]}无{[/if]}</a>
+					</td>
+					
+					<td id="cdn_status">
+						{[if $row['cdn_id'] == 0]}
+							{[if $row['cdn_status'] != 2]}
+								<a href="javascript:cdnStatus({[$key]})">[解除]</a>
+							{[/if]}
+						{[/if]}
+						{[if $row.cdn_id > 0]}
+							{[$row.cdn_product]}
+							{[if ($row.flags & 32768) == 32768]}
+								<a href='javascript:domainBackSource({[$key]},"-32768");'>[回源]</a>
+							{[else]}
+								<a href='javascript:domainBackSource({[$key]},"+32768")'>[启用]</a>
+							{[/if]}
+						{[/if]}
+					</td>
+					<td title="点击可修改" id="server">
+						<a href="javascript:piao_edit_server({[$key]})">{[$row.server]}</a>
+					</td>
+					<td title="{[$row.created_on]}">{[substr($row.created_on,0,13)]}</td>
+					<td id="pidexpiretime">
+						<a href="javascript:piao_set_pidexpiretime({[$key]})">
+						<span id="pidexpiretime_span" title="{[$row.pid_expire_time]}">{[if $row.pid_expire_time]}{[substr($row.pid_expire_time,0,10)]}{[else]}无{[/if]}</span>
+						</a>
+						</td>
+					<td title="点击可修改">
+						<a href='javascript:piao_edit_groupview({[$key]})'>{[$row.group_view]}</a>
+					</td>
+					<td title="{[$row.flags]}">
+						<form action='?c=domains&a=setFlags&domain={[$row.name]}&name={[$name]}' method='POST'>
+							<input name='flags' size=5 value="{[$row.flags]}">					
+						</form>
+					</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="15" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

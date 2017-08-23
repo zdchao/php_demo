@@ -1,0 +1,128 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type='text/template' id="add-product-template">
+<div id="add-product-div">
+	<div class="piao_div"><img src="/style/dot.gif">必需定义一个免费产品(价格为0),注册的用户默认使用免费产品</div>
+	<div class="piao_div"><span class='piao_left'>产品ID:</span><span id="product_add_id_span" ><a href="javascript:;show_product_id()">定制产品</a></span></div>
+	<div class="piao_div"><span class="piao_left">产品名称:</span><span ><input name="name" >*</span></div>
+	<div class="piao_div"><span class="piao_left">产品价格:</span><span ><input name="price" >元/月*</span></div>
+	<div class="piao_div"><span class="piao_left">产品 rrl:</span><span ><input name="rrl" ></span></div>
+	<div class="piao_div"><span class="piao_left">产品flag:</span><span ><input name="flags" >可以输入格式:1+16384</span></div>
+	<div class="piao_div"><span class="piao_left">线 路 组:</span><span ><span id="show_add_groupview"></span></div>
+	<div class="piao_div"><span class="piao_left">阻断NS:</span><span ><input type="checkbox" name="blockns" value=1 ></span></div>
+	<div class="piao_div"><span class="piao_left">产品描述:</span><span ><textarea rows="5" name="description" cols="40"></textarea>*支持html</span></div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="增加"></span></div>
+</div>
+</script>
+<script type='text/template' id="edit-product-template">
+<div id="edit-product-div">
+	<div class="piao_div"><span class="piao_left">产品名称:</span><span ><input name="name" value="{{name}}">*</span></div>
+	<div class="piao_div"><span class="piao_left">产品价格:</span><span ><input name="price" value="{{price}}">元/月*</span></div>
+	<div class="piao_div"><span class="piao_left">产品 rrl:</span><span ><input name="rrl" value="{{rrl}}"></span></div>
+	<div class="piao_div"><span class="piao_left">server:</span><span id="server-span">{{{serverHtml}}}<!--<input name="server" value="{{server}}">--></span></div>
+	<div class="piao_div"><span class="piao_left">产品flag:</span><span ><input name="flags" value="{{flags}}">可以输入格式:1+16384</span></div>
+	<div class="piao_div"><span class="piao_left">线 路 组:</span><span ><input name="groupview" value="{{groupview}}"></div>
+	<!--<div class="piao_div"><span class="piao_left">阻断NS:</span><span ><input type="checkbox" name="blockns" value=1 {{blockns}} ></span></div>-->
+	<div class="piao_div"><span class="piao_left">产品描述:</span><span ><textarea rows="5" name="description" cols="40">{{description}}</textarea>*支持html</span></div>
+	<div class="piao_div"><span class="pull-right"><input type="button" class="btn" id="enter" value="修改"></span></div>
+</div>
+</script>
+<script type="text/template" id="product-order-template">
+<tr id="{{id}}">
+	<td><span id="name">{{name}}</span></td>
+	<td><span><input type="button" onclick="productOrderMoveup('{{id}}')" value="上移"/></span></td>
+	<td><span><input type="button" onclick="productOrderMovedown('{{id}}')" value="下移"/></span></td>
+</tr>
+</script>
+<script type='text/javascript'>
+var default_rrl = '{[$default_rrl]}';
+var dia;
+</script>
+<script type='text/javascript' src='{[$STATIC]}scripts/product.js?v=222'></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var msg = '{[$msg]}';
+	var success = '{[$success]}';
+	getServerList();
+});
+</script>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：域名列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 产品名称搜索: <input name='name' size=20>
+						<input type='submit' value='搜索'>
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+					<span ><input type='button' onclick="piao_product_add()" value="增加产品"></span>
+					<!--  
+					<span><input type='button' onclick="productOrder()" value='产品排序'/></span>
+					-->
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="13" class="bg_main"><b>产品列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>排序</td>
+					<td>产品ID</td>
+					<td>产品名称</td>
+					<td>产品价格</td>
+					<td>产品描述</td>
+					<td>rrl</td>
+					<td>所属服务器</td>
+					<td>创建时间</td>
+					<td>状态</td>
+					<td>flags</td>
+					<td>线路组</td>
+					<td>阻断NS</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}">
+					<td>
+					[<a href='javascript:piao_product_edit({[$row.id]})'>修改</a>]
+					</td>
+					<td id="order{[$row.id]}"><a href="javascript:productOrder('{[$row.product_order]}','{[$row.id]}')">{[$row.product_order]}</a></td>
+					<td >{[$row.id]}</td>
+					<td id="name">{[$row.name]}</td>
+					<td id="price">{[$row.price]}</td>
+					<td id="description" title="{[$row.description]}">{[$row.description|truncate:16:"..."]}</td>
+					<td id="rrl">{[$row.rrl]}</td>
+					<td id="server">{[$row.server]}</td>
+					<td >{[$row.create_time]}</td>
+					<td id="status" data-value='{[$row.status]}'>
+					{[if $row.status > 0]}
+					<a href="#" onclick="product_change_status({[$row.id]},0)" title="点击可恢复出售"><b class="red">禁售</b></a>
+					{[else]}
+					<a href="#" onclick="product_change_status({[$row.id]},1)" title="点击可禁售"><b class="green">出售</b></a>
+					{[/if]}
+					</td>
+					<td id="flags">{[$row.flags]}</td>
+					<td id="groupview">{[$row.groupview]}</td>
+					<td id="blockns" data-value="{[$row.blockns]}">{[if $row.blockns==1]}是{[else]}否{[/if]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="13" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

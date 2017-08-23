@@ -1,0 +1,22 @@
+{[dispatch c='public'  a='head']}
+{[include file='user/noticetemplate.html']}
+<link href="/style/user/css/notice.css" rel="stylesheet">
+
+<script type='text/javascript'
+	src="/style/bootstrap/bootstrap-tooltip.js"></script>
+<script type='text/javascript'
+	src="/style/bootstrap/bootstrap-popover.js"></script>
+<script type='text/javascript' src="{[$STATIC]}user/notice.js?v={[$jsversion]}"></script>
+
+<div class="wrap">
+	<div class="contain">
+		<div style="width:93.3333333333%;margin:0 auto;padding:0 0 50px 0;">
+			<div id="show_error" style="width:30px;">&nbsp;</div>
+			<div id="list-header-div"></div>
+			<div id="list-header"></div>
+			<div id="list-div"></div>
+			<div id="list-launch"></div>
+		</div>
+	</div>
+</div>
+{[include file='public/foot.html']}

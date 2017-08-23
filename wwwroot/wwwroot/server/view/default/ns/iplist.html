@@ -1,0 +1,215 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+	$(document).ready(function() {
+	});
+	function ipdel(id) {
+		var r = confirm("确定要删除?");
+		if (!r) {
+			return;
+		}
+		window.location = "?c=ns&a=ipdel&id=" + id;
+	}
+	function edit_ip(ip, value) {
+		var r = confirm("确定要修改?");
+		if (!r) {
+			return;
+		}
+		$.ajax({
+			url : '?c=ip&a=edit',
+			data : {
+				ip : ip,
+				view : value
+			},
+			dataType : 'json',
+			success : function(ret) {
+				if (ret['code'] != 200) {
+					alert('修改失败');
+				} else {
+					window.location = window.location;
+				}
+			}
+		});
+	}
+	function query_tcp_udp(id,sync)
+	{
+		queryids.push(id);
+		//$("#list_msg").append("<div>正在查询id="+id+'</div>');
+		$("#show_udp"+id).html('udp:<img src="/style/busy.gif">');
+		$("#show_tcp"+id).html('tcp:<img src="/style/busy.gif">');
+		var ohtml = $("#query_"+id).html();
+		$("#query_"+id).html('');
+		var async = true;
+		if (sync) {
+			//async = false;
+		}
+		$.ajax({
+			url:'?c=ns&a=query',
+			data:{id:id},
+			dataType:'json',
+			async:async,
+			success:function(a) {
+				//$("#list_msg").append("<div>查询id="+id+'完成</div>');
+				query_one(id);
+				if (a.code != 1) {
+					alert(a.message);
+					return false;
+				}
+				var img = '';
+				$("#query_"+id).html(ohtml);
+				if (a.udp!='') {
+					img = 'udp:<img src="/style/check_right.gif">';
+				}else {
+					img = 'udp:<img src="/style/check_error.gif">';
+				}
+				$("#show_udp"+id).html(img);
+				if (a.tcp!='') {
+					img = 'tcp:<img src="/style/check_right.gif">';
+				}else {
+					img = 'tcp:<img src="/style/check_error.gif">';
+				}
+				$("#show_tcp"+id).html(img);
+			},
+			error:function(e) {
+				query_one(id);
+				//$("#list_msg").append("<div>查询id="+id+'错误</div>');
+				$("#show_tcp"+id).html("<b class='red'>查询出错</b>");
+				$("#show_udp"+id).html("<b class='red'>查询出错</b>");
+				$("#query_"+id).html(ohtml);
+			}
+		});
+	}
+	var queryids = [];
+	var allid = [];
+	var dia;
+	function query_all_ip()
+	{
+		$(".query_udp_tcp_id").each(function(){
+			var id = $(this).text();
+			allid.push(id);
+		});
+		dia = art.dialog({id:'piao_query_ns'});
+		dia.content('<div>正在查询中...</div><div id="list_msg"></div>');
+		$("#list_msg").append('<div>总查询个数'+allid.length+'</div>');
+		query_one();
+	}
+	function query_one(id)
+	{
+		if (id) {
+			for ( var k in queryids) {
+				if (queryids[k]==id) {
+					//delete queryids[k];
+					queryids.splice(k,1);
+				}
+			}
+			
+		}
+		//$("#list_msg").append('<div>当前已在查询个数'+queryids.length+'</div>');
+		if (allid.length > 0 && queryids.length<3) {
+			for( var i in allid) {
+				query_tcp_udp(allid[i]);
+				allid.splice(i,1);
+				$("#list_msg").append('<div>当前还有查询个数'+allid.length+'</div>');
+				if (allid.length <= 0){
+					dia.close();
+					break;
+				} 
+				if (queryids.length >2) {
+					//$("#list_msg").append('<div>当前已有3个查询在进行</div>');
+					break;
+				}
+			}
+		}
+	}
+	
+</script>
+
+
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：ip列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索: <input name='search' value='{[$search]}' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="10" class="bg_main">
+					[<a	href='?c=ns&a=iplist&g=master'>按主ip显示</a>]
+					[<a	href='?c=ns&a=iplist&g=slot_name'>按名称显示</a>]
+					[<a	href='?c=ns&a=ipeditform'>增加ip</a>]
+					[<a href='?c=ns&a=create'>重建ns</a>]					
+					ns1分组数:<em>{[$ns1_ip_group]}</em>&nbsp;&nbsp;ns2分组数:<em>{[$ns2_ip_group]}</em>
+					</td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>id</td>
+					<td>类型</td>
+					<td>通信状态</td>
+					<td>ip &nbsp;&nbsp;<input type='button' onclick="query_all_ip()" value="查询所有tcp,udp" class="btn"></td>
+					<td>分组</td>
+					<td>ip名称</td>
+					<td>备注</td>
+					<td>状态</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr>
+					<td>
+					  [<a href='javascript:ipdel({[$row.id]})'>删除</a>]
+					[<a	href='?c=ns&a=ipeditform&id={[$row.id]}'>修改</a>]
+					{[if $row.master==0]}
+					[<a	href='?c=ns&a=ipeditform&master={[$row.id]}'>增加辅ip</a>]
+					{[else]}
+					{[$row.master]}
+					{[/if]}
+					
+					</td>
+					<td class="query_udp_tcp_id">{[$row.id]}</td>
+					<td>
+					{[if {[$row.type]}==0]}ns1{[/if]} 
+					{[if {[$row.type]}==1]}ns2{[/if]}
+					{[if {[$row.type]}==2]}ns3{[/if]}
+					</td>
+					<td><span id="show_udp{[$row.id]}"></span>&nbsp;<span id="show_tcp{[$row.id]}"></span></td>
+					<td><span id="query_{[$row.id]}">[<a href="javascript:query_tcp_udp({[$row.id]})">查询tcp_udp</a>]</span>&nbsp;{[$row.ip]}</td>
+					
+					<td>{[$row.ip_group]}</td>
+					<td>{[$row.slot_name]}</td>
+					<td>{[$row.desc]}</td>
+					<td>{[$row.fansd]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="10" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}&{[$where]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}&{[$where]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}&{[$where]}'>下一页</a>
+						<a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}&{[$where]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+			未配置ip列表:
+			{[foreach from=$server key=ip item=row]}
+				{[if $row[1]==0]}
+					<div>{[$ip]} {[$row[0]]}</div>
+				{[/if]}
+			{[/foreach]}
+		</div>
+	</div>
+</body>
+</html>

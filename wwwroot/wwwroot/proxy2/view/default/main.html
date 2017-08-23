@@ -1,0 +1,29 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+</script>
+<body text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：帐号管理 --> 我的信息</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="2" class="bg_main"><b>我的信息</b></td>
+				</tr>
+				<tr>
+					<td class="wid_general">用户名</td>
+					<td>{[$role.proxy2.email]}</td>
+				</tr>
+				{[if $msg]}
+				<tr>
+					<td>提示</td>
+					<td class='red'>{[$msg]}</td>
+				</tr>
+				{[/if]}
+				<tr>
+					<td>当前版本</td>
+					<td>{[$softversion]}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	{[include file='common/foot.html']}

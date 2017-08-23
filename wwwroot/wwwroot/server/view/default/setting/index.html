@@ -1,0 +1,62 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+</script>
+
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：服务器管理--> 服务器设置</div>
+			<form action="?c=setting&a=cpsetting" method='post' name='setfrom'>
+				<table class="table_main2" cellpadding="0" cellspacing="1">
+					<tr>
+						<td colspan="2" class="bg_main hg_main"><b>面板设置</b></td>
+					</tr>
+					<tr>
+						<td class="pull-right">网站名称:</td>
+						<td><input name='web_name' value='{[$setting.web_name]}' size=32>默认dnsdun,显示在前台的站点介绍页面</td>
+					</tr>
+					
+					<tr>
+						<td class="pull-right">网站域名:</td>
+						<td><input name='web_domain' value='{[$setting.web_domain]}' size=32>用于后台发送邮件时显示的网站域名</td>
+					</tr>
+					<tr>
+						<td colspan="2" class="bg_main hg_main"><b>邮件设置</b></td>
+					</tr>
+					<tr>
+						<td class="pull-right">发送方式</td>
+						<td>
+							<input type='radio' name="mail_model" value="default" {[if !$setting.mail_model || $setting.mail_model=='default']}checked{[/if]}>使用默认
+							<input type='radio' name="mail_model" value="smtp" {[if $setting.mail_model=='smtp']}checked{[/if]}>smtp
+							<input type='radio' name="mail_model" value="sendcloud"  {[if $setting.mail_model=='sendcloud']}checked{[/if]} ><a href="http://sendcloud.sohu.com/" target=_blank>sendcloud web api</a>
+							</td>
+					</tr>
+					
+					<tr id="smtp">
+						<td class="pull-right">SMTP设置:</td>
+						<td>
+						smtp主机:<input name='smtp_host' size='18' value='{[$setting.smtp_host]}' placeholder="smtp.gmail.com">
+							账号:<input name='smtp_user' size='20' value='{[$setting.smtp_user]}' >
+							密码:<input name='smtp_passwd' size='16' type='password' value='{[$setting.smtp_passwd]}' >
+							端口:<input name='smtp_port' size='8' value='{[$setting.smtp_port]}' placeholder="465">
+							发送者邮箱:<input name='smtp_from' size='20' value='{[$setting.smtp_from]}' placeholder="可以同账号">
+						</td>
+					</tr>
+					<tr id="sendcloud">
+						<td class="pull-right">send Cloud设置:</td>
+						<td>
+							send Cloud账号:<input name='sendcloud_apiuser' size='28' value='{[$setting.sendcloud_apiuser]}' >
+							密码:<input name='sendcloud_apikey' size='16' type='password' value='{[$setting.sendcloud_apikey]}' >
+							发送者邮箱:<input name='sendcloud_from' size='20' value='{[$setting.sendcloud_from]}' >
+							发送人名称:<input name='sendcloud_fromname' size='16' value='{[$setting.sendcloud_fromname]}' placeholder="">
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type='submit'  value='确定'></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>

@@ -1,0 +1,98 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+$(document).ready(function(){
+	/*
+	$.ajax({url:'?c=views&a=getList',dataType:'json',async:false,success:function(ret) {
+		$(".view_row").each(function(){
+			var id = $(this).text();
+			var html = '<form name="view_edit" action="?c=ip&a=edit" method="post">';
+				html += '<select name="view" onchange=edit_ip("'+$("#edit_ip_"+id).text()+'",this.value)>';
+				for (var i in ret) {
+					html += '<option value='+ret[i]['id'];
+					if (ret[i]['id'] ==id) {
+						html += ' selected '
+					}
+					html += '>'+ret[i]['name']
+					html += '</option>';
+				}
+				html += '</select>';
+				html += '</form>';
+			$(this).html(html);
+		});
+		}
+	});
+	*/
+});
+function edit_ip(ip,value)
+{
+	var r = confirm("确定要修改?");
+	if (!r) {
+		return;
+	}
+	$.ajax({url:'?c=ip&a=edit',data:{ip:ip,view:value},dataType:'json',success:function(ret) {
+		if (ret['code'] != 200) {
+			alert('修改失败');
+		}else {
+			window.location = window.location;
+		}
+	}})	;
+}
+</script>
+
+
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：ip列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索: <input name='search' value='{[$search]}' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="9" class="bg_main"><b>ip列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>ip</td>
+					<td>ip段</td>
+					<td>所属线路</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr >
+					<td id="edit_ip_{[$row.view]}">{[$row.ip]}</td>
+					<td>{[$row.range]}</td>
+					<td class='view_row'>
+					<select name='view' onchange='edit_ip("{[$row.ip]}",this.value)'>
+					{[foreach from=$views item=view key=key]}
+					<option value="{[$view.id]}" {[if $view.id==$row.view]} selected{[/if]}>{[$view.name]}</option>
+					{[/foreach]}
+					</select>
+					</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="9" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}&{[$where]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}&{[$where]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}&{[$where]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}&{[$where]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

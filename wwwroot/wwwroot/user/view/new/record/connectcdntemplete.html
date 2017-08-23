@@ -1,0 +1,67 @@
+<script type="text/template" id="cdn-site-operation-template">
+<div class="btn-group"><button class="btn btn-success" id="add-site">添加站点</button></div>
+</script>
+<script type="text/template" id="cdn-site-add-success-template">
+<div class="btn-group"><button class="btn btn-success" id="cdn-site-status" onclick="querySiteStatus()">站点状态</button></div>
+<div class="btn-group"><button class="btn btn-success" id="cdn-site-delete" onclick="deleteSite()">删除站点</button></div>
+<!--
+<div class="btn-group"><button class="btn btn-success" id="cdn-site-edit-passwd">修改站点密码</button></div>
+-->
+</script>
+<script type="text/template" id="add-cdn-product-template">
+<span id="add-cdn-product-div">
+	<!--<span>站点密码:<input type="text" name="passwd"/></span>-->
+	<span>{{{product}}}</span>
+	<span><button id="enter" type="button" class="btn btn-success">确定</button></span>
+	<span><button id="esc" type="button" class="btn btn-info">取消</button></span>
+</span>
+</script>
+<!--
+<script type='text/template' id="site-add-template">
+<div id="site-add-row_{{key}}"  class="record  clearfix" data-type="add" >
+	<span>请输入站点密码:</span>
+	<span class="" id="site-passwd"><input type="text" name="passwd" value='{{passwd}}' required></span>
+	<span class="" id="site-operat"><button class="btn btn-primary" id="enter">确定</button>&nbsp;<button class="btn btn-primary" id="esc">取消</button></span>
+</div>
+</script>
+<script type='text/template' id="passwd-show-template">
+<tr id="passwd-row">
+	<td class="span2"><h5>站点密码</h5></td>
+	<td class="span6"><h5></h5></td>
+	<td class="span2"><h5><a id="passwd" href="#">修改</a></h5></td>
+</tr>
+</script>
+<script type='text/template' id="passwd-refresh-template">
+	<td class="span2"><h5>站点密码</h5></td>
+	<td class="span6"><h5></h5></td>
+	<td class="span2"><h5><a id="passwd" href="#">修改</a></h5></td>
+</script>
+<script type='text/template' id="passwd-edit-template">
+	<td class="span2"><h5>站点密码</h5></td>
+	<td class="span6">
+			输入密码:<span ><input type='text' style="width:120px;" name="passwd" placeholder="当前"></span>
+			<button class="btn btn-primary">确定</button>&nbsp;&nbsp;<button class="btn btn-primary">取消</button>
+	</td>
+	<td class="span2">&nbsp;</td>
+</script>
+<script type='text/template' id="status-show-template">
+<tr id="status-row">
+	<td class="span2"><h5>站点状态</h5></td>
+	<td class="span6"><h5></h5></td>
+	<td class="span2"><h5><a id="passwd" href="#">修改</a></h5></td>
+</tr>
+</script>
+<script type='text/template' id="status-refresh-template">
+	<td class="span2"><h5>站点状态</h5></td>
+	<td class="span6"><h5></h5></td>
+	<td class="span2"><h5><a id="passwd" href="#">修改</a></h5></td>
+</script>
+<script type='text/template' id="status-edit-template">
+	<td class="span2"><h5>站点状态</h5></td>
+	<td class="span6">
+			输入状态:<span ><input type='text' style="width:120px;" name="passwd" placeholder="当前"></span>
+			<button class="btn btn-primary">确定</button>&nbsp;&nbsp;<button class="btn btn-primary">取消</button>
+	</td>
+	<td class="span2">&nbsp;</td>
+</script>
+-->

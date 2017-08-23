@@ -1,0 +1,50 @@
+{[dispatch c='public'  a='head']}
+<head>
+	<script type='text/javascript' src="{[$STATIC]}record/connection.js?v=0721"></script>
+</head>
+<link href="/style/user/css/domainsetting.css" rel="stylesheet">
+<script type='text/template' id="site-nologin-template">
+	<div><a href="?c=session&a=loginForm" class="font-red">没有登陆,点击登陆</a></div>
+</script>
+<style>
+#msg{
+	color:red;
+	text-align:center;
+	height:35px;
+	line-height:35px;
+	position:fixed;
+    left:30%;
+    top:40px;
+    background:#ccc;
+    border:1px solid #ccc;
+    width:500px;
+    height:35px;
+    display:none;
+    border : 1px solid #aaa;
+}
+thead th{
+cursor:pointer;
+}
+</style>
+<div class="wrap">
+<div class="contain">
+  <div id="msg"></div>
+  <div >{[include file='record/right-operat.html']}</div>
+   <div class="domain_box">
+   <div id="total"></div>
+    <table  class="domain_table" width="100%">
+    <thead id="table">
+       <th onclick="sort(1)">源地址</th>
+       <th>时间</th>
+       <th onclick="sort(3)">状态</th>
+       <th onclick="sort(4)">方法</th>
+       <th onclick="sort(5)">网址</th>
+       <th onclick="sort(7)">来源</th>
+    </thead>
+    <tbody id="connection_items">
+    </tbody>
+    </table>
+    </div>
+</div>
+</div>
+{[include file='public/foot.html']}

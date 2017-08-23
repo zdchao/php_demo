@@ -1,0 +1,43 @@
+{[dispatch c='public'  a='head']}
+{[include file='user/templete.html']}
+<link href="/style/user/css/userset.css" rel="stylesheet">
+<style>
+.table td:first-child{
+  width:25%;
+}
+</style>
+</script>
+ <div class="blank10"></div>
+  <div class="blank10"></div>
+  <div id="show_error"></div>
+<div class="erp_nr clearB">
+<!-----left----->
+
+<div id="nr_left">
+    <!----二级导航------>
+    <div class="ejdh">
+    <ul>
+    <li id="ejdh" ><a href="#">个人设置</a></li>
+<!--   <li><a href="#">修改密码</a></li> -->  
+    </ul>
+    </div>
+   
+</div>
+<div id="nr_right">
+    <table class="table">
+        <tbody id="content_tbody">
+        </tbody>
+    </table>
+</div>
+</div>
+<div class="modal hide fade" id="piao-modal">
+    	<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    		<h3>绑定微信</h3>
+    	</div>
+    	<div class="modal-body">
+    		<p></p>
+    	</div>
+    </div>
+<script type='text/javascript' src="{[$STATIC]}user/user.js?v={[$jsversion]}"></script>
+{[include file='public/foot.html']}

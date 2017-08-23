@@ -1,0 +1,46 @@
+{[dispatch c='public'  a='head']}
+{[include file='user/templete.html']}
+<link href="/style/user/css/userset.css" rel="stylesheet">
+<!--  
+<link type='text/css' href="/style/artdialog/skins/default.css">
+<script type='text/javascript'  src="/style/artdialog/artDialog.js">
+-->
+</script>
+<style type="text/css">
+#moneylog-row table{
+  width: 1200px;
+}
+#moneylog-row tbody{
+   display: block; 
+   position:relative;
+   height:400px;
+  overflow:auto;
+}
+#moneylog-row thead tr{
+    display: block; 
+    position: relative;  
+    background: #888; 
+}
+</style>
+<div class="wrap">
+	<div class="contain">
+		<div class="domain_box">
+			<table class="table" >
+				<thead>
+				<tr>
+					<!--  
+					<th><i class="setting"></i><h4>&nbsp;账户设置</h4></th>
+					-->
+					<th style="width:20%;"><h4><span class="setting"></span>&nbsp;账户设置</h4></th>
+					<th id="show_error"></th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody id="content_tbody">
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type='text/javascript' src="{[$STATIC]}user/user.js?v={[$jsversion]}"></script>
+{[include file='public/foot.html']}

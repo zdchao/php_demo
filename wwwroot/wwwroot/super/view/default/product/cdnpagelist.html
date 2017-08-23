@@ -1,0 +1,74 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：域名列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 产品名称搜索: <input name='name' size=20>
+						<input type='submit' value='搜索'>
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+					<span ><input type='button' onclick="piao_product_add()" value="增加产品"></span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="6" class="bg_main"><b>产品列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>ID</td>
+					<td>产品ID</td>
+					<td>用户ID</td>
+					<td>产品名称</td>
+					<td>server</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="tr{[$row.id]}">
+					<td>
+					[<a href='javascript:piao_product_edit({[$row.id]})'>修改</a>]
+					</td>
+					<td>{[$row.id]}</td>
+					<td>{[$row.pid]}</td>
+					<td>{[$row.uid]}</td>
+					<td>{[$row.name]}</td>
+					<td>{[$row.server]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="6" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+function piao_product_add()
+{
+	var html = '';
+		html += '<div class="piao_div"><img src="/style/dot.gif"></div>';
+		html += '<div class="piao_div">用户ID:<input name="uid"></div>';
+		html += '<div class="piao_div">产品ID:<input name="pid"></div>';
+		html += '<div class="piao_div">产品名:<input name="name"></div>';
+		html += '<div class="piao_div">server:<input name="server"></div>';
+		html += '<div class="piao_div">秘&nbsp;&nbsp;&nbsp;钥:<input name="key"></div>';
+		html += '<div class="piao_div"><input type="button" onclick="product_add()" value="增加"></div>';
+	dia = art.dialog({id:'piao_product_add',lock:true,title:'增加新产品'});
+	dia.content(html);
+}
+</script>
+</html>

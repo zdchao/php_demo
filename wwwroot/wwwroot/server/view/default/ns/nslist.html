@@ -1,0 +1,99 @@
+{[include file='common/head.html']}
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+<script type='text/template' id="piao-add-ns-template">
+	<div id="piao-add-ns">
+		<form name="add_ns" action="?c=ns&a=add" method="POST">
+			<div class="piao_div">
+				<span class="piao_left">ns名称:</span>
+				<span ><input name="name"/></span>
+			</div>
+			<div class="piao_div">
+				<span class="piao_left">IP段:</span>
+				<span ><input name="ip" size=45 title="多个请用,或|分割"></span>
+			</div>
+			<div class="piao_div">
+				<span class="piao_left">分属:</span>
+				<span ><input name="type" type=radio value=16 checked>ns1<input name="type" type=radio value=17>ns2</span>
+			</div>
+			<div class="piao_div">
+				<span class="pull-right"><button class="btn" id="enter">确定</button></span>
+			</div>
+		</form>
+	</div>
+</script>
+
+<script type='text/javascript'>
+var dia;
+$(document).ready(function(){
+	
+});
+</script>
+<script type='text/javascript' src="{[$STATIC]}ns/ns.js"></script>
+
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：ns列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索: <input name='search' value='{[$search]}' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="9" class="bg_main">
+					<b>
+						[<a href='?c=ns&a=nslist'>查看全部ns</a>]
+						[<a href='?c=ns&a=nslist&delete_flag=1'>删除标记</a>]
+						[<a href='?c=ns&a=ns_sync_config'>同步ns配置文件</a>]
+						[<a href='#' onclick='piao_add_ns()'>增加NS</a>]
+					</b>
+					</td>
+				</tr>
+				<tr id="bg_yellow">
+				<td>操作</td>
+					<td >id</td>
+					<td>名字</td>
+					<td>类型</td>
+					<td>ip</td>
+					<td>删除标记</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="ns{[$row.id]}">
+				    <td>
+				    [<a href='?c=ns&a=nsdel&id={[$row.id]}&type={[$type]}' onclick="return confirm('确定要删除么？');">删除</a>]
+				    [<a href='?c=ns&a=nseditform&id={[$row.id]}&type={[$type]}'>修改</a>]
+				    [<a href='#' onclick='check_ns({[$row.id]},0)'>检查NS</a>]
+				    <span id='checknsresult{[$row.id]}'></span>
+				    </td>
+					<td class='checkns'>{[$row.id]}</td>
+					<td >{[$row.name]}</td>
+					<td>{[$row.type]}</td>
+					<td>{[$row.ip]}</td>
+					<td>{[$row.delete_flag]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="9" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}&{[$where]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}&{[$where]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}&{[$where]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}&{[$where]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

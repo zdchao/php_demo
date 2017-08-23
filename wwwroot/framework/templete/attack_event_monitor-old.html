@@ -1,0 +1,45 @@
+<p>尊敬的{[$user]}用户：</p>
+
+<p>您好！</p>
+
+<p>{[$monitor.record_name]}.{[$monitor.domain]}监控通知:</p>
+
+<p>时间:{[$date]}</p>
+
+<p>状态:{[if $monitor.status==0]}正常{[else]}异常{[/if]}</p>
+
+<p>主机:{[$monitor.src]} {[if $monitor.name]}</p>
+
+<p>名称:{[$monitor.name]} {[/if]} {[if $monitor.dst]}</p>
+
+<p>处理:已切换至{[$monitor.dst]} {[/if]}</p>
+
+<p>{[$web_name]}运营团队祝您使用愉快.</p>
+
+<p>系统发信，请勿回复</p>
+
+<p>{[$web_name]}官方网站：<a href="{[$web_domain]}" target="_blank">{[$web_domain]}</a></p>
+
+<p>-------------------------------------------------------------------------------</p>
+
+<p>To our valued {[$user]} customer：</p>
+
+<p>Welcome!</p>
+
+<p>{[$monitor.record_name]}.{[$monitor.domain]} Monitor notification:</p>
+
+<p>Time:{[$date]}</p>
+
+<p>Status:{[if $monitor.status==0]} Normal {[else]} abnormal {[/if]}</p>
+
+<p>Host computer:{[$monitor.src]} {[if $monitor.name]}</p>
+
+<p>Name:{[$monitor.name]} {[/if]} {[if $monitor.dst]}</p>
+
+<p>Process:switchover to {[$monitor.dst]} {[/if]}</p>
+
+<p>{[$web_name]}We wish you a pleasant use.</p>
+
+<p>System info, Please don&rsquo;t reply</p>
+
+<p>{[$web_name]}Official website: <a href="{[$web_domain]}" target="_blank">{[$web_domain]}</a></p>

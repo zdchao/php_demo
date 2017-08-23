@@ -1,0 +1,136 @@
+{[include file='common/head.html']}
+<script type='text/javascript'>
+$(document).ready(function(){
+	$.ajax({url:'?c=views&a=getList',dataType:'json',async:false,success:function(ret) {
+		$(".view_row").each(function(){
+			var id = $(this).text();
+			if (id==0) {
+				$(this).html('默认');
+			}else {
+				for ( var i in ret) {
+					if (ret[i]['id'] == id) {
+						$(this).html(ret[i]['name']);
+					}
+				}
+			}
+		});
+		}
+	});
+});
+var dia;
+function piao_edit_record(id,domain)
+{
+	var trid = MD5_hexhash(domain)+'_'+id;
+	//var name = $("#"+trid).find('td').eq(1).text();
+	//var flags = $("#"+trid).find('td').eq(7).attr('data-flags');
+	var value = $("#"+trid).find('td').eq(3).attr('title');
+	var html = '';
+		html += '<div class="piao_div">解析值:<input type=text id="piao_record_value" value="'+value+'"></div>';
+		//html += '<div class="piao_div">flags:<input type=text id="piao_record_flags" value="'+flags+'"></div>';
+		html += '<div class="piao_div"><input type="button" class="btn" value="修改" onclick="edit_record('+id+',\''+domain+ '\')"></div> ';
+		dia = art.dialog({id:'piao_edit_record',lock:true,content:html,top:"10%"});
+}
+function edit_record(id,domain)
+{
+	var trid = MD5_hexhash(domain)+'_'+id;
+	var newvalue = $("#piao_record_value").val();
+	var oldvalue = $("#"+trid).find('td').eq(3).attr('title');
+	if (newvalue == oldvalue) {
+		dia.close();
+		return ;
+	}
+	dia.content('正在执行...');
+	$.ajax({
+		url:'?c=records&a=editRecord',
+		data:{id:id,domain:domain,value:newvalue},
+		dataType:'json',
+		success:function(a) {
+			dia.close();
+			if (a.code != 200) {
+				alert(a.message);
+				return ;
+			}
+			$("#"+trid).find('td').eq(3).attr('title',newvalue).find('#value_span').html(newvalue);
+		},
+		error:function(e) {
+			dia.close();
+		}
+	});
+}
+</script>
+
+
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：解析列表</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 
+					域名:<input name='domain' value='{[$domain]}' size=16>
+					主机:<input name='name' value='{[$name]}' size=16>	
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+					<span>[<a href="?c=records&a=login&domain={[$domain]}" target=_blank>登陆面板</a>]</span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="12" class="bg_main"><b>解析列表</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>序列</td>
+					<td>域名前缀</td>
+					<td>解析类型</td>
+					<td>解析值</td>
+					<td>解析线路</td>
+					<td>ttl</td>
+					<td>状态</td>
+					<td>监控</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="{[md5($row.domain)]}_{[$row.id]}">
+					<td>{[$row.id]}</td>
+					<td title="点击只显示{[$row.domain]}下主机为{[$row.name]}的记录">[<a href="{[$action]}&domain={[$row.domain]}&name={[$row.name]}">{[$row.name]}</a>]</td>
+					<!-- <td title="点击只显示{[$row.domain]}的记录">[<a href="{[$action]}&domain={[$row.domain]}">{[$row.domain]}</a>]</td>-->
+					<td>{[$row.t]}</td>
+					<td title="{[$row.value]}">[<a href="javascript:piao_edit_record({[$row.id]},'{[$row.domain]}')"><span id="value_span">{[$row.value|truncate:48]}</span></a>]</td>
+					<td class='view_row' data-view='{[$row.view]}'>{[$row.view]}</td>
+					<td>{[$row.ttl]}</td>
+					<td data-flags='{[$row.flags]}' title="1:状态,2:hold,4:admin_lock,8:backup">
+					<form action='?c=records&a=setFlags&domain={[$row.domain]}&id={[$row.id]}&name={[$row.name]}' method='POST'>
+							<input name='flags' size=5 value="{[$row.flags]}">
+						{[if ($row.flags & 1)==1]}st{[/if]}
+						{[if ($row.flags & 2)==2]}ho{[/if]}
+						{[if ($row.flags & 4)==4]}al{[/if]}
+						{[if ($row.flags & 8)==8]}ba{[/if]}
+						{[if ($row.flags & 256)==256]}tcp{[/if]}
+						</form>
+					</td>
+					<td>{[$row.monitor_flag]}</td>
+					
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="12" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&domain={[$domain]}&name={[$name]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&domain={[$domain]}&name={[$name]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&domain={[$domain]}&name={[$name]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&domain={[$domain]}&name={[$name]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

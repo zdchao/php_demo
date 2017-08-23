@@ -1,0 +1,150 @@
+{[include file="public/head.html"]}
+<script type="text/javascript" src="{[$STATIC]}domainmanage/domainmanage.js?v={[$jsversion]}"></script>
+<div class="wrap">
+<div class="contain">
+	<div class="register_box">
+		<div>
+			<div style="padding:10px 0;"><span>域名注册>>我的域名</span></div>
+		</div>
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<button type="button" class="btn btns btn-primary" onclick="domainRenewal()">续费</button>
+			</div>
+			<!--  
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary">提交资料</button>
+			</div>
+			-->
+			<div class="btn-group">
+				<div class="dropdown">
+					<button type="button" class="btn btns btn-primary dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">更多操作
+						 <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						<li role="presentation">
+        						<a role="menuitem" tabindex="-1" href="javascript:openModifyDnsModal()">修改DNS</a>
+     						</li>
+     						<li role="presentation">
+     							<a role="menuitem" tabindex="-1" href="javascript:showDomainShiftToModal()">域名转入</a>
+     						</li>
+     						<!--  
+     						<li role="presentation">
+        						<a role="menuitem" tabindex="-1" href="javascript:domainShiftout()">域名转出</a>
+     						</li>
+     						-->
+     						<li role="presentation">
+        						<a role="menuitem" tabindex="-1" href="?c=managedomain&a=modifyRegisterinfoPage">修改注册信息</a>
+     						</li>
+     						<li role="presentation">
+     							<a role="menuitem" tabindex="-1" href="javascript:modifyDomaininfo()">修改域名信息</a>
+     						</li>
+     						<!--  
+     						<li role="presentation">
+        						<a role="menuitem" tabindex="-1" href="#">生成域名证书</a>
+     						</li>
+     						<li role="presentation">
+        						<a role="menuitem" tabindex="-1" href="#">查看操作日志</a>
+     						</li>
+     						-->
+					</ul>
+				</div>
+			</div>
+			<!-- <div class="pull-right" style="position:relative;"><input type="text" class="search_btn" id="search_domain"/></div>-->
+		</div>
+		
+		<table class="domain_table" width="100%" style="margin-top:10px;">
+			<thead>
+				<tr>
+					<th width="2%"><input type="checkbox" name="checkbox_all" onclick="allCheckbox()"/></th>
+					<th width="40%">域名</th>
+					<th width="10%">解析</th>
+					<th width="10%">到期日期</th>
+					<th>域名状态</th>
+					<th>审核状态</th>
+				</tr>
+			</thead>
+			<tbody>
+			{[foreach from=$list item=row]}
+			<tr id="{[$row['id']]}">
+				<td><input type="checkbox" value="{[$row['name']]}" name="name_domain"/></td>
+				<td>{[$row['name']]}</td>
+				<td>{[if $row['dns_status'] == 1]}<button type="button" class="btn btn-primary btn-xs" onclick="domainResolution('{[$row['name']]}')">解析</button>{[else]}&nbsp;{[/if]}</td>
+				<td>{[$row['renewal_time']]}</td>
+				<td>{[if $row['status'] == 1]}正在审核{[else if $row['status'] == 0]}注册成功{[else if $row['status'] == 2]}转入域名{[/if]}</td>
+				<td>
+					{[if $row['status'] == 1]}
+					<button type="button" class="btn btn-success btn-xs" onclick="domainStatus('{[$row['name']]}')">查询</button>
+					{[/if]}
+				</td>
+			</tr>
+			{[/foreach]}
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+
+<!-- 模态框（修改dns） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	     <div class="modal-content">
+	        <div class="modal-header">
+	           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	           <h4 class="modal-title" id="myModalLabel">修改DNS</h4>
+	        </div>
+	        <div class="modal-body">
+	        	<div>默认<input type="radio" checked="checked" name="modify-dns" value="1"/></div>
+	        	<!--  
+	        	<div>
+	        		dns1:<input type="text" name="dns1" readonly="readonly"/>&nbsp;&nbsp;
+	        		dns2:<input type="text" name="dns2" readonly="readonly"/>
+	        	</div>
+	        	-->
+	        	<div>自定义<input type="radio" name="modify-dns" value="2"/></div>
+	        	<div>dns1:<input type="text" name="user-defined-dns1"/>&nbsp;&nbsp;dns2:<input type="text" name="user-defined-dns2"/></div>
+	        </div>
+	        <div class="modal-footer">
+	           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	           <button type="button" class="btn btn-primary" onclick="modifyDnsEnter()" id="btn-modify_dns">修改ns</button>
+	        </div>
+	     </div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+<!--模态框（Modal）  -->
+<!-- 模态框域名转入 -->
+<div class="modal fade" id="domain_shift_to" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">域名转入</h4>
+			</div>
+			<div class="modal-body" id="shift_to_tip">
+				<div>域名:<input type="text" name="domain"/>&nbsp;&nbsp;密码:<input type="text" name="passw"/></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button id="shift_to" type="button" class="btn btn-primary" onclick="domainShisfTo()">转入</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 模态框域名转入结束 -->
+<!-- 模态提示框 -->
+<div class="modal fade" id="modal_tip" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">操作提示</h4>
+			</div>
+			<div class="modal-body" id="modal_tip_content">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 模态提示框结束 -->
+{[include file="public/foot.html"]}

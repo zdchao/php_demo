@@ -1,0 +1,111 @@
+{[dispatch c='public'  a='head']}
+<script type="text/template" id="renew-setting-template">
+   <td>自动续费</td>
+   <td>
+		<input type="radio" name="renew" value="1" {{#renew}}checked{{/renew}}>开启
+		<input type="radio" name="renew" value="0"  {{^renew}}checked{{/renew}}>关闭
+	</td>
+   <td>
+		<span class="btn btns"  id="enter">修改</span>
+		<span class="btn" id="esc">取消</span>
+   </td>
+</script>
+<script type="text/javascript">
+ containername = '{[$name]}';
+var  containerinfo = eval('('+'{[$info]}'+')')
+ $(document).ready(function(){
+	 $("#left").find("#containerSetting").addClass("active");
+ });
+ function piaoModifyRenew(key){
+	 var tr = $("#tr"+key);
+	 var beforeHtml = tr.html();
+	 var html = $("#renew-setting-template").html();
+	 var option = [];
+	 option.renew = containerinfo.auto_renew==0?"":"yes";
+	 html = Mustache.to_html(html,option);
+	 tr.html(html);
+	 tr.find("#enter").bind('click',function(){
+		 submit(tr);
+	 })
+	  tr.find("#esc").bind('click',function(){
+		tr.html(beforeHtml);
+	 })
+ }
+ function submit(div){
+	 var value = div.find('input[name=renew]:checked').val();
+	 div.find("#enter").addClass("disabled");
+	 showMessage("正在执行中...");
+	 $.ajax({
+			url:"?c=containersetting&a=modifyRenew",
+			dataType:'json',
+			data:{auto_renew:value,name:containername},
+			type:'post',
+			success:function(a){
+			div.find("#enter").removeClass("disabled");
+				if(a.status.code!=1)
+				{
+					showMessage(a.status.message,true);
+					return;
+				}
+				window.location.reload();
+			},
+			error:function(a){
+				showMessage("error",true);
+			}
+		});
+ }
+var showMessage = function(message,clear){
+	   var messagediv = $("#message");
+		messagediv.html(message).addClass('alert alert-success');
+		if (clear) {
+			that.messagediv.html(message).addClass('alert alert-success');
+			setTimeout(function() {
+				messagediv.html('').removeClass();
+			}, 5000);
+		}
+	}
+</script>
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<link href="/style/user/css/container.css" rel="stylesheet">
+<div class="row-fluid" style="height:30px;">
+		<span id="domain_error" class="offset3"></span>
+</div>
+<div class="wrap" id="left">
+    <div class="cl mtb20">
+		<div class="menus_aside">
+            <div id="left_group_list">
+            	<div>
+					<a href="?c=public&a=container"><span class="container_left left_color">产品列表</span></a>
+				</div>
+				<div  class="cur">
+					<a  href="?c=containerproduct&a=usercontainer"><span class="container_left">我的容器</span></a>
+				</div>
+				<div>
+					<a  href="?c=customimage&a=pagelist"><span  class="container_left left_color">镜像管理</span></a>
+				</div>
+            </div>
+        </div>
+ 		<div class="cont_main">
+ 			  {[include file='container/operattop.html']}
+	        <div class="domain_box">
+		       <table class="domain_table" width="100%">
+		       		<thead>
+		       			<tr>
+			       			<th width="20%"></th>
+			       			<th width="20%"></th>
+			       			<th width="auto"></th>
+		       			</tr>
+		       		</thead>
+		       		<tbody>
+		       			<tr id="tr0">
+		       				<td>自动续费</td>
+		       				<td>{[if $containerinfo.auto_renew ==0]}<span class="label label-important">已关闭</span>{[else]}<span class="label label-info">已开启</span>{[/if]}</td>
+		       				<td> <span id="add" class="btn" onclick="piaoModifyRenew(0)">设置</span></td>
+		       			</tr>
+		       		</tbody>
+				</table>
+			</div>	
+ 		</div>
+ 	</div>
+ </div>
+{[include file='public/foot.html']}

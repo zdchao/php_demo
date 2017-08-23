@@ -1,0 +1,275 @@
+@CHARSET "UTF-8";
+
+.record_tip{display:none;padding-top:10px;}
+
+#tips-content{border-radius:0;}
+
+.tip_close{float:right;-webkit-appearance: none;padding: 0;cursor: pointer;background: transparent;border: 0;}
+
+.middl_menus{margin:20px 0; position: relative;}
+
+.domain_box{ padding-bottom: 10px;}
+
+#record-list-header{background: #f5f5f5;}
+
+/* 大屏幕 */
+
+@media (min-width: 1200px) {
+
+	.contain_middle{ margin:0 40px;}
+
+	.record{width: 100%;margin:0 40px;background:#fff;}
+
+.record.clearfix {
+    text-align: center;
+    padding: 5px;
+}
+
+	.record-checkbox{width: 54px;text-align: center;}
+
+	.record-name{width: 162px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;text-align: center;}
+
+	.record-name > input {padding:0;width:95%;height:30px;}
+
+	.record-type{width: 108px;vertical-align:middle;text-align: center;}
+
+	.record-type > select{width:84px;height: 32px;vertical-align:middle;position:relative;/*top:2px;*/display:inline-block;border-radius:0;}
+
+	.record-line{width: 108px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap; text-align: center;}
+
+	.record-value{width: 216px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap; text-align: center;}
+
+	.record-ttl{width: 87px;text-align: center;}
+
+	.record-operat{width: 237px;text-align: center;}
+
+	.record-monitor{width: 107px;text-align: center;}
+
+	/*增加监控*/
+
+	.monitor-add-row{display:block;width:1120px;margin:10px auto;background:#f5f5f5;padding:10px 0;}
+
+	.monitor-add-row td{display:block;width:600px;margin:0 auto;}
+
+	.monitor-add-row td form div{height:35px;line-height:35px;}
+
+	.monitor-add-row input[type='text']{border-radius:0;}
+
+	.monitor-add-row .record-btn{width:400px;margin:0 auto;}
+
+	/*批量添加*/
+
+	.multi_div{width:1120px;margin:0 auto;}
+
+	.record-add-multi{background:#dff0d8}
+
+	.record-add-multi div{height:35px;width:400px;margin:0 auto;vertical-align:middle;line-height:35px;}
+
+	.record-add-multi input[type="text"]{width:80px;border-radius:0;}
+
+	.record-add-multi select{width:94px;border-radius:0;}
+
+	.record-add-multi div:nth-last-child(2){height:120px;}
+
+	.record-add-multi div:nth-last-child(2) textarea{width:380px;height:100px;border-radius:0;}
+
+	.record-add-multi div:last-child{width:200px;padding-bottom:10px;}
+
+}
+
+/* 平板电脑和小屏电脑之间的分辨率 */
+
+@media (min-width: 768px) and (max-width: 1199px) {
+
+	.contain_middle{ margin:0 10px;}
+
+	.search_btn{ position: absolute;right:0; border-radius: 0; width: 140px; height: 28px; line-height: 28px; border:#ccc solid 1px; padding-left: 10px;}
+
+	.btn-group button{padding:3px 8px;}
+
+	.record{width:748px;margin:0 auto;background:#fff;}
+
+	.record-checkbox{width:14px;}
+
+	.record-name{width:120px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}
+
+	.record-name > input {padding:0;width:95%;height:30px;}
+
+	.record-type{width:60px;vertical-align:middle;}
+
+	.record-type > select{width:68px;height: 30px;vertical-align:middle;position:relative;top:5px;display:inline-block;border-radius:0;}
+
+	.record-line{width:100px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap; }
+
+	.record-value{width:120px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap; }
+
+	.record-ttl{width:60px;}
+
+	.record-operat{width:130px;}
+
+	.record-monitor{width:60px;}
+
+	/*增加监控*/
+
+	.monitor-add-row{display:block;width:748px;margin:10px auto;background:#f5f5f5;padding:10px 0;}
+
+	.monitor-add-row td{display:block;width:540px;margin:0 auto;}
+
+	.monitor-add-row td form div{height:35px;line-height:35px;}
+
+	.monitor-add-row input[type='text']{border-radius:0;}
+
+	.monitor-add-row .record-btn{width:400px;margin:0 auto;}
+
+	/*批量添加*/
+
+	.multi_div{width:748px;margin:0 auto;}
+
+	.record-add-multi{background:#dff0d8}
+
+	.record-add-multi div{height:35px;width:400px;margin:0 auto;vertical-align:middle;line-height:35px;}
+
+	.record-add-multi input[type="text"]{width:80px;border-radius:0;}
+
+	.record-add-multi select{width:94px;border-radius:0;}
+
+	.record-add-multi div:nth-last-child(2){height:120px;}
+
+	.record-add-multi div:nth-last-child(2) textarea{width:380px;height:100px;border-radius:0;}
+
+	.record-add-multi div:last-child{width:200px;padding-bottom:10px;}
+
+}
+
+/* 横向放置的手机和竖向放置的平板之间的分辨率 */
+
+@media (max-width: 767px) {
+
+	.contain_middle{ margin:0 5px;}
+
+	.middl_menus{height:76px;}
+
+	.middl_menus div:nth-child(4){position:absolute;left:-5px;top:38px;}
+
+	.middl_menus div:nth-child(5){position:absolute;left:70px;top:38px;}
+
+	.search_btn{ position: absolute;right:0; border-radius: 0; width: 100px; height: 28px; line-height: 28px; border:#ccc solid 1px; padding-left: 10px;}
+
+	.btn-group button{padding:3px 4px;}
+
+	.record{width:100%;background:#fff;}
+
+	.record-checkbox{width:2%;}
+
+	.record-name{width:15%;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}
+
+	.record-name > input {padding:0;width:95%;height:30px;}
+
+	.record-type{width:9.5%;vertical-align:middle;}
+
+	.record-type > select{width:68px;height: 30px;vertical-align:middle;position:relative;top:5px;display:inline-block;border-radius:0;}
+
+	.record-line{width:10%;overflow:hidden;text-overflow:ellipsis;white-space: nowrap; }
+
+	.record-value{width:15%;overflow:hidden;text-overflow:ellipsis;white-space: nowrap; }
+
+	.record-ttl{width:50px;}
+
+	.record-operat{width:120px;}
+
+	.record-monitor{width:60px;}
+
+	/*增加监控*/
+
+	.monitor-add-row{display:block;width:748px;margin:10px auto;background:#f5f5f5;padding:10px 0;}
+
+	.monitor-add-row td{display:block;width:540px;margin:0 auto;}
+
+	.monitor-add-row td form div{height:35px;line-height:35px;}
+
+	.monitor-add-row input[type='text']{border-radius:0;}
+
+	.monitor-add-row .record-btn{width:400px;margin:0 auto;}
+
+	/*批量添加*/
+
+	.multi_div{width:748px;margin:0 auto;}
+
+	.record-add-multi{background:#dff0d8}
+
+	.record-add-multi div{height:35px;width:400px;margin:0 auto;vertical-align:middle;line-height:35px;}
+
+	.record-add-multi input[type="text"]{width:80px;border-radius:0;}
+
+	.record-add-multi select{width:94px;border-radius:0;}
+
+	.record-add-multi div:nth-last-child(2){height:120px;}
+
+	.record-add-multi div:nth-last-child(2) textarea{width:380px;height:100px;border-radius:0;}
+
+	.record-add-multi div:last-child{width:200px;padding-bottom:10px;}
+
+}
+
+.record:nth-child(even){ background: #f9f9f9}
+
+.record:hover{background-color: #F5F5F5;}
+
+.record >span{float:left;margin:0px 5px;text-align: left;height:45px;line-height:45px;vertical-align: middle;}
+
+.record >span>input {font-weight: bold;vertical-align:middle}
+
+.record-line > select{width:95%;height: 32px;vertical-align:middle;position:relative;/*top:2px;*/display:inline-block;border-radius:0;}
+
+.record-value > input {padding:0;width:95%;height:30px;}
+
+.record-ttl > input {padding-left:3px;padding-right:3px;width:80%;height:30px;padding:0;}
+
+.record-operat a em{margin:0;}
+
+.record-operat > button{width:45%;padding:0;height:30px;}
+
+.record-monitor a em{margin:0;}
+
+.record-remark{width:27%;display: inline-block;}
+
+.record-remark > input {width:95%;display: inline-block;}
+
+.record-addoperat{padding:0px;width:auto;}
+
+.record-addoperat >button{padding:0;height:30px;width:50px;}
+
+.pager li > a, .pager li > span{border-radius:0;}
+
+.test_triangle{ width:220px; position:absolute;z-index:1000;}
+
+.test_triangle .nsheightset{width:30px;float:left;}
+
+.test_triangle .nsheightset a{color:#E9967A;}
+
+.popup{width:220px;background:#E8E8E8; padding:2px; color:#fff;  border-radius:4px;position:absolute; }
+
+.popup span{
+
+    display:block; 
+
+    width:0; 
+
+    height:0; 
+
+    border-width:10px 10px 10px 10px;
+
+    border-style:solid; 
+
+    border-color:  transparent transparent #E8E8E8 transparent; 
+
+    position:absolute; 
+
+    top:-18px; 
+
+    left:45%;/* 三角形居中显示 */
+
+    margin-left:-10px;/* 三角形居中显示 */
+
+}
+

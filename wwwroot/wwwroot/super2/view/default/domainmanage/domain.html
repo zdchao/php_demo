@@ -1,0 +1,116 @@
+{[include file='common/head.html']}
+<body text='#000000' leftmargin='0' topmargin='0'>
+<div align="center">
+	<div class="wid_main mar_main" align="left">
+		<div class="block_top" align="left">当前位置：域名注册管理 --> 域名价格</div>
+		<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索: <input name='search' value='{[$search]}' size=32>
+						<input type='submit' value='搜索'>
+
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+				</div>
+			</form>
+		<table class="table_main2" cellpadding="0" cellspacing="1">
+			<tr>
+				<td colspan="9" class="bg_main"><b>域名价格</b></td>
+			</tr>
+			<tr>
+				<td>UID</td>
+				<td>域名</td>
+				<td>创建时间</td>
+				<td>过期时间</td>
+				<td>状态</td>
+				<td>本地注册</td>
+				<td>注册商</td>
+				<td>ns1</td>
+				<td>ns2</td>
+			</tr>
+			{[foreach from=$list item=row]}
+			<tr>
+				<td>{[$row['uid']]}</td>
+				<td>{[$row['name']]}</td>
+				<td>{[$row['create_time']]}</td>
+				<td><a href="javascript:editRenewalTime('{[$row['name']]}','{[$row['renewal_time']]}')">{[$row['renewal_time']]}</a></td>
+				<td>{[if $row['status'] == 0]}注册成功{[else if $row['status'] == 1]}等待审核{[else if $row['status'] == 2]}转入域名{[/if]}</td>
+				<td>{[if $row['status'] == 0]}是{[else]}否{[/if]}</td>
+				<td>{[if $row['agent_name'] == 'xinnet']}新网{[/if]}</td>
+				<td>{[$row['dns1']]}</td>
+				<td>{[$row['dns2']]}</td>
+			</tr>
+			{[/foreach]}
+			<tr>
+					<td colspan="9" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+		</table>
+	</div>
+</div>
+</body>
+{[include file='common/foot.html']}
+<script type="text/template" id="edit-renewal-time-template">
+<div id="edit-renewal-time-div">
+	<div><input type="text" name="renewal_time" value="{{renewal_time}}"/></div>
+	<div>&nbsp;</div>
+	<div><input type="button" id="enter" value="确定"/>&nbsp;<input type="button" id="esc" value="取消"/></div>
+</div>
+</script>
+<script type="text/javascript">
+function editRenewalTime(name,time){
+	var conf = confirm("请核查是否为此域名");
+	if(conf){
+		var template = $("#edit-renewal-time-template").html();
+		var option = [];
+		option.renewal_time = time;
+		var el = Mustache.to_html(template,option);
+		var dia = art.dialog({
+			id:'editrenewaltime',
+			title:'修改过期时间',
+			content:el,
+			lock:true
+		});
+		var div = $("#edit-renewal-time-div");
+		div.find("#esc").bind('click',function(){
+			dia.close();
+		});
+		div.find("#enter").bind('click',function(){
+			dia.close();
+			var edit_time = div.find("[name=renewal_time]").val();
+			ajaxEditRenewalTime(name,edit_time);
+		});
+	}
+}
+function ajaxEditRenewalTime(name,time){
+	$.ajax({
+		url:'?c=domainmanager&a=ajaxEditRenewalTime',
+		type:'POST',
+		data:{name:name,time:time},
+		dataType:'json',
+		success:function(a){
+			//alert('success');
+			if(a.status.code != 1){
+				alert('修改失败');
+				return;
+			}
+			alert('修改成功,重新加载');
+			window.location.href = "?c=domainmanager&a=domainPage";
+		},
+		error:function(a){
+			alert("ajax获取信息失败");
+		}
+	});
+}
+</script>

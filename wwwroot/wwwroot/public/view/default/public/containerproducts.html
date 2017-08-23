@@ -1,0 +1,114 @@
+<!-- 阴影 -->
+<style>
+.list{
+margin:1% 20%;
+padding:20px;
+height:auto;
+}
+table{
+margin-left:5%;
+float:left;
+width:30%;
+margin-bottom:20px;
+
+}
+table td{
+ text-align:center;
+ width:20%;
+}
+table caption{
+background-color:#f0d022;
+padding:12px;
+font-size:16px;
+}
+table tr{
+	height : 40px;
+	width : 60px;
+	background-color:#fff;
+}
+table tr:nth-child(even){
+ background-color:#f5f8f1;
+}
+.price{
+line-height:60px;
+padding-left:40px;
+font-size: 20px;
+font-weight: bolder;
+color: #4abac4 ;
+}
+.buy-button{
+    background: none repeat scroll 0 0 #4abac4;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bolder;
+    text-align: center;
+    padding:4px 15px;;
+}
+.buy{
+background-image:#f5f8f1;
+	
+}
+.head{
+	margin:10px 20px;
+}
+</style>
+<script type="text/javascript">
+var containerproduct = eval("("+'{[$newrows]}'+")");
+	function change(id){
+		var row = getRow(id);
+		var html = '<tr class="buy"><td colspan="2"><div class="price" style="background-image:#f5f8f1;"><em><b>'+row.price/100+'</b></em>元/月</div>';
+		html+= '<button class="buy-button" onclick="buy()">';
+	    html += '<img src="/style/img/dns_shopping_cart.png">';
+		html += "点击购买</button></td></tr>";
+		$("#table"+id).find("tbody").html(html);
+	}
+	function recover(id){
+		var row = getRow(id);
+			var html = '';
+		html += "<tr><td>价钱</td><td><em>￥"+row.price/100+"</em></td></tr>";
+		html += "<tr><td>主机</td><td>"+row.cb_host+"</td></tr>";
+		html += "<tr><td>cpu</td><td>"+row.cpu+"</td></tr>";
+		html += "<tr><td>硬盘</td><td>"+row.disk_space+"(G)</td></tr>";
+		html += "<tr><td>内存</td><td>"+row.memory+"(M)</td></tr>";
+		$("#table"+id).find("tbody").html(html);
+	}
+	function getRow(id){
+		for(var i in containerproduct){
+			if(containerproduct[i]['id'] != id){
+				continue;
+			}
+			return containerproduct[i];
+		}
+		return false;
+	}
+	function buy(id){
+		window.location.href = "/user/?c=public&a=container&pid="+id;
+	}
+</script>
+<div class="header_c2 i_header_c"></div>
+<dl class="i_th"><dd class="th">产品列表</dd></dl>
+<div class="list">
+{[foreach from=$rows item=row]}
+            <div  id="table{[$row.id]}" data-id="{[$row.id]}">
+		      <table>
+		      		<caption>{[$row.name]}</caption>
+		      		<tbody>
+						<tr><td>价钱</td><td><em>￥{[$row.price/100]}</em></td></tr>	
+						<tr><td>核心数</td><td>{[$row.core]}</td></tr>
+						<tr><td>内存</td><td>{[$row.memory]}(M)</td></tr>
+						<tr><td>硬盘</td><td>{[$row.disk_space]}(G)</td></tr>
+						<tr><td>描述</td><td style="text-align:left;">{[$row.mem]}</td></tr>	
+						<tr>
+							<td colspan="2">
+							   <a class="buy_btn" href="/user/?c=public&a=container&pid={[$row.id]}">点击购买</a>
+							</td>
+						</tr>
+					</tbody>      
+		      </table>
+		      
+		      </div>
+{[/foreach]}
+</div>
+{[include file='public/float2.html']}

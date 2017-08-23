@@ -1,0 +1,82 @@
+@CHARSET "UTF-8";
+.layui-body.common-body{
+	left:280px;
+	padding:20px;
+}
+.layui-side.common-layui-side{
+	width:280px;
+}
+.layui-side-scroll.common-side-scroll{
+	width:280px;
+}
+.layui-nav-tree.common-nav-tree{
+	width:280px;
+}
+.layui-nav-child.common-nav-child > dd{
+	padding:0;
+	padding-left:5px;
+	height:53px;
+}
+.layui-nav-child.common-nav-child > dd > a{
+	display:inline-block;
+	padding:0;
+	height:53px;
+	line-height:53px;
+	position:relative;
+}
+.label{
+	background: none;
+  -webkit-border-radius: 18px;
+  -moz-border-radius: 18px;
+  border-radius: 18px;
+  border: 2px solid #488fd2;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0 10px;
+}
+.group-name{
+	width:55%;
+}
+.group-size{
+	width:25%;
+}
+.btn-drop{
+	position: relative;
+	display: inline-block;
+  vertical-align: middle;
+}
+.dropdown-menu{
+	display:black;
+	position: absolute;
+  top: 100%;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  list-style: none;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+}
+.dropdown-menu > li > a{
+	display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.428571429;
+  color: #333333;
+  white-space: nowrap;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #3b3f4d;
+}

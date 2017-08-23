@@ -1,0 +1,165 @@
+{[dispatch c='public'  a='head']}
+
+<script type='text/javascript'>
+	var descr = [];
+	var prices = [];
+	var money = '{[$user.money/100]}';
+	$(document).ready(function() {
+		show_need_money();
+	});
+	function show_description() {
+		var pid = $("#buy_pid").val();
+		if (descr[pid]) {
+			$("#sidebar").html(descr[pid]);
+			$("#show_price").html(prices[pid]);
+			return;
+		}
+		$.ajax({
+			url : '/api/?c=product&a=getInfo',
+			data : {
+				pid : pid
+			},
+			dataType : 'json',
+			success : function(a) {
+				descr[pid] = a.info.description;
+				prices[pid] = a.info.price;
+				$("#sidebar").html(a.info.description);
+				$("#show_price").html(a.info.price);
+
+			}
+		});
+	}
+	function get_pid_price(pid) {
+		if (prices[pid]) {
+			return prices[pid]
+		}
+		$.ajax({
+			url : '/api/?c=product&a=getInfo',
+			data : {
+				pid : pid
+			},
+			dataType : 'json',
+			async : false,
+			success : function(a) {
+				prices[pid] = a.info.price;
+			},
+			error : function(e) {
+
+			}
+		});
+	}
+	function show_need_money() {
+		var pid = $("#buy_pid").val();
+		get_pid_price(pid)
+		var price = prices[pid];
+		$("#show_price").html(price);
+		var month = $("[name=month]:checked").val();
+		var needmoney = price * month;
+		$("#show_money").html(needmoney);
+		if (needmoney > money) {
+			$("#show_price_div").removeClass('font-green').addClass('font-red');
+			$("#after_msg").html("&nbsp;<a href='?c=user&a=index' target=_blank>现在去充值</a>");
+			$("#show_renew_input").html("");
+		} else {
+			$("#show_price_div").removeClass('font-red').addClass('font-green');
+		}
+	}
+	function checkSubmit() {
+		
+		product_buy.submit();
+	}
+</script>
+<div class="wrap">
+<div class="contain" style="padding:10px 15px;">
+	<div>
+		<fieldset>
+			<legend>套餐购买{[$buypid[0]['allow_buy_pid']]}</legend>
+		</fieldset>
+	</div>
+	<div class="row">
+		<div class="span6">
+		<form action="?c=product&a=buyProduct" method="POST" name="product_buy" class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label">域名:</label>
+				<div class="controls" style="line-height:30px;">{[$domain]}</div>
+			</div>
+			{[if $pinfo]}
+			<div class="control-group">
+				<label class="control-label">已购买套餐名称:</label>
+				<div class="controls"  style="line-height:25px;">{[$pinfo.name]}</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">过期时间:</label>
+				<div class="controls"  style="line-height:25px;">{[$domaininfo.pid_expire_time]}</div>
+			</div>
+			{[/if]}
+			<div class="control-group">
+				<label class="control-label" for="buy_pid">请选择套餐:</label>
+				<div class="controls">
+					<select name="pid" id="buy_pid" onchange='show_need_money();' style='width:160px'>
+						{[foreach from=$plist item=row]}
+						<option value='{[$row.id]}'>{[$row.name]}</option> {[/foreach]}
+					</select> 
+                {[if !$session.is_proxy_user]}
+                   <span><a	href="/public/?c=public&a=buy"	target="_blank">服务详情</a></span>
+                {[/if]}
+				</div>
+			</div>
+			<div class="control-group" id="product-price-div">
+				<label class="control-label" for="show_price"> 套餐价格:</label>
+				<div class="controls" style="line-height:25px;">
+					<span id='show_price' ></span>元/月&nbsp;
+					<span id="show_price_msg"></span>
+				</div>
+			</div>
+			{[if !$pinfo]}
+			<div class="control-group" id="product-keystr-div">
+				<label class="control-label" for="keystr">优惠码:</label>
+				<div class="controls" >
+					<span ><input type='text' name="keystr"></span>
+				</div>
+			</div>
+		
+			<div class="control-group">
+				<label class="control-label"> 购买时间: </label>
+				<div class="controls">
+					<input type='radio' name="month" value=1 onclick="show_need_money()">&nbsp;一月&nbsp;
+					<input type='radio' name="month" value=3 onclick="show_need_money()">&nbsp;三月&nbsp;
+					<input type='radio' name="month" value=6 onclick="show_need_money()">&nbsp;六月&nbsp;
+					<input type='radio'	name="month" value=10 checked onclick="show_need_money()">&nbsp;一年&nbsp;
+					<input type='radio' name="month" value=20 onclick="show_need_money()">&nbsp;2年 &nbsp;
+					<input type='radio'	name="month" value=50 onclick="show_need_money()">&nbsp;5年
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">所需金额:</label>
+				<div class="controls">
+					<b id="show_money"></b>元(当前账户余额{[$user.money/100]}元)<b
+						id="after_msg"></b>
+				</div>
+			</div>
+			<div class="control-group">
+					<label class="control-label" for="inputEmail">提示:</label>
+					<div class="controls">
+						<b class="btn-link">现在购买一年只需支付10个月</b>
+					</div>
+				</div>
+			{[/if]}
+			<div class="control-group">
+				<label class="control-label"></label>
+				<div class="controls" id="buttons">
+				<input type="button"  onclick="window.location='?c=public&a=index'" title="重选域名" value="返回" class="btn btns btn-success">
+					&nbsp;&nbsp; 
+				<input type="button" id="enter" onclick="checkSubmit()" class="btn btns btn-success" {[if !$pinfo]}value="购买套餐" {[else]}value="升级套餐"{[/if]}>
+				</div>
+			</div>
+		</form>
+		</div>
+		<div class="span6">
+		{[include file='product/right.html']}
+		</div>
+	</div>
+</div>
+</div>
+
+{[include file='public/foot.html']}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{[dispatch c="public" a="getTitle"]}</title>
+<meta name="Keywords" content="{[$seo.keywords]}">
+<meta name="Description" content="{[$seo.description]}">
+<link href="{[$STATIC]}style/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="{[$STATIC]}style/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="{[$STATIC]}style/css/head.css" rel="stylesheet">
+<link href="{[$STATIC]}style/css/register.css" rel="stylesheet">
+<script type='text/javascript' src="{[$STATIC]}style/js/jquery-2.1.3.js?v={[$jsversion]}"></script>
+<script type='text/javascript' src="{[$STATIC]}style/bootstrap/js/bootstrap.min.js?v={[$jsversion]}"></script>
+<script type='text/javascript' src="/style/js/mustache/0.4.0/mustache.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+	<div class="col-lg-12 col-sm-12">
+		<div class="col-lg-3 col-lg-offset-4">
+			{[$errormsg]}
+		</div>
+		<div class="col-lg-3 col-lg-offset-4 col-sm-8 col-sm-offset-2 col-md-3 col-md-offset-4">
+			<form action="?c=session&a=login" method="POST" class="form-horizontal" role="form" id="my_form">
+				<div class="form-group form-group-lg">
+					<label class="control-label">用户名:</label>
+					<input type="text" class="form-control input-lg" name="user"/>
+				</div>
+				<div class="form-group">
+					<label>密码:</label>
+					<input type="password" class="form-control input-lg" name="pass"/>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-success col-lg-offset-10 btn-lg" onclick="userLogin()">登录</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+function userLogin(){
+	$("#my_form").submit();
+}
+</script>

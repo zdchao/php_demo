@@ -1,0 +1,159 @@
+{[include file='common/head.html']}
+<script type="text/template" id="piao-add-blog-template">
+<div id="add-blog-div">
+	<div class="piao_div">标题:<input name="title" id="blog_add_title" size="50"></div>
+	<div class="piao_div">链接:<input name="link" id="blog_add_link" size="50"></div>
+	<div class="piao_div"><input type="button" id="enter" class="btn" value="增加">
+<div>
+</script>
+<script type="text/template" id="piao-edit-blog-template">
+<div id="edit-blog-div">
+	<div class="piao_div">标题:<input id="blog_edit_title" size="50" value={{title}}></div>
+	<div class="piao_div">链接:<input id="blog_edit_link" size="50" value={{link}}></div>
+	<div class="piao_div"><input type="button" id="enter" class="btn" value="修改">
+</div>
+</script>
+<script type='text/javascript'>
+$(document).ready(function() {
+
+});
+var dia;
+function piao_add_blog()
+{
+	var template = $("#piao-add-blog-template").html();
+	dia = art.dialog({id:'add_log',content:template,title:'增加blog',lock:true});
+	var div = $("#add-blog-div");
+	div.find("#enter").bind('click',function(){
+		add_blog();
+	});
+}
+function add_blog()
+{
+	var title = $("#blog_add_title").val();
+	var link = $("#blog_add_link").val();
+	if (!title || !link) {
+		alert('标题或连接不能为空');
+		return ;
+	}
+	dia.content('正在执行中...');
+	$.ajax({
+		url:'?c=blog&a=add',
+		data:{title:title,link:link},
+		dataType:'json',
+		success:function(a) {
+			dia.close();
+			if (a.code != 200) {
+				alert(a.message);
+				return ;
+			}
+			window.location = '?c=blog&a=pagelist';
+		},
+		error:function(e) {
+			dia.close();
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+}
+function piao_edit_blog(id)
+{
+	var title = $("#blog_edit_title"+id).text();
+	var link = $("#blog_edit_link"+id).text();
+	if (!title || !link) {
+		alert('数据错误,标题或连接为空');
+		return ;
+	}
+	var template = $("#piao-edit-blog-template").html();
+	var option = [];
+	option.title = title;
+	option.link = link;
+	var el = Mustache.to_html(template,option);
+	dia = art.dialog({id:'edit_log',content:el,title:'修改blog',lock:true});
+	var div = $("#edit-blog-div");
+	div.find("#enter").bind('click',function(){
+		edit_blog(id);
+	});
+}	
+function edit_blog(id)
+{
+	var title = $("#blog_edit_title").val();
+	var link = $("#blog_edit_link").val();
+	if (!title || !link) {
+		alert('标题或连接不能为空');
+		return ;
+	}
+	dia.content('正在执行中...');
+	$.ajax({
+		url:'?c=blog&a=edit',
+		data:{title:title,link:link,id:id},
+		dataType:'json',
+		success:function(a) {
+			dia.close();
+			if (a.code != 200) {
+				alert(a.message);
+				return ;
+			}
+			$("#blog_edit_title"+id).html(title);
+			$("#blog_edit_link"+id).html(link);
+		},
+		error:function(e) {
+			dia.close();
+			alert('后台数据出错'+e.responseText);
+		}
+	});
+}
+function del_blog(id)
+{
+	if (confirm('确定要删除') ===false) {
+		return ;
+	}	
+	$.ajax({
+		url:'?c=blog&a=del',
+		data:{id:id},
+		dataType:'json',
+		success:function(a) {
+			if (a.code != 200) {
+				alert(a.message);
+				return ;
+			}
+			$("#blog_tr"+id).remove();
+		},
+		error:function(e) {
+			alert('后台数据出错'+e.responseText);
+		}
+		
+	});
+}
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置:blog设置</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="7" class="bg_main"><a href="javascript:piao_add_blog();" target='main'><b>[增加博文]</b></a> </td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>ID</td>
+					<td>标题</td>
+					<td>链接</td>
+				</tr>
+				{[foreach from=$list item=row]}
+				<tr id="blog_tr{[$row.id]}">
+					<td>
+					[<a href="javascript:;del_blog({[$row.id]})">删除</a>]
+					[<a href="javascript:;piao_edit_blog({[$row.id]})">修改</a>]
+					</td>
+					<td >{[$row.id]}</td>
+					<td id="blog_edit_title{[$row.id]}">{[$row.title]}</td>
+					<td id="blog_edit_link{[$row.id]}" >{[$row.link]}</td>
+				</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="7" id="bg_yellow" align="right">共计 {[$count]} 条记录&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

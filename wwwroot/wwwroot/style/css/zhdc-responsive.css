@@ -1,0 +1,694 @@
+@CHARSET "UTF-8";
+/*巨幕*/
+@media (min-width: 1575px){
+	.domain-left-nav{
+		border:1px solid #aaa;
+		border-radius:5px;
+		box-shadow:2px 2px #f0f0f0;
+	}
+	.domain-max{
+		width: 65.81196581196582%;
+		margin-left: 17.65811965811966%;
+	}
+	.domain-group-w{
+		 width:17%;
+		 float:left
+	}
+	.domain-main-w{
+		width:82%;
+		float:left;
+		padding-left:5px;
+	}
+	.domain-page{
+		 float: right;
+	}
+	.domain-opra-w{
+		width: 74.35897435897436%;
+		float:left;
+	}
+	.domain-search-input{
+		width:89%;
+	}
+	.domain-tip{
+		height:38px;
+		padding-top:10px;
+	}
+	.responsive-add-domain span{
+		display:block;
+	}
+	.responsive-add-domain span p{
+		margin-left:31%;
+		margin-top:10px;
+		width:40%;
+	}
+	.responsive-add-domain span textarea{
+		width:40%;
+		height:200px;
+		margin-left:31%;
+	}
+	.responsive-add-domain span:last-child{
+		margin-bottom:10px;
+	}
+	.responsive-add-domain span:last-child :first-child{
+		margin-left:45%;
+	}
+	/*增加cdn站点*/
+	.responsive-add-cdn{
+		height:50px;
+		width:36%;
+		line-height:50px;
+		margin-left:31%;
+		text-align:center;
+	}
+	.responsive-add-cdn select{
+		height:30px;
+		margin:10px 0 10px 5px;
+		width:150px;
+	}
+	.responsive-add-cdn button:first-child{
+		margin-right:10px;
+	}
+	/*批量修改记录*/
+	.responsive-edit-record{
+		height:40px;
+		line-height:40px;
+		width:50%;
+		margin:0 25%;
+	}
+	.responsive-edit-record1{
+		width:50%;
+		margin:0 25%;
+	}
+	.responsive-edit-record input[type="text"]{
+		height:30px;
+		-moz-box-sizing:border-box;
+		box-sizing:border-box;
+		margin:4px 0px;
+	}
+	.responsive-edit-record h5{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record p{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record button{
+		position:relative;
+		left:35%;
+	}
+	/*批量增加记录*/
+	.responsive-multi-add-record{
+		width:100%;
+	}
+	.responsive-multi-add-record div{
+		width:35%;
+		margin:0 32.5%;
+	}
+	.responsive-multi-add-record div input{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div select{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div:last-child{
+		width:15%;
+		margin:0 42.5%;
+	}
+	/*批量导入数据*/
+	.responsive-import-record{
+		width:100%;
+		height:auto;
+	}
+	.responsive-import-record textarea{
+		width:360px;
+		height:200px;
+		margin:0;
+		padding:0;
+	}
+	.responsive-import-record div{
+		width:39.13491246%;
+		margin:0 30.43254377%;
+		vertical-align:middle;
+		padding:5px 0 0 0;
+	}
+	.responsive-import-record div:last-child{
+		padding-bottom:5px;
+		width:15%;
+		margin-left:42.5%;
+	}
+}
+/* 大屏幕 */
+@media (min-width: 1200px) and (max-width: 1570px) {
+	.domain-max{
+		width: 82.90598290598291%;
+		 margin-left: 9.11111111111111%;
+	}
+	.domain-left-nav{
+		border:1px solid #aaa;
+		border-radius:5px;
+		box-shadow:2px 2px #f0f0f0;
+	}
+	.domain-left-nav ul{
+		border-radius:5px;
+	}
+	.domain-group-w{
+		 width:17%;
+		 float:left
+	}
+	.domain-main-w{
+		width:82%;
+		float:left;
+		padding-left:5px;
+	}
+	.domain-left-nav ul li{
+		height:35px;
+		line-height:35px;
+		border-radius:5px;
+	}
+	.domain-left-nav ul .first-li{
+		background:#DEDEDE;
+	}
+	.domain-left-nav ul li:hover{
+		background:#00ffff;
+	}
+	.domain-opra-w{
+		width: 74.35897435897436%;
+		float:left;
+	}
+	.domain-search-input{
+		width:89%;
+	}
+	.domain-search-input{
+		width:85%;
+	}
+	.domain-page{
+		 float: right;
+	}
+	.domain-tip{
+		height:38px;
+		padding-top:10px;
+	}
+	.responsive-add-domain span{
+		display:block;
+	}
+	.responsive-add-domain span p{
+		margin-left:31%;
+		margin-top:10px;
+		width:40%;
+	}
+	.responsive-add-domain span textarea{
+		width:40%;
+		height:200px;
+		margin-left:31%;
+	}
+	.responsive-add-domain span:last-child{
+		margin-bottom:10px;
+	}
+	.responsive-add-domain span:last-child :first-child{
+		margin-left:45%;
+	}
+	/*增加cdn站点*/
+	.responsive-add-cdn{
+		height:50px;
+		width:36%;
+		line-height:50px;
+		margin-left:31%;
+		text-align:center;
+	}
+	.responsive-add-cdn select{
+		height:30px;
+		margin:10px 0 10px 5px;
+		width:150px;
+	}
+	.responsive-add-cdn button:first-child{
+		margin-right:10px;
+	}
+	/*批量修改记录*/
+	.responsive-edit-record{
+		height:40px;
+		line-height:40px;
+		width:58%;
+		margin:0 21%;
+	}
+	.responsive-edit-record1{
+		width:58%;
+		margin:0 21%;
+	}
+	.responsive-edit-record input[type="text"]{
+		height:30px;
+		-moz-box-sizing:border-box;
+		box-sizing:border-box;
+		margin:4px 0px;
+	}
+	.responsive-edit-record h5{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record p{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record button{
+		position:relative;
+		left:35%;
+	}
+	/*批量增加记录*/
+	.responsive-multi-add-record{
+		width:100%;
+	}
+	.responsive-multi-add-record div{
+		width:37%;
+		margin:0 34.5%;
+	}
+	.responsive-multi-add-record div input{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div select{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div:last-child{
+		width:15%;
+		margin:0 42.5%;
+	}
+	/*批量导入数据*/
+	.responsive-import-record{
+		width:100%;
+		height:auto;
+	}
+	.responsive-import-record textarea{
+		width:360px;
+		height:200px;
+		margin:0;
+		padding:0;
+	}
+	.responsive-import-record div{
+		width:380px;
+		margin:0 28.82482695%;
+		padding:5px 0 0 0;
+	}
+	.responsive-import-record div:last-child{
+		padding-bottom:5px;
+		width:15%;
+		margin-left:42.5%;
+	}
+}
+
+/* 平板电脑和小屏电脑之间的分辨率 */
+@media (min-width: 768px) and (max-width: 979px) {
+	.domain-max{
+		width:95%;
+		margin-left:2%;
+	}
+	.domain-opra-w{
+		width: 72.35897435897436%;
+		float:left;
+	}
+	.domain-left-nav{
+		border:1px solid #aaa;
+		border-radius:5px;
+		box-shadow:2px 2px #f0f0f0;
+		margin-bottom:10px;
+	}
+	.domain-search-input{
+		width:89%;
+	}
+	.domain-page{
+		 float: right;
+	}
+	.zhdc-domain-opera{
+		 position: relative;
+		 left:-20px;
+	}
+	.zhdc-domain-opera li{
+		width:100%;
+		list-style-type:none;
+		width:100%;
+	}
+	.zhdc-domain-opera li a{
+		text-decoration:none;
+		width:100%;
+		display:block;
+		background:#f2f2f2;
+		border:1px solid #d4d4d4;
+		height:40px;
+		text-align:center;
+		line-height:40px;
+	}
+	.zhdc-record-operat div{
+		float:left;
+		margin-left:5px;
+	}
+	.zhdc-record-search{
+		width:18%;
+	}
+	.zhdc-record-search input{
+		width:90%;
+	}
+	.responsive-add-domain span{
+		display:block;
+	}
+	.responsive-add-domain span p{
+		margin-left:31%;
+		margin-top:10px;
+		width:40%;
+	}
+	.responsive-add-domain span textarea{
+		width:40%;
+		height:200px;
+		margin-left:31%;
+	}
+	.responsive-add-domain span:last-child{
+		margin-bottom:10px;
+	}
+	.responsive-add-domain span:last-child :first-child{
+		margin-left:45%;
+	}
+	/*增加cdn站点*/
+	.responsive-add-cdn{
+		height:50px;
+		width:40%;
+		line-height:50px;
+		margin-left:30%;
+		text-align:center;
+	}
+	.responsive-add-cdn select{
+		height:30px;
+		margin:10px 0 10px 5px;
+		width:150px;
+	}
+	.responsive-add-cdn button:first-child{
+		margin-right:10px;
+	}
+	/*批量修改记录*/
+	.responsive-edit-record{
+		height:40px;
+		line-height:40px;
+		width:66%;
+		margin:0 19%;
+	}
+	.responsive-edit-record1{
+		width:66%;
+		margin:0 19%;
+	}
+	.responsive-edit-record input[type="text"]{
+		height:30px;
+		-moz-box-sizing:border-box;
+		box-sizing:border-box;
+		margin:4px 0px;
+	}
+	.responsive-edit-record h5{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record p{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record button{
+		position:relative;
+		left:30%;
+	}
+	/*批量增加记录*/
+	.responsive-multi-add-record{
+		width:100%;
+	}
+	.responsive-multi-add-record div{
+		width:42%;
+		margin:0 28%;
+	}
+	.responsive-multi-add-record div input{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div select{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div:last-child{
+		width:20%;
+		margin:0 40%;
+	}
+	/*批量导入数据*/
+	.responsive-import-record{
+		width:100%;
+		height:auto;
+	}
+	.responsive-import-record textarea{
+		width:360px;
+		height:200px;
+		margin:0;
+		padding:0;
+	}
+	.responsive-import-record div{
+		width:380px;
+		margin:0 24.82482695%;
+		padding:5px 0 0 0;
+	}
+	.responsive-import-record div:last-child{
+		padding-bottom:5px;
+		width:17%;
+		margin-left:40.5%;
+	}
+	/*记录导航*/
+	.responsive-record-nav{
+		height:40px;
+		position:relative;
+	}
+	.responsive-record-nav span:first-child{
+		//border:1px solid #000;
+	}
+	.responsive-record-nav ul{
+		border:1px solid #999;
+		margin:0;
+		width:100px;
+		height:30px;
+		position:absolute;
+		top:0;
+		right:0;
+		z-index:20;
+		background:#f0f0f0 url("/style/img/menu.png") no-repeat 10px;
+		border-radius:4px;
+	}
+	.responsive-record-nav ul li{
+		display:none;
+		list-style:none;
+	}
+	.responsive-record-nav ul li a{
+		display:block;
+		width:100%;
+		height:30px;
+		line-height:30px;
+		text-align:center;
+		text-decoration:none;
+		background:#f0f0f0;
+	}
+	.responsive-record-nav ul li a:first-child{
+		border-radius:4px;
+	}
+}
+/* 横向放置的手机和竖向放置的平板之间的分辨率 */
+@media (max-width: 767px) {
+	.domain-opra-w{
+		width: 74.35897435897436%;
+		float:left;
+	}
+	.domain-left-nav{
+		border:1px solid #aaa;
+		border-radius:5px;
+		box-shadow:2px 2px #f0f0f0;
+		margin-bottom:10px;
+	}
+	.domain-search-input{
+		width:20%;
+	}
+	.domain-page{
+		 float: right;
+	}
+	.domain-tip{
+		height:38px;
+		padding-top:10px;
+	}
+	.zhdc-domain-opera{
+		 position: relative;
+		 left:0px;
+	}
+	.zhdc-domain-opera li{
+		width:100%;
+		list-style-type:none;
+	}
+	.zhdc-domain-opera li a{
+		text-decoration:none;
+		width:100%;
+		display:block;
+		background:#f2f2f2;
+		border:1px solid #d4d4d4;
+		height:40px;
+		text-align:center;
+		line-height:40px;
+	}
+	.zhdc-record-operat div{
+		float:left;
+		margin-left:2px;
+	}
+	.zhdc-record-search{
+		width:12%;
+	}
+	.zhdc-record-search input{
+		width:90%;
+	}
+	.zhdc-btn-mini{
+		padding: 0 6px;
+  		font-size: 10.5px;
+  		-webkit-border-radius: 3px;
+     	-moz-border-radius: 3px;
+        border-radius: 3px;
+	}
+	.zhdc-font-size{
+		font-size:10px;
+	}
+	.responsive-add-domain span{
+		display:block;
+	}
+	.responsive-add-domain span p{
+		margin-left:20%;
+		margin-top:10px;
+		width:60%;
+	}
+	.responsive-add-domain span textarea{
+		width:60%;
+		height:200px;
+		margin-left:20%;
+	}
+	.responsive-add-domain span:last-child{
+		padding-bottom:10px;
+	}
+	.responsive-add-domain span:last-child :first-child{
+		margin-left:40%;
+	}
+	/*增加cdn站点*/
+	.responsive-add-cdn{
+		height:50px;
+		width:80%;
+		line-height:50px;
+		margin-left:10%;
+		text-align:center;
+	}
+	.responsive-add-cdn select{
+		height:30px;
+		margin:10px 0 10px 5px;
+		width:150px;
+	}
+	.responsive-add-cdn button:first-child{
+		margin-right:10px;
+	}
+	/*批量修改记录*/
+	.responsive-edit-record{
+		height:40px;
+		line-height:40px;
+		width:75%;
+		margin:0 15%;
+	}
+	.responsive-edit-record1{
+		width:75%;
+		margin:0 15%;
+	}
+	.responsive-edit-record input[type="text"]{
+		height:30px;
+		-moz-box-sizing:border-box;
+		box-sizing:border-box;
+		margin:4px 0px;
+	}
+	.responsive-edit-record h5{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record p{
+		display:inline;
+		color:#F03;
+	}
+	.responsive-edit-record button{
+		position:relative;
+		left:30%;
+	}
+	/*批量增加记录*/
+	.responsive-multi-add-record{
+		width:100%;
+	}
+	.responsive-multi-add-record div{
+		width:47%;
+		margin:0 23%;
+	}
+	.responsive-multi-add-record div input{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div select{
+		margin-left:5px;
+	}
+	.responsive-multi-add-record div:last-child{
+		width:20%;
+		margin-left:40%;
+		padding-bottom:10px;
+	}
+	/*批量导入数据*/
+	.responsive-import-record{
+		width:100%;
+		height:auto;
+	}
+	.responsive-import-record textarea{
+		width:360px;
+		height:200px;
+		margin:0;
+		padding:0;
+	}
+	.responsive-import-record div{
+		width:380px;
+		margin:0 20.82482695%;
+		padding:5px 0 0 0;
+	}
+	.responsive-import-record div:last-child{
+		padding-bottom:5px;
+		width:21%;
+		margin-left:36.5%;
+	}
+	/*记录导航*/
+	.responsive-record-nav{
+		height:40px;
+		position:relative;
+	}
+	.responsive-record-nav span:first-child{
+		//border:1px solid #000;
+	}
+	.responsive-record-nav ul{
+		border:1px solid #999;
+		margin:0;
+		width:100px;
+		height:30px;
+		position:absolute;
+		top:0;
+		right:0;
+		z-index:20;
+		background:#f0f0f0 url("/style/img/menu.png") no-repeat 10px;
+		border-radius:4px;
+	}
+	.responsive-record-nav ul li{
+		display:none;
+		list-style:none;
+	}
+	.responsive-record-nav ul li a{
+		display:block;
+		width:100%;
+		height:30px;
+		line-height:30px;
+		text-align:center;
+		text-decoration:none;
+		background:#f0f0f0;
+	}
+	.responsive-record-nav ul li a:first-child{
+		border-radius:4px;
+	}
+	.responsive-td-height{
+		height:100px;
+	}
+	.responsive-record-opera{
+		width:150px;
+	}
+}

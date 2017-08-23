@@ -1,0 +1,53 @@
+{[include file="public/head.html"]}
+<link href="{[$STATIC]}style/css/buyprocess.css" rel="stylesheet">
+<div class="wrap">
+	<div class="contain">
+		<div class="buyp_main">
+			<div class="head">
+				<div class="head1"><i>1:域名清单</i><span class="triangle"></span></div>
+				<div class="head1"><i>2:提交资料</i><span class="triangle"></span></div>
+				<div class="head1"><i>3:订单支付</i><span class="triangle"></span></div>
+				<div class="head1"><span class="span_text">4:支付购买</span></div>
+			</div>
+			<!-- 购买提示 -->
+			<div class="col-lg-8" style="color:red;">域名属即时产品，无法预定，以付款成功为准，请尽快支付</div>
+			<!-- 购买提示结束 -->
+			<div class="col-lg-8">&nbsp;</div>
+			<table class="domain_table" width="100%" style="margin:15px 0;">
+				<thead>
+					<tr>
+						<th style="width:30%">域名</th>
+						<th style="width:20%">类别</th>
+						<th style="width:20%">年限</th>
+						<th style="auto">费用</th>
+					</tr>
+				</thead>
+				<tbody>
+					{[foreach from=$list item=row]}
+					<tr>
+						<td>{[$row.name]}</td>
+						<td>新购</td>
+						<td>{[$row.years]}</td>
+						<td>{[$row.cost / 100]}</td>
+					</tr>
+					{[/foreach]}
+				</tbody>
+			</table>
+			<div class="text-right">账户余额: <span style="color:red;font-size:20px;">{[$umoney / 100]}</span> 元</div>
+			<div class="text-right">共 <span style="color:red;font-size:20px;">{[$count]}</span> 个域名，金额总计：<span id="settlement_money" style="color:red;font-size:20px;">{[$allprice]}</span> 元</div>
+			<div style="margin-top:20px;margin-bottom:20px;"><button type="button" class="btn btns btn-success" onclick="returnTopStep()">上一步</button><button type="button" class="btn btns btn-primary enter_buy" onclick="pay()">支付购买</button></div>
+		</div>
+	</div>
+</div>
+{[include file="public/foot.html"]}
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#nav_domain_register").addClass('cur');
+});
+function returnTopStep(){
+	history.go(-1);
+}
+function pay(){
+	window.location.href="?c=buyprocess&a=completionPage";
+}
+</script>

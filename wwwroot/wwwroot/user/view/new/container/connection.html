@@ -1,0 +1,35 @@
+{[dispatch c='public'  a='head']}
+<script type="text/javascript">
+ containername = '{[$name]}';
+</script>
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<link href="/style/user/css/container.css" rel="stylesheet">
+<script type='text/javascript' src="{[$STATIC]}container/connection.js?v={[$jsversion]}"></script>
+<div class="row-fluid" style="height:30px;">
+		<span id="domain_error" class="offset3"></span>
+</div>
+<div class="wrap" id="left">
+    <div class="cl mtb20">
+		{[include file='container/containerleft.html']}
+ 		<div class="cont_main">
+ 			 {[include file='container/operattop.html']}
+	        <div class="domain_box">
+				  <table  class="domain_table" width="100%">
+			    <thead id="">
+			       <th onclick="sort(1)">源地址</th>
+			       <th>时间</th>
+			       <th onclick="sort(3)">状态</th>
+			       <th onclick="sort(4)">方法</th>
+			       <th onclick="sort(5)">网址</th>
+			       <th onclick="sort(7)">来源</th>
+			    </thead>
+			    <tbody id="connection_items">
+			    </tbody>
+			    </table>	
+		    </div>
+ 		</div>
+ 	</div>
+ </div>	
+{[include file='public/foot.html']}
+
+

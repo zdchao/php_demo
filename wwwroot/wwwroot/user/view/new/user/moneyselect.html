@@ -1,0 +1,90 @@
+{[dispatch c='public'  a='head']}
+<style>
+/* 大屏幕 */
+@media (min-width: 1200px) {
+	.domain_box{padding-bottom:20px;}
+	.r_row{width:1120px;margin:10px auto;}
+	.platform{display:inline-block;}
+}
+/* 平板电脑和小屏电脑之间的分辨率 */
+@media (min-width: 768px) and (max-width: 1199px) {
+	.domain_box{padding-bottom:20px;}
+	.r_row{width:90%;margin:10px auto;}
+	.platform{display:inline-block;}
+}
+/* 横向放置的手机和竖向放置的平板之间的分辨率 */
+@media (max-width: 767px) {
+	.domain_box{padding-bottom:20px;}
+	.r_row{width:90%;margin:10px auto;}
+	.platform{margin:5px 0;}
+}
+</style>
+
+<script type='text/javascript'>
+function check_submit()
+{
+	/*
+	var gw = $("form[name=moneySelect]").find("[name=gw]:checked").val();
+	if (gw==3) {
+		var  userAgent = navigator.userAgent.toLowerCase();
+		if (userAgent.indexOf('firefox')!==-1) {
+			alert("使用财付通支付建议使用IE或chmore浏览器");
+		}
+	}
+	*/
+	moneySelect.submit();
+}
+</script>
+<div class="wrap">
+	<div class="contain">
+	<header class="jumbotron subhead" id="overview">
+  		<div class="container">
+    		<h1>{[$session.web_name]}智能解析系统</h1>
+    		<p class="lead">最稳定,最安全的域名解析服务</p>
+  		</div>
+	</header>
+	<div class="domain_box">
+    <div class="alert alert-success r_row" style="margin-top:6px;border-radius:0;">
+    <span class="btn btn-link">
+    {[$session.web_name]},现在购买一年可优惠两个月
+   </span>
+    
+    </div>
+    <div class="alert r_row" style="margin-top:6px;border-radius:0;">
+      <form action="?c=user&a=addMoney" method="POST" name="moneySelect">
+        <div>请选择您的支付方式( 充值金额:<b class="font-red">{[$money]}</b>元)</div>
+        <div style="margin-left: 100px; margin-top: 20px;">
+          {[if !$alipay_disable]}
+          <div class="platform">
+          	<input type='radio' name="gw" value=1 checked>
+          	<img src="/style/img/alipay.gif">
+          </div>
+          {[/if]}
+          {[if !$chinapay_disable]}
+          <div class="platform">
+          <input type="radio" name="gw" value=2 {[if $alipay_disable]}checked{[/if]}>
+          <img src="/style/img/chinapay.jpg" class="img-polaroid" style="width: 160px; height: 40px">
+          </div>
+          {[/if]}
+          
+          {[if !$tenpay_disable]}
+          <div class="platform">
+          <input type="radio" name="gw" value=3 {[if $alipay_disable]}checked{[/if]}>
+          <img src="/pay/tenpay/image/cft.gif" class="img-polaroid" style="width: 160px; height: 40px">
+          </div>
+          {[/if]}
+          <input name="money" type="hidden" value="{[$money]}">
+        </div>
+        <div>
+          <input type="button" onclick="check_submit()" value="确定充值" class="btn btn-primary" style="margin-left: 200px; margin-top: 20px;">
+        </div>
+        
+      </form>
+    </div>
+    
+    
+    <div class="alert alert-info r_row" style="border-radius:0;">支付成功后,请不要关闭浏览器,回到账户设置界面刷新即可</div>
+    </div>
+  </div>
+</div>
+{[include file='public/foot.html']}

@@ -1,0 +1,39 @@
+{[dispatch c='public'  a='head']}
+<style>
+.message{
+	font-size:20px;
+	color:#f26382;
+	margin:8% 0% 0% 20%;
+}
+</style>
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<link href="/style/user/css/container.css" rel="stylesheet">
+<div class="row-fluid" style="height:30px;">
+		<span id="domain_error" class="offset3"></span>
+</div>
+<div class="wrap" id="left">
+    <div class="cl mtb20">
+		<div class="menus_aside">
+            <div id="left_group_list">
+            	<div>
+					<a href="?c=public&a=container"><span class="container_left left_color">产品列表</span></a>
+				</div>
+				<div  class="cur">
+					<a  href="?c=containerproduct&a=usercontainer"><span class="container_left">我的容器<sup>({[$count]})</sup></span></a>
+				</div>
+				<div>
+					<a  href="?c=customimage&a=pagelist"><span  class="container_left left_color">镜像管理</span></a>
+				</div>
+            </div>
+        </div>
+ 		<div class="cont_main">
+ 			<div class="buynocontent">
+ 				<div class="message">亲，不好意思，您还没有购买哟！---->
+ 				<a href="?c=public&a=container"><span class="buy_button">点击购买</span></a>
+ 				</div>
+ 			</div>
+ 			
+ 		</div>
+  </div>
+</div>
+{[include file='public/foot.html']}

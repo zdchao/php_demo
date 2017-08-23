@@ -1,0 +1,28 @@
+{[dispatch c='public'  a='head']}
+<link href="/style/user/css/domainsetting.css" rel="stylesheet">
+{[include file='record/domainsettingtemplate.html']}
+<script type='text/javascript'>
+var wx_flag = '{[$weixin_flag]}';
+</script>
+<script type='text/javascript' src="{[$STATIC]}record/setting.js?v={[$jsversion]}"></script>
+<div class="wrap">
+	<div class="contain">
+			<div >{[include file='record/right-operat.html']}</div>
+			<div class="domain_box">
+			<table class="domain_table" width="100%">
+				<thead>
+					<tr>
+						<th>
+							<h4><i class="icon-share-alt"></i>&nbsp;域名设置</h4>
+						</th>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody id="setting_tbody"></tbody>
+
+			</table>
+			</div>
+		</div>
+</div>
+{[include file='public/foot.html']}

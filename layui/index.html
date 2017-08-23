@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>layui</title>
+<link href="./assets/css/layui.css" rel="stylesheet"/>
+<link href="./assets/css/common.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+	<div class="layui-header header header-demo">
+		<div class="layui-main">
+			<ul class="layui-nav" style="float:right;">
+				<li class="layui-nav-item">
+					<a href="javascript:;" class="layui-icon">&#xe65e;</a>
+				</li>
+				<li class="layui-nav-item ">
+					<a href="javascript:;">995949180@qq.com</a>
+				</li>
+				<li class="layui-nav-item ">
+					<a href="javascript:;" class="layui-icon">&#xe611;</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="layui-side common-layui-side layui-bg-black">
+		<div class="layui-side-scroll common-side-scroll">
+			<ul class="layui-nav layui-nav-tree common-nav-tree site-demo-nav">
+				<li class="layui-nav-item layui-nav-itemed">
+					<a href="javascript:;">域名解析
+						<span class="layui-icon">&#xe602;</span>
+					</a>
+					<dl class="layui-nav-child common-nav-child">
+						<dd>
+							<a href="javascript:;" class="layui-icon">&#xe656;</a>
+							<a href="javascript:;" class="layui-icon">&#xe74b;</a>
+							<a href="javascript:;" class="group-name">全部域名</a>
+							<a href="javascript:;" class="group-size"><span class="label">30</span></a>
+						</dd>
+						<dd class="layui-this">
+							<a href="javascript:;" class="layui-icon">&#xe656;</a>
+							<a href="javascript:;" class="layui-icon">&#xe74b;</a>
+							<a href="javascript:;" class="group-name">全部域名</a>
+							<a href="javascript:;" class="group-size"><span class="label">30</span></a>
+						</dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item layui-nav-itemed">
+					<a href="javascript:;">域名注册</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="layui-body common-body">
+		<fieldset class="layui-elem-field layui-field-title">
+			<legend>全部分组</legend>
+		</fieldset>
+		<div style="padding:10px;">
+			<div>
+				<button class="layui-btn">增加域名</button>
+				<div class="btn-drop">
+					<button class="layui-btn">域名操作
+						<span class="layui-icon">&#xe602;</span>
+					</button>
+					<ul class="dropdown-menu" style="display:none;">
+						<li><a href="javascript:;">a</a></li>
+						<li><a href="javascript:;">b</a></li>
+					</ul>
+				</div>
+				<div class="btn-drop">
+					<button class="layui-btn">记录操作
+						<span class="layui-icon">&#xe602;</span>
+					</button>
+					<ul class="dropdown-menu" style="display:none;">
+						<li><a href="javascript:;">a</a></li>
+						<li><a href="javascript:;">b</a></li>
+					</ul>
+				</div>
+				<div class="btn-drop">
+					<button class="layui-btn">分组操作
+						<span class="layui-icon">&#xe602;</span>
+					</button>
+					<ul class="dropdown-menu" style="display:none;">
+						<li><a href="javascript:;">a</a></li>
+						<li><a href="javascript:;">b</a></li>
+					</ul>
+				</div>
+				<button class="layui-btn"><span class="layui-icon">&#xe626;</span></button>
+			</div>
+			
+			<table class="layui-table" lay-skin="line">
+				<thead>
+					<tr>
+						<th><input type="checkbox"/></th>
+						<th>域名</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input type="checkbox"/></td>
+						<td>zzz.com</td>
+					</tr>
+				</tbody>
+			</table>
+			<div style="text-align:right;">
+				<a href="javascript:;" class="layui-btn layui-btn-primary">首页</a>
+				<a href="javascript:;" class="layui-btn layui-btn-primary">上一页</a>
+				<a href="javascript:;" class="layui-btn layui-btn-primary">下一页</a>
+				<a href="javascript:;" class="layui-btn layui-btn-primary">尾页</a>
+				<div class="btn-drop">
+					<button class="layui-btn">分组操作
+						<span class="layui-icon">&#xe602;</span>
+					</button>
+					<ul class="dropdown-menu" style="display:none;">
+						<li><a href="javascript:;">a</a></li>
+						<li><a href="javascript:;">b</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+</body>
+</html>

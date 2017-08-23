@@ -1,0 +1,75 @@
+{[dispatch c='public'  a='head']}
+
+<script type='text/javascript' src="{[$STATIC]}container/settingcontainer.js?v={[$jsversion]}"></script>
+
+<script type="text/template" id="renew-setting-template">
+   <td>自动续费</td>
+   <td>
+		<input type="radio" name="renew" value="1" {{#renew}}checked{{/renew}}>开启
+		<input type="radio" name="renew" value="0"  {{^renew}}checked{{/renew}}>关闭
+	</td>
+   <td>
+		<span class="btn btns"  id="enter">修改</span>
+		<span class="btn" id="esc">取消</span>
+   </td>
+</script>
+
+<script type="text/template" id="onlinefile-modify-template">
+<td>在线文件管理</td>
+<td>
+		<input type="radio" name="status" value="1" {{#status}}checked{{/status}}>开启
+		<input type="radio" name="status" value="0"  {{^status}}checked{{/status}}>关闭
+	</td>
+<td>
+		<span class="btn btns"  id="enter">修改</span>
+		<span class="btn" id="esc">取消</span>
+</td>
+</script>
+
+<script type="text/template" id="onlinefile-show-template">
+
+</script>
+
+<script type="text/javascript">
+
+ containername = '{[$name]}';
+var  containerinfo = eval('('+'{[$info]}'+')')
+
+</script>
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<link href="/style/user/css/container.css" rel="stylesheet">
+<div class="row-fluid" style="height:30px;">
+		<span id="domain_error" class="offset3"></span>
+</div>
+<div class="wrap" id="left">
+    <div class="cl mtb20">
+		{[include file='container/containerleft.html']}
+ 		<div class="cont_main">
+ 			  {[include file='container/operattop.html']}
+	        <div class="domain_box">
+		       <table class="domain_table" width="100%">
+		       		<thead>
+		       			<tr>
+			       			<th width="20%"></th>
+			       			<th width="20%"></th>
+			       			<th width="auto"></th>
+		       			</tr>
+		       		</thead>
+		       		<tbody>
+		       			<tr id="tr0">
+		       				<td>自动续费</td>
+		       				<td>{[if $containerinfo.auto_renew ==0]}<span class="label label-important">已关闭</span>{[else]}<span class="label label-info">已开启</span>{[/if]}</td>
+		       				<td> <span id="add" class="btn" onclick="piaoModifyRenew(0)">设置</span></td>
+		       			</tr>
+		       			<tr id="online_file" data-status="">
+		       				<td>在线文件管理</td>
+		       				<td id="status"></td>
+		       				<td> <span id="add" class="btn" onclick="piaoModifyOnlineFile(0)">设置</span></td>
+		       			</tr>
+		       		</tbody>
+				</table>
+			</div>	
+ 		</div>
+ 	</div>
+ </div>
+{[include file='public/foot.html']}

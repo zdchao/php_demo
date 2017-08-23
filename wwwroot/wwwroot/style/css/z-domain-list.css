@@ -1,0 +1,108 @@
+@CHARSET "UTF-8";
+/* 大屏幕 */
+@media (min-width: 1200px) {
+	.r-domain-tip{
+		height:38px;
+		padding-top:10px;
+	}
+	.r-domain-left{
+		border:1px solid #00B64F;
+		border-radius:5px;
+		box-shadow:1px 2px #00B64F;
+		width:17%;
+		 float:left
+	}
+	.r-domain-right{
+		width:81%;
+		float:left;
+		margin-left:20px;
+	}
+	.r-domain-opra{
+		width: 74.35897435897436%;
+		float:left;
+	}
+	.r-domain-search{
+		width:89%;
+	}
+	.r-domain-table{
+		margin:10px 0 0 0;
+	}
+	.r-domain-table thead{
+		background:#00CC00;
+		color:#000;
+		font-size:14px;
+		font-weight:normal;
+	}
+	.r-domain-table td{
+		vertical-align:middle;
+	}
+	.r-domain-table tr:hover td{
+		background:#67E667;
+	}
+	.r-domain-table .r-td1{
+		width:60px;
+	}
+	.r-domain-table .r-td2{
+		width: 14.52991452991453%;
+	}
+	.r-domain-table .r-td3{
+		width: 23.076923076923077%;
+	}
+	.r-domain-table .r-td4{
+		width: 23.076923076923077%;
+	}
+}
+/* 平板电脑和小屏电脑之间的分辨率 */
+@media (min-width: 768px) and (max-width: 1199px) {
+	.r-domain-tip{
+		height:38px;
+		padding-top:10px;
+	}
+	.r-domain-left{
+		border:1px solid #008237;
+		border-radius:5px;
+		box-shadow:1px 2px #37b059;
+		width:17%;
+		 float:left
+	}
+	.r-domain-right{
+		width:80%;
+		float:left;
+		margin-left:20px;
+	}
+	.r-domain-opra{
+		width: 73.35897435897436%;
+		float:left;
+	}
+	.r-domain-search{
+		width:89%;
+	}
+	.r-domain-table{
+		margin:10px 0 0 0;
+	}
+	.r-domain-table thead{
+		background:-webkit-linear-gradient(top,#58CA79,#58CA79);
+		background:-moz-linear-gradient(top,#58CA79,#58CA79);
+		background:-ms-linear-gradient(top,#58CA79,#58CA79);
+		background:linear-gradient(top,#58CA79,#58CA79);
+		color:#AE378D;
+		font-size:14px;
+		font-weight:normal;
+	}
+	.r-domain-table td{
+		vertical-align:middle;
+		font-size:12px;
+	}
+	.r-domain-table .r-td1{
+		width:80px;
+	}
+	.r-domain-table .r-td2{
+		width: 14.52991452991453%;
+	}
+	.r-domain-table .r-td3{
+		width: 25.52991452991453%;
+	}
+	.r-domain-table .r-td4{
+		width: 20.52991452991453%;
+	}
+}

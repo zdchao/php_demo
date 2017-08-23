@@ -1,0 +1,319 @@
+{[include file='common/head.html']}
+<script type="text/template" id="row-template">
+<td></td>
+<td>{{uid}}</td>
+<td>{{domain}}</td>
+<td>{{money}}</td>
+<td>{{proxy_money}}</td>
+<td>{{proxy_divided}}</td>
+<td><a href='javascript:;' onclick='getScreenRef(event,{{proxy_uid}})'>{{proxy_uid}}</a></td>
+<td>{{status}}</td>
+<td>{{remark}}</td>
+<td>{{mem}}</td>
+<td>{{admin}}</td>
+<td>{{create_time}}</td>
+<td>{{enter_time}}</td>
+
+</script>
+<script type="text/template" id="divided-money-template">
+<div style="font-size:20px;">
+	<div>
+		<span>用户购买金额:&nbsp;&nbsp;{{money}}&nbsp;&nbsp;元</span>
+	</div>
+	<div>
+		<span>代理分成利率:&nbsp;&nbsp;{{divided}}%</span>
+	</div>
+	<div>
+		<span>已向代理分成:&nbsp;&nbsp;<span style="color:red">{{dividedmoney}}</span>&nbsp;&nbsp;元</span>
+	</div>
+</div>
+</script>
+<script type='text/template' id='tip-template'>
+<div id ="tip" style="width:200px;height:100px;border:1px solid #000;left:20px;top:30px;position: absolute;display:none;background:yellow;font-size:16px;">
+<div><span>&nbsp;&nbsp;{{uid}}</span></div>
+<div><span>&nbsp;&nbsp;代理用户:{{name}}</span></div>
+<div><span>&nbsp;&nbsp;代理余额:{{money}}元</span></div>
+<div><br/><a onclick="out()" href="javascript:;">关闭</a></div>
+</div>
+</script>
+<script type="text/template" id="tip-ref-template">
+<div><span>&nbsp;&nbsp;{{uid}}</span></div>
+<div><span>&nbsp;&nbsp;代理用户:{{name}}</span></div>
+<div><span>&nbsp;&nbsp;代理余额:{{money}}元</span></div>
+<div><br/><a onclick="out()" href="javascript:;">关闭</a></div>
+</script>
+<script type="text/template" id="marker-template">
+<div>
+	<div><span>确定要对该代理进行分成受理吗?</span></div>
+	<div><input id="instructions" type="text" placeholder="受理原因"/></div>
+</div>
+</script>
+<script type="text/javascript">
+function dividedMoneyConfirm(id){
+	var div = $("#tr"+id);
+	var proxyuid = div.attr("data-proxyuid");
+	var money = div.attr("data-money");
+	var domain = div.attr("data-domain");
+	var mem = div.attr("data-mem");
+	var uid = div.attr("data-uid");
+	var template = $("#marker-template").html();
+	art.dialog({
+		title:'代理分成受理',
+		content:'确定要对该代理进行分成受理吗?',
+		width:400,
+		lock: true,
+	    background: '#600', // 背景色
+	    opacity: 0.87,	// 透明度
+		ok:function(){
+			procesUserAgent(proxyuid,money,id,domain,mem,uid);
+		},
+		button:{
+			name:'不受理',
+			callback:function(){
+				art.dialog().close();
+				notAcceptDivided(id);
+			}
+		},
+		cancelVal:'取消',
+		cancel:true
+	});
+}
+function procesUserAgent(proxyuid,money,id,domain,mem,uid){
+	$.ajax({
+		url:'?c=proxyrecord&a=processUserAgent',
+		data:{proxy_uid:proxyuid,money:money,id:id,domain:domain,mem:mem,uid:uid},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code == 10){
+				art.dialog({
+					title:'分成错误提示',
+					content:a.error,
+					cancelVal:'确定',
+					cancel:true
+				});
+				return;
+			}
+			if(a.status.code != 1){
+				return;
+			}
+			queryShow(a);
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+function notAcceptDivided(id){
+	art.dialog({
+		id:'notaccept',
+		title:'不受理代理分成',
+		content:'<div><div><span>不受理原因</span></div><div><input id="notaccept" type="text"/></div></div>',
+		lock: true,
+	    background: '#600', // 背景色
+	    opacity: 0.87,	// 透明度
+		ok:function(){
+			var str = $("#notaccept").val();
+			$.ajax({
+				url:'?c=proxyrecord&a=notAcceptDivided',
+				data:{id:id,str:str},
+				dataType:'json',
+				success:function(a){
+					if(a.status.code != 1){
+						return;
+					}
+					dividedMoneyShow(a);
+				},
+				error:function(a){
+					alert('error');
+				}
+			});
+		},
+		cancelVal:'取消',
+		cancel:true
+	});
+}
+function dividedQuery(){
+	window.location.href = "?c=proxyrecord&a=pagelist&status=1";
+}
+function queryShow(a){
+	var template = $("#divided-money-template").html();
+	var option = [];
+	option.money = a.row['money'];
+	option.dividedmoney = a.dividedmoney / 100;
+	option.divided = a.divided;
+	var el = Mustache.to_html(template,option);
+	art.dialog({
+		title:'代理分成明细',
+		content:el,
+		width:400,
+		lock: true,
+	    background: '#600', // 背景色
+	    opacity: 0.87,	// 透明度
+		ok:function(){
+			dividedMoneyShow(a);
+		},
+	});
+}
+function dividedMoneyShow(a){
+	$("#tr"+a.row['id']).html("");
+	var template = $("#row-template").html();
+	var option = [];
+	option.uid = a.row['uid'];
+	option.domain = a.row['domain'];
+	option.money = a.row['money'];
+	option.proxy_money = a.row['proxy_money'] / 100;
+	option.proxy_uid = a.row['proxy_uid'];
+	option.status = a.row['status'] == 0 ? "以受理" : "不受理";
+	option.mem = a.row['mem'];
+	option.admin = a.row['admin'];
+	option.create_time = a.row['create_time'];
+	option.enter_time = a.row['enter_time'];
+	option.proxy_divided = a.row['proxy_divided'];
+	option.remark = a.row['remark'];
+	var el = Mustache.to_html(template,option);
+	$("#tr"+a.row['id']).html(el);
+}
+function getScreenRef(e,uid){
+	$.ajax({
+		url:'?c=users&a=getById',
+		data:{uid:uid},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			var x = e.clientX;
+		    var y = e.clientY;
+		    $("#tip").html("");
+		    var template = $("#tip-ref-template").html();
+		    var option = [];
+		    option.uid = uid;
+		    option.name = a.row['name'];
+		    option.money = a.row['money'] / 100;
+		    var el = Mustache.to_html(template,option);
+		    $("#tip").html(el);
+		    var div = document.getElementById("tip");
+		    div.style.display = "block";
+		    div.style.top = y+"px";
+		    div.style.left = x+"px";
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+function getScreen(e,uid) {
+	$.ajax({
+		url:'?c=users&a=getById',
+		data:{uid:uid},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				return;
+			}
+			var x = e.clientX;
+		    var y = e.clientY;
+		    var template = $("#tip-template").html();
+		    var option = [];
+		    option.uid = uid;
+		    option.name = a.row['name'];
+		    option.money = a.row['money'] / 100;
+		    var el = Mustache.to_html(template,option);
+		    $("body").append(el);
+		    var div = document.getElementById("tip");
+		    div.style.display = "block";
+		    div.style.top = y+"px";
+		    div.style.left = x+"px";
+		},
+		error:function(a){
+			alert('error');
+		}
+	});
+}
+function out(){
+	var div = document.getElementById("tip");
+	div.style.display = "none";
+}
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：代理分成</div>
+			<form name="form1" action='{[$action]}' method='post'>
+				<div style='padding-top: 10px;'>
+					<span> 搜索代理: <input name='proxy_uid' size=20>
+						<input type='submit' value='搜索'>
+					</span> <span> 选择显示:<select name='page_count'
+						onchange='set_pagecount(this.value)'> {[for $i=10;$i <=
+							60;$i++]} {[if $i%5==0]}
+							<option value='{[$i]}' {[if $page_count==$i]}selected{[/if]}>{[$i]}</option>
+							{[/if]} {[/for]}
+					</select> 行
+					</span>
+					<span><input type="button" onclick="dividedQuery()" value="未受理"/></span>
+				</div>
+			</form>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="13" class="bg_main"><b>代理消费记录</b></td>
+				</tr>
+				<tr id="bg_yellow">
+					<td>操作</td>
+					<td>用户ID</td>
+					<td>消费域名</td>
+					<td>消费金额(元)</td>
+					<td>代理分成(元)</td>
+					<td>分成利率</td>
+					<td>代理ID</td>
+					<td>状态</td>
+					<td>受理备注</td>
+					<td>消费记录</td>
+					<td>操作员</td>
+					<td>消费时间</td>
+					<td>确认时间</td>
+					
+				</tr>
+				{[foreach from=$list item=row]}
+					<tr id='tr{[$row.id]}' data-proxyuid='{[$row.proxy_uid]}' data-money='{[$row.money]}' data-domain='{[$row.domain]}' data-mem='{[$row.mem]}' data-uid='{[$row.uid]}'>
+						{[if $row.status == 0 || $row.status == 2]}
+						<td></td>
+						{[else]}
+						<td><a href='javascript:dividedMoneyConfirm("{[$row.id]}")'><span><b>受理</b></span></a></td>
+						{[/if]}
+						<td>{[$row.uid]}</td>
+						<td>{[$row.domain]}</td>
+						<td>{[$row.money]}</td>
+						<td>{[$row.proxy_money / 100]}</td>
+						<td>{[$row.proxy_divided]}</td>
+						<td><a href='javascript:;' onclick='getScreen(event,"{[$row.proxy_uid]}")' >{[$row.proxy_uid]}</a></td>
+						{[if $row.status == 0]}
+						<td>以受理</td>
+						{[elseif $row.status == 2]}
+						<td>不受理</td>
+						{[else]}
+						<td><span style="color:red;font-size:14px;"><b>未受理</b></span></td>
+						{[/if]}
+						<td>{[$row.remark]}</td>
+						<td>{[$row.mem]}</td>
+						<td>{[$row.admin]}</td>
+						<td>{[$row.create_time]}</td>
+						<td>{[$row.enter_time]}</td>
+						
+					</tr>
+				{[/foreach]}
+				<tr>
+					<td colspan="13" id="bg_yellow" align="right">{[if $page>1]} <a
+						href='{[$action]}&page=0&search={[$search]}'>首页</a> <a
+						href='{[$action]}&page={[$page-1]}&search={[$search]}'>上一页</a>
+						{[else]} 首页 上一页 {[/if]} {[if $page!=$total_page]} <a
+						href='{[$action]}&page={[$page+1]}&search={[$search]}'>下一页</a> <a
+						href='{[$action]}&page={[$total_page]}&search={[$search]}'>尾页</a>
+						{[else]}下一页 尾页 {[/if]} {[$page]}/{[$total_page]}&nbsp;
+						共计{[$count]}记录&nbsp;
+					</td>
+				</tr>
+				</table>
+			</div>
+		</div>
+</body>
+</html>

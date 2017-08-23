@@ -1,0 +1,72 @@
+.piao{
+	position:absolute;
+	border-radius: 15px;
+	background-color:#104E8B;
+}
+.piao_div {
+	margin:15px;
+	border-radius: 10px;
+}
+.piao_div>.piao_left{
+	float:left;
+	width:100px;
+	text-align:right;
+	height:23px;
+	line-height:23px;
+}
+.piao_div>.piao_right{
+	width:85%;
+	text-align:left;
+	height:23px;
+	line-height:23px;
+}
+.piao_div>.piao_right>input,select{
+	height:23px;
+	line-height:230px;
+}
+.overflow {
+	overflow:auto;
+}
+.piao_qq {
+	position:absolute;
+	margin:10px;
+	padding:5px;
+	background-image:url('/style/qqbg.jpg');
+}
+.show_qq_div {
+	position:absolute;
+	background-color:#FF4040;
+	left:5px;
+	top:100px;
+	width:150px;
+}
+.qq_name {
+	font-size:14;
+	color:#3B3B3B;
+	
+}
+.show_ad_div{
+	position:absolute;
+	background-color:#104E8B;
+	left:5px;
+	top:100px;
+	width:150px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

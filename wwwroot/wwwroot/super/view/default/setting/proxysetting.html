@@ -1,0 +1,113 @@
+{[include file='common/head.html']}
+<script type='text/javascript' src="/style/js/jquery/jquery.json-2.2.js"></script>
+<script type='text/javascript'>
+	function del_one(now_tr)
+	{
+		$(now_tr).parent().remove(); 
+	}
+	function registerAgreement(proxyuid)
+	{
+		 dia = art.dialog({
+			id:"registerAgreement",
+			title:"注册协议",
+			content:"<span><textarea id='registerStr' style='width:800px;height:400px'></textarea></span>",
+			ok:function(){
+				var uid = proxyuid;
+				var content = $("#registerStr").val();
+				$.ajax({
+					url:'?c=setting&a=proxyRegisterAgreement',
+					type:'POST',
+					data:{uid:uid,content:content},
+					dataType:'json',
+				}).done(function(a){
+					alert(a.success);
+				}).fail(function(e){
+					alert('失败');
+				});
+			},
+			cancelVal:'关闭',
+			cancel:true
+		});
+	}
+	function check_submit()
+	{
+		var param = [];
+		$(".input-tr").each(function(){
+			var option = {};
+			option.web_domain = $(this).find("[name=web_domain]").val();
+			option.proxy_uid = $(this).find("[name=proxy_uid]").val();
+			option.custom_webname = $(this).find("[name=custom_webname]").val();
+			option.custom_webdomain = $(this).find("[name=custom_webdomain]").val();
+			option.custom_mailfrom = $(this).find("[name=custom_mailfrom]").val();
+			option.mem = $(this).find('[name=mem]').val();
+			option.register = $(this).find('[name=register]').val();
+			if (!option.web_domain) {
+				return;
+			}
+			param.push(option);
+		});
+		var pobj = {};
+		for ( var i in param) {
+			pobj[i] = param[i];
+		}
+		var json = $.toJSON(pobj);
+		$.ajax({
+			url:'?c=setting&a=proxySetting',
+			type:"POST",
+			data:{param:json},
+			dataType:'json'
+		}).done(function(a){
+			if (a.status.code != 1) {
+				alert(a.status.message);
+				return;
+			}
+			window.location = '?c=setting&a=proxy';
+		}).fail(function(e){
+			alert('失败');
+		});
+	}
+	function add_one()
+	{
+		var html = '<tr class="input-tr">';
+			html += '<td class="wid_general">';
+			html += '域名:<input name="web_domain" size=16>&nbsp;';
+			html += '代理UID:<input name="proxy_uid" size=5>&nbsp;';
+			html += '网站名称:<input name="custom_webname"  size=12>&nbsp;';
+			html += '网站域名:<input name="custom_webdomain" size=16>&nbsp;';
+			html += '发件人邮箱:<input name="custom_mailfrom" size=16>&nbsp;';
+			html += '协议:<textarea name="register" rows=1 cols=20 ></textarea>&nbsp;';
+			html += '备注:<input name="mem" size="18">&nbsp;';
+			html += '<input  type="button" class="btn" onclick="del_one(this)" value="删除" /></td></tr>';
+		$("table").find('#operat-tr').before(html);
+	}
+</script>
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+  <div align="center">
+    <div class="wid_main mar_main" align="left">
+      <div class="block_top" align="left">当前位置：系统设置--> 代理相关设置</div>
+      <form action="?c=setting&a=add" method='post' name='setfrom'>
+        <table class="table_main2" cellpadding="0" cellspacing="1">
+        {[foreach from=$setting item=row key=key]}
+        <tr class="input-tr">
+            <td>
+            域名:<input name="web_domain" value="{[$row.web_domain]}" size=16>
+            代理UID:<input name="proxy_uid" value="{[$row.proxy_uid]}" size=5>
+             网站名称:<input name="custom_webname" value="{[$row.custom_webname]}" size=12>
+              网站域名:<input name="custom_webdomain" value="{[$row.custom_webdomain]}" size=16>
+              发件人邮箱:<input name="custom_mailfrom" value="{[$row.custom_mailfrom]}" size=16>
+              协议:<textarea name="register" rows=1 cols=20 >{[$row.register]}</textarea>
+              备注:<input name="mem" size="18" value="{[$row.mem]}">
+                     		<input  type='button' class="btn" onclick="del_one(this)" value="删除" />
+            </td>
+          </tr>
+        {[/foreach]}
+          <tr id="operat-tr">
+            <td colspan = 10>
+            	<input type="button" class='btn' onclick="add_one()" value="增加一行">&nbsp;&nbsp;
+	<input type='button' onclick="check_submit()" class="btn" value='确定'>
+           </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </div>

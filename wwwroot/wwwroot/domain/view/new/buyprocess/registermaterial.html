@@ -1,0 +1,311 @@
+{[include file="public/head.html"]}
+<link href="{[$STATIC]}style/css/buyprocess.css" rel="stylesheet">
+<div class="wrap">
+	<div class="contain">
+		<div class="buyp_main">
+			<div class="head">
+				<div class="head1"><i>1:域名清单</i><span class="triangle"></span></div>
+				<div class="head1"><i>2:提交资料</i><span class="triangle"></span></div>
+				<div class="head1"><span class="span_text">3:订单支付</span><span class="triangle"></span></div>
+				<div class="head1"><span class="span_text">4:支付购买</span></div>
+			</div>
+			<!-- 用户提交注册资料 -->
+			<form class="form-horizontal buyp_material" role="form" action="?c=buyprocess&a=payPage" method="POST" id="myform">
+				<div class="form-group">
+					<label for="user_type" class="col-lg-2 col-sm-3 control-label">用户类型:</label>
+					<div class="col-lg-3 col-sm-5">
+						<div class="radio-inline">
+							<input type="radio" checked="checked" name="user_type" value="0" />个人用户
+						</div>
+						<div class="radio-inline">
+							<input type="radio" name="user_type" value="1" />企业用户
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">域名所有者:<strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" placeholder="中文名" class="form-control" name="user_master" value="{[$ret.enterprise]}"/>
+						<div style="font-size:12px;">请填写与所有者证件完全一致的企业名称或姓名.</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label"><strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" placeholder="英文名" class="form-control" name="user_master_en" value="{[$ret.enterprise_en]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">联系人:<strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" placeholder="中文名" class="form-control" name="contact" value="{[$ret.contacts]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label"><strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" placeholder="英文名" class="form-control" name="contact_en" value="{[$ret.contacts_en]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">邮箱:<strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" placeholder="邮箱" class="form-control" name="email" value="{[$ret.email]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">地区:<strong>*</strong></label>
+					<div class="col-lg-2 col-sm-3">
+					<input type="text" placeholder="国家" class="form-control" name="countries_region" value="{[$ret.countries_region]}"/>
+						<!--  
+						<select class="form-control" name="countries_region" id="countries_region" onchange="linkage0()">
+							<option value="0-0">中国</option>
+							<option value="0-1">中国香港</option>
+							<option value="0-2">中国澳门</option>
+							<option value="0-3">中国台湾</option>
+							<option value="0-4">其他</option>
+						</select>
+					  -->
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<input type="text" class="form-control" placeholder="省份拼音" name="province" value="{[$ret.province]}"/>
+						<!--  
+						<select class="form-control" id="province" onchange="linkage1()" name="province">
+						</select>
+						-->
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<input type="text" class="form-control" placeholder="城市" name="city" value="{[$ret.city]}"/>
+						<!--  
+						<select class="form-control" id="city" name="city">
+						</select>
+						-->
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">城市英文:<strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" placeholder="城市英文" class="form-control" name="city_en" value="{[$ret.city_en]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">通信地址:<strong>*</strong></label>
+					<div class="col-lg-8 col-sm-8">
+						<input type="text" placeholder="中文地址" class="form-control" name="address" value="{[$ret.address]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label"><strong>*</strong></label>
+					<div class="col-lg-8 col-sm-8">
+						<input type="text" placeholder="英文地址" class="form-control" name="address_en" value="{[$ret.address_en]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">邮编:<strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" class="form-control" name="zip_code" value="{[$ret.zip_code]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">手机:<strong>*</strong></label>
+					<div class="col-lg-3 col-sm-4">
+						<input type="text" class="form-control" name="mobile_phone" value="{[$ret.phone]}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 col-sm-3 control-label">传真:<strong>*</strong></label>
+					<div class="col-lg-1 col-sm-2">
+						<input type="text" class="form-control" value="{[if $ret.fax0]}{[$ret.fax0]}{[else]}086{[/if]}" name="fax0"/><span>-</span>
+					</div>
+					<div class="col-lg-1 col-sm-2">
+						<input type="text" class="form-control" name="fax1" value="{[$ret.fax1]}"/><span>-</span>
+					</div>
+					<div class="col-lg-2 col-sm-3">
+						<input type="text" class="form-control" name="fax2" value="{[$ret.fax2]}"/>
+					</div>
+				</div>
+			</form>
+			<!-- 用户提交注册资料结束 -->
+			<!-- 支付开始 -->
+			<div style="margin-top:20px;border-top:1px solid #ffffff;padding-top:10px;">
+				<div class="col-lg-10 col-sm-9 col-xs-10">
+					<button type="button" class="btn btns btn-success" onclick="returnTopStep()">上一步</button>
+				</div>
+				<div>
+					<button type="button" class="btn btns btn-success" onclick="pay()">提交并支付</button>
+				</div>
+			</div>
+			<!-- 支付结束 -->
+			<!-- 填充开始 -->
+			<div>&nbsp;</div>
+			<!-- 填充结束 -->
+		</div>
+	</div>
+</div>
+{[include file="public/foot.html"]}
+<script type="text/javascript">
+var countries_region_obj = {"0-0":"中国","0-1":"中国香港","0-2":"中国澳门","0-3":"中国台湾","0-4":"其它"};
+var city_obj = {
+		"0-0":{"0-0-0":"北京市","0-0-1":"天津市","0-0-2":'河北省',"0-0-3":"山西省","0-0-4":"内蒙古自治区","0-0-5":"辽宁省","0-0-6":"吉林省","0-0-7":"黑龙江省","0-0-8":"上海市"},
+		"0-1":{"0-1-0":"香港地区"},
+		"0-2":{"0-2-0":"澳门地区"},
+		"0-3":{"0-3-0":"台湾地区"},
+		"0-4":{"0-4-0":"其它"}
+};
+var region_obj = {
+		"0-0-0":{"0-0-0-0":'北京市'},
+		"0-0-1":{"0-0-1-0":'天津市'},
+		"0-0-2":{"0-0-2-0":"石家庄市","0-0-2-1":"唐山市","0-0-2-2":"秦皇岛市","0-0-2-3":"邯郸市","0-0-2-4":"邢台市","0-0-2-5":"保定市","0-0-2-6":"张家口市","0-0-2-7":"承德市","0-0-2-8":"沧州市","0-0-2-9":"廊坊市","0-0-2-10":"衡水市"},
+		"0-0-3":{"0-0-3-0":"太原市","0-0-3-1":"大同市","0-0-3-2":"阳泉市","0-0-3-3":"长治市","0-0-3-4":"晋城市","0-0-3-5":"朔州市","0-0-3-6":"晋中市","0-0-3-7":"运城市","0-0-3-8":"忻州市","0-0-3-9":"临汾市","0-0-3-10":"吕梁市"},
+		"0-1-0":{"0-1-0-1":"香港地区"},
+		"0-2-0":{"0-2-0-0":"澳门地区"},
+		"0-3-0":{"0-3-0-0":"台湾地区"},
+		"0-4-0":{"0-4-0-0":"其它"}
+};
+function linkage0(){
+	var key = $("#countries_region").val();
+	var cityarr = city_obj[key];
+	var cityoption = "";
+	for(var i in cityarr){
+		cityoption += "<option value='"+i+"'>"+cityarr[i]+"</option>";
+	}
+	$("#province").html(cityoption);
+	
+	var regionarr = region_obj[$("#province").val()];
+	var regionoption = "";
+	for(var i in regionarr){
+		regionoption += "<option value='"+i+"'>"+regionarr[i]+"</option>";
+	}
+	$("#city").html(regionoption);
+}
+function linkage1(){
+	var key = $("#province").val();
+	var regionarr = region_obj[key];
+	var regionoption = "";
+	for(var i in regionarr){
+		regionoption += "<option value='"+i+"'>"+regionarr[i]+"</option>";
+	}
+	$("#city").html(regionoption);
+}
+function returnTopStep(){
+	history.go(-1);
+}
+function pay(){
+	var form = $("#myform");
+	var user_type = form.find("[name=user_type]:checked").val();
+	var user_master = form.find("[name=user_master]").val();
+	if(user_master == ""){
+		alert("域名所有者不能为空");
+		return;
+	}
+	var user_master_en = form.find("[name=user_master_en]").val();
+	if(user_master_en == ""){
+		alert("域名所有者英文名称不能为空");
+		return;
+	}
+	var contact = form.find("[name=contact]").val();
+	if(contact == ""){
+		alert("联系人不能为空");
+		return;
+	}
+	var contact_en = form.find("[name=contact_en]").val();
+	if(contact_en == ""){
+		alert("联系人英文不能为空");
+		return;
+	}
+	var email = form.find("[name=email]").val();
+	if(email == ""){
+		alert("邮箱不能为空");
+		return;
+	}
+	var countries_region = form.find("[name=countries_region]").val();
+	if(countries_region == ""){
+		alert("国家不能为空");
+		return;
+	}
+	var province = form.find("[name=province]").val();
+	if(province == ""){
+		alert("省份不能为空");
+		return;
+	}
+	var city = form.find("[name=city]").val();
+	if(city == ""){
+		alert("城市不能为空");
+		return;
+	}
+	var city_en = form.find("[name=city_en]").val();
+	if(city_en == ""){
+		alert("城市英文名不能为空");
+		return;
+	}
+	var address = form.find("[name=address]").val();
+	if(address == ""){
+		alert("地址不能为空");
+		return;
+	}
+	var address_en = form.find("[name=address_en]").val();
+	if(address_en == ""){
+		alert("地址英文名不能为空");
+		return;
+	}
+	var zip_code = form.find("[name=zip_code]").val();
+	if(zip_code == ""){
+		alert("邮政编码不为空");
+		return;
+	}
+	var mobile_phone = form.find("[name=mobile_phone]").val();
+	if(mobile_phone == ""){
+		alert("手机号码不能为空");
+		return;
+	}
+	var fax0 = form.find("[name=fax0]").val();
+	var fax1 = form.find("[name=fax1]").val();
+	if(fax1 == ""){
+		alert("传真区号不能为空");
+		return;
+	}
+	var fax2 = form.find("[name=fax2]").val();
+	if(fax2 == ""){
+		alert("传真号码不能为空");
+		return;
+	}
+	$.ajax({
+		url:"?c=buyprocess&a=saveUserDatum",
+		type:'POST',
+		data:{
+			user_type:user_type,
+			user_master:user_master,
+			user_master_en:user_master_en,
+			contact:contact,
+			contact_en:contact_en,
+			email:email,
+			countries_region:countries_region,
+			province:province,
+			city:city,
+			city_en:city_en,
+			address:address,
+			address_en:address_en,
+			zip_code:zip_code,
+			mobile_phone:mobile_phone,
+			fax0:fax0,
+			fax1:fax1,
+			fax2:fax2
+		},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert("资料提交失败");
+				return;
+			}
+			window.location.href = "?c=buyprocess&a=payPage";
+		},
+		error:function(a){
+			alert("error");
+		}
+	});
+}
+$(document).ready(function(){
+	$("#nav_domain_register").addClass('cur');
+	//linkage0();
+});
+</script>

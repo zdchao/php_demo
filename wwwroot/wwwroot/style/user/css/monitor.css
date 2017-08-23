@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+.record-head{width:100%;background:#f9f9f9}
+.record{width:100%;}
+/* 大屏幕 */
+@media (min-width: 1200px) {
+	.table_div{width:1120px;margin:20px auto;padding-bottom:40px;}
+	.record-head > span{float:left;margin:0 5px;padding-top:5px;text-align: left;height:40px;line-height:40px;vertical-align: top;font-weight: bold;}
+	.record >span{float:left;margin:0 5px;padding-top:5px;text-align: left;height:40px;line-height:40px;vertical-align: top;}
+}
+/* 平板电脑和小屏电脑之间的分辨率 */
+@media (min-width: 768px) and (max-width: 1199px) {
+	.table_div{width:768px;margin:20px auto;padding-bottom:40px;}
+	.record-head > span{float:left;margin:0 5px;padding-top:5px;text-align: left;height:40px;line-height:40px;vertical-align: top;font-weight: bold;}
+	.record >span{float:left;margin:0 5px;padding-top:5px;text-align: left;height:auto;line-height:40px;vertical-align: top;}
+}
+/* 横向放置的手机和竖向放置的平板之间的分辨率 */
+@media (max-width: 767px) {
+	.table_div{width:100%;margin:20px auto;padding-bottom:40px;}
+	.record-head > span{float:left;margin:0 5px;padding-top:5px;text-align: left;height:40px;line-height:40px;vertical-align: top;font-size:12px;}
+	.record >span{float:left;margin:0 5px;text-align: left;height:auto;font-size:12px;line-height:40px;}
+}
+.record:hover{background-color: #F5F5F5;}
+.record:nth-child(even){ background: #f9f9f9}
+.record-ip{width:15%;}
+.record-status{width:10%;}
+.record-message{width:25%;}
+.record-time{width:20%;}
+.record-auto{width:auto;}

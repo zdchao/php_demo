@@ -1,0 +1,61 @@
+<!--  <div class="show-message"><strong ><span class="offset2" id="error-message" ></span></strong></div>-->
+<div class="record_toptip"><span id="error-message" ></span></div>
+<!-- 进度条 -->
+<div id="progress_main" class="progress" style="display:none">
+	<div id="progress_success" class="bar bar-success" style="width:0%;"></div>
+	<div id="progress_error" class="bar bar-danger" style="width:0%"></div>
+</div>
+<div class="contain_top">
+		<div class="title_logo">
+			<a href="?c=public&a=index&groupid={[$groupid]}" id="go_home"><i></i></a>
+			<span id="domain_name_show"></span><strong id="domain_pname_show">免费版</strong>
+		</div>
+		<div class="cont_menus">
+			<ul id="record-operat">
+			<li><a href="javascript:;" id="close">打开</a></li>
+			<li id="record"><a href="?c=public&a=record">记录管理</a></li>
+			<li id="query"><a href="?c=public&a=recordQuery">解析统计</a></li>
+			<li id="line"><a href="?c=public&a=line">线路管理</a></li>
+			<li id="monitor"><a href="?c=public&a=monitorLog">监控日志</a></li>
+			<li id="operat"><a href="?c=public&a=operatLog">操作日志</a></li>
+			<li id="setting"><a href="?c=public&a=domainSetting">域名设置</a></li>
+			{[if $iscdn == 1]}
+			<!-- <li id="cdn"><a href="?c=public&a=cdn">CDN设置</a></li>-->
+			<li id="cdn_cg"><a href="?c=public&a=cdnCg">CDN设置</a></li>
+			<li id="cdnflow"><a href="?c=public&a=cdnflow">CDN流量</a></li>
+			<li id="connection"><a href="?c=public&a=connection">连接信息</a></li>
+			{[/if]}
+			<!-- 
+			<li id="connectioncdn"><a  href="?c=public&a=connectioncdn" data-toggle="tab">接入CDN贝</a></li>
+			 -->
+			</ul>
+		</div>
+		<!--  
+		<span id="responsive-operat-span" class="span3" style="margin:0 -1px">
+				<a href="?c=public&a=index&groupid={[$groupid]}" id="go_home"> <i class="icon-home"></i></a>&nbsp;<span id="domain_name_show"></span>
+				<span class="btn-link"><a href="javascript:;"><b id="domain_pname_show">免费版</b></a></span>
+		</span>
+		-->
+		<!--  
+		<ul class="nav nav-tabs" id="record-operat">
+			<li style="display:none;"><a href="javascript:;">关闭</a></li>
+			{[if $iscdn == 1]}
+			<li id="connection" class="pull-right"><a href="?c=public&a=connection">连接信息</a></li>
+			<li id="cdnflow" class="pull-right"><a href="?c=public&a=cdnflow">CDN流量</a></li>
+			<li id="cdn" class="pull-right"><a href="?c=public&a=cdn">CDN设置</a></li>
+			{[/if]}
+			<li id="setting" class="pull-right"><a href="?c=public&a=domainSetting">域名设置</a></li>
+			<li id="monitor" class="pull-right"><a href="?c=public&a=monitorLog">监控日志</a></li>
+			<li id="operat" class="pull-right"><a href="?c=public&a=operatLog">操作日志</a></li>
+			<li id="line" class="pull-right"><a href="?c=public&a=line">线路管理</a></li>
+			<li id="query" class="pull-right"><a href="?c=public&a=recordQuery">解析统计</a></li>
+			<li id="record" class="pull-right"><a href="?c=public&a=record">记录管理</a></li>
+			-->
+			<!-- 
+			<li id="connectioncdn"><a  href="?c=public&a=connectioncdn" data-toggle="tab">接入CDN贝</a></li>
+			 -->
+			 <!--
+		</ul>
+		-->
+</div>
+

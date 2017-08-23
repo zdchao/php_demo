@@ -1,0 +1,328 @@
+{[include file='common/head.html']}
+<script type="text/template" id="list-server-node-template">
+<tr id="{{key}}">
+	<td>{{node}}</td>
+	<td>{{serverip}}</td>
+	<td>{{seq}}</td>
+	<td>{{master}}{{sync}}</td>
+	<td>{{time}}</td>
+	<td>{{version}}</td>
+	<td>{{{img}}}</td>
+</tr>
+</script>
+<script type='text/javascript'>
+	var dia;
+	var promptmsg = "{[$operatingmsg]}";
+	var plist = [];
+	$(document).ready(function() {
+		if (promptmsg != '') {
+			art.dialog({
+				id : 'id23',
+				content : promptmsg,
+				title : '警告',
+				icon : 'warning',
+				top : '30%'
+			});
+		}
+		renderProduct();
+	});
+	function renderProduct() 
+	{
+		var product_div = $("#product_list");
+		$.ajax({
+			url:'?c=product&a=getList',
+			dataType:'json',
+			success:function(a) {
+				if (a.code != 1) {
+					product_div.html(a.message);
+					return;
+				}
+				var html = '默认套餐:<select name="pid">';
+				for (var i in a.plist) {
+					html += '<option value="'+a.plist[i]['id'] + '"';
+					if (a.plist[i]['id'] == a.pid) {
+						html += ' selected';
+					}
+					html += '>'+ a.plist[i]['name'];
+					if (a.plist[i]['audit']) {
+						html += '&nbsp;审';
+					}
+					html +='</option>';
+				}
+				html += '</select>';
+				html += '<button onclick="setPid()">确定</button>';
+				product_div.html(html);
+			}
+		});
+	}
+	function setPid()
+	{
+		var pid = $("#product_list").find('[name=pid]').val();
+		$.ajax({
+			url:"?c=proxy&a=changeDefaultPid",
+			data:{pid:pid},
+			dataType:'json',
+			success:function(a) {
+				alert(a.message);
+				renderProduct();
+			} 
+		});
+	}
+	function piao_change_passwd() 
+	{
+		var html = '';
+		html += '新的密码:<input name="passwd" id="change_passwd">';
+		html += '<input type="submit" value="提交" onclick="change_passwd()">';
+		dia = art.dialog({id:'222',content:html,title:'修改密码',lock:true});
+	}
+	function change_passwd() 
+	{
+		var newpasswd = $("#change_passwd").val();
+		if (!newpasswd) {
+			alert('新密码不能为空');
+			return;
+		}
+//		dia.close();
+		$.ajax({
+			url:'?c=proxy&a=changePassword',
+			data:{passwd:newpasswd},
+			dataType:'json',
+			success:function(a) {
+				alert(a.message);
+			}
+		});
+		
+	}
+	function del_slave(ip, s, r) {
+		if (confirm("确定要删除吗?")) {
+			window.location = '?c=index&a=delSlave&ip=' + ip + '&server=' + s + "&remote=" + r;
+		}
+	}
+	function add_slave(s) {
+		var html = '<form action="?c=index&a=addSlave" method="POST">';
+		html += '服务器IP:<input name="ip" />'
+		html += '<br><br>server:<input name="server" value="' + s + '"/>'
+		html += '<br><br><input type="submit" value="确定">';
+		html += '</form>';
+		art.dialog({
+			id : 'add_slave',
+			content : html,
+			title : '增加辅节点'
+		});
+	}
+</script>
+<script type="text/javascript">
+function main(){
+	this.listservernode = [];
+	this.retserver = [];
+	this.seq = null; //序列号
+	this.server = null;
+	this.serverall = []; //合并server1,server0信息
+	this.init = function(server){
+		var that = this;
+		that.server = server;
+		that.getAllRet();
+		that.currentServerSeq(that.retserver);
+		that.showServerNodeList(that.listservernode,that.serverall);
+	}
+	this.getAllRet = function(){
+		var that = this;
+		$.ajax({
+			url:'?c=index&a=ajaxQueryAll',
+			data:{server:that.server},
+			dataType:'json',
+			async:false,
+			success:function(a){
+				if(a.listServerNode['result'] == 200){
+					that.getListServerNode(a.listServerNode['value']);
+				}
+				that.retserver.push(a.retserver);
+				if(a.master1['result'] == 200){
+					var length1 = a.master1['value'].length;
+					that.mergeServer(length1,a.master1['value'],1);
+				}
+				if(a.master0['result'] == 200){
+					var length0 = a.master0['value'].length;
+					that.mergeServer(length0,a.master0['value'],0);
+				}
+			},
+			error:function(a){
+				alert('error');
+			}
+		});
+	}
+	//显示当前server序列号
+	this.currentServerSeq = function(ret){
+		var html = "序列号:"+ret[0]['serial'];
+		$("#list_server").append(html);
+	}
+	//显示server node 连接信息
+	this.showServerNodeList = function(listnode,serverall){
+		var that = this;
+		var lengthnode = listnode.length;
+		var lengthserver = serverall.length;
+		var template = $("#list-server-node-template").html();
+		var option = [];
+		for(var i=0;i<lengthnode;i++){
+			for(var j=0;j<lengthserver;j++){
+				if(listnode[i] == serverall[j]['node'] && that.server == serverall[j]['server']){
+					option.key = i;
+					option.node = listnode[i];
+					option.master = serverall[j]['master']+"-";
+					option.serverip = serverall[j]['addr'];
+					option.version = serverall[j]['version'];
+					option.seq = serverall[j]['seq'];
+					option.sync = serverall[j]['sync'];
+					option.time = serverall[j]['time'];
+					option.img = "<img src='/style/check_right.gif'>";
+					var el = Mustache.to_html(template,option);
+					$("#list_server_node").append(el);
+					that.listservernode[i] = "@";
+				}
+			}
+		}
+		for(var i=0;i<lengthnode;i++){
+			if(that.listservernode[i] == "@"){
+				continue;
+			}
+			option.key = i;
+			option.node = listnode[i];
+			option.master = "";
+			option.serverip = "";
+			option.version = "";
+			option.seq = "";
+			option.sync = "";
+			option.time = "";
+			option.img = "<img src='/style/check_error.gif'>";
+			var el = Mustache.to_html(template,option);
+			$("#list_server_node").append(el);
+		}
+	}
+	//获得server 的节点
+	this.getListServerNode = function(ret){
+		var that = this;
+		for(var i in ret){
+			that.listservernode.push(ret[i]);
+		}
+	}
+	//合并server信息
+	this.mergeServer = function(length,ret,master){
+		var that = this;
+		for(var i=1;i<length;i++){
+			ret[i]['master'] = master;
+			that.serverall.push(ret[i]);
+		}
+	}
+}
+$(document).ready(function(){
+	var m = new main();
+	m.init("{[$server]}");
+});
+</script>
+<body text='#000000' leftmargin='0' topmargin='0'>
+	<div align="center">
+		<div class="wid_main mar_main" align="left">
+			<div class="block_top" align="left">当前位置：帐号管理 --> 我的信息</div>
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="2" class="bg_main"><b>我的信息</b></td>
+				</tr>
+				<tr>
+					<td class="wid_general">用户名</td>
+					<td>{[$role.proxy]} [<a href="javascript:piao_change_passwd()" >修改密码</a>]</td>
+				</tr>
+				{[if $msg]}
+				<tr>
+					<td>提示</td>
+					<td class='red'>{[$msg]}</td>
+				</tr>
+
+				{[/if]}
+
+				<tr>
+					<td>当前版本</td>
+					<td>{[$softversion]}</td>
+				</tr>
+				<!--  
+				<tr>
+					<td>fansd版本</td>
+					<td>{[$fansdversion]}</td>
+				</tr>
+				-->
+				<tr>
+					<td>套餐计划</td>
+					<td id="product_list"></td>
+				</tr>
+				<tr>
+					<td>接收邮箱(接收攻击等管理通知)</td>
+					<td >
+						<form action="?c=index&a=changeEmail" method="POST">
+							<input name="email" size="24" value="{[$proxyinfo.email]}" ><input type="submit" value="修改">
+						</form>
+					</td>
+				</tr>
+				
+			</table>
+			<!-- server连接状态 -->
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+				<tr>
+					<td colspan="8" class="bg_main"><b>Server&nbsp;:&nbsp;</b><span id="list_server"></span></td>
+				</tr>
+				<tr>
+					<td>节点</td>
+					<td>IP</td>
+					<td>序列号</td>
+					<td>sync</td>
+					<td>连接时间</td>
+					<td>版本</td>
+					<td>状态</td>
+				</tr>
+				<tbody id="list_server_node">
+				</tbody>
+			</table>
+			<!--  
+			{[foreach from=$slave item=rows key=servername]}
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+
+				<tr>
+					<td colspan="5" class="bg_main">
+
+						<table width='100%'>
+							<tr>
+								<td class="bg_main">{[$servername]}辅节点信息
+									序列号{[$rows.serial]}</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				{[if is_array($rows) && isset($rows.server)]}
+				<tr>
+					<td>名字</td>
+					<td>IP</td>
+					<td>版本</td>
+					<td>序列号</td>
+					<td>已连时间</td>
+					<td>状态</td>
+				</tr>
+				{[foreach from=$rows.server item=row key=key]}
+				<tr>
+					<td>{[$row.peer]}</td>
+					<td>{[$row.ip]}</td>
+					<td>{[$row.version]}</td>
+					<td>{[$row.serial]}</td>
+					<td>{[$row.time]}</td>
+					<td><img src="/style/check_{[if $row.connect==1]}right.gif{[else]}error.gif{[/if]}"></td>
+				</tr>
+				{[/foreach]} 
+				{[else]}
+				<tr>
+					<td colspan='5'>{[if
+						$rows.result]}result={[$rows.result]}{[else]}{[$rows]}{[/if]}</td>
+				</tr>
+				{[/if]}
+			</table>
+			{[/foreach]}
+			-->
+		</div>
+	</div>
+	{[include file='common/foot.html']}

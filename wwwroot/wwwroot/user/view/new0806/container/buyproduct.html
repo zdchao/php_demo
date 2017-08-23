@@ -1,0 +1,154 @@
+{[dispatch c='public'  a='head']}
+<script type="text/template" id="buy-success-template">
+<div style="background:F5F5F5">
+	<image src="/style/img/buy_success.png" style="margin:5% 40%;">
+    <div class="buy_message">您的产品已经购买成功！</div>
+     <div class="buy_message"> 您可以在<a href="?c=containerproduct&a=usercontainer">我的容器-->未使用</a>查看您购买的产品</div>
+    <div class="buy_button" style="margin-left:20%">该页面会在<span id="time">10</span>秒之后自动跳转</div>
+</div>
+</script>
+<script type="text/javascript">
+$(function(){
+	var div = $("#form");
+	 price = '{[$containerPInfo.price/100]}';
+	 lessmoney = 0//优惠价钱
+	$("#add").bind('click',function(){
+		addChange(div);
+	});
+	$("#minus").bind('click',function(){
+		minusChange(div);
+	});
+});
+function buy_success(){
+	var div = $("#piao-modal");
+	var html = $("#buy-success-template").html();
+	div.find(".modal-body").html(html);
+	div.modal('show');
+    i = 10;
+	setInterval('out()',1000);
+}
+function out(){
+    if (i>0){
+      i--;
+    }else{
+    	window.location.href = "?c=containerproduct&a=usercontainer";
+    }
+    $("#piao-modal").find("#time").text(i);
+  }
+function addChange(div){
+	var months =  parseInt(div.find("input[name=months]").val());
+	months = months+1;
+	 div.find("input[name=months]").attr('value',months);
+	 var sum = price*months-lessmoney;
+	  sum = sum>0?sum:0;
+	 div.find("#sum").html("<em>￥"+sum+"</em>");
+}
+function minusChange(div){
+	var months =  parseInt(div.find("input[name=months]").val());
+    months = months<=1?1:months-1;
+	div.find("input[name=months]").attr('value',months);
+	 var sum = price*months-lessmoney;
+	  sum = sum>0?sum:0;
+	div.find("#sum").html("<em>￥"+sum+"</em>");
+}
+function submit(id){
+	var div =  $("#form");
+	var months =  parseInt(div.find("input[name=months]").val());
+	if(months <=0){
+		alert("月数不能少于1")
+	}
+	var str =div.find("input[name=keystr]").val();
+	$.ajax({
+		url:'?c=containerproduct&a=buy',
+		type:'POST',
+		data:{pid:id,months:months,str:str},
+		dataType:'json',
+		success:function(a){
+			if(a.status.code != 1){
+				alert(a.status.message);
+				return;
+			}
+			buy_success();
+			
+		},
+		error:function(a){
+			alert("error");
+		}
+	});
+}
+function buy_success(){
+	var div = $("#piao-modal");
+	var html = $("#buy-success-template").html();
+	div.find(".modal-body").html(html);
+	div.modal('show');
+    i = 5;
+	setInterval('out()',1000);
+}
+function out(){
+    if (i>0){
+      i--;
+    }else{
+    	window.location.href = "?c=containerproduct&a=usercontainer";
+    }
+    $("#piao-modal").find("#time").text(i);
+  }
+var showMessage = function(message){
+	var messagediv = $("#show_error");
+	messagediv.html(message).addClass('alert alert-success');
+		setTimeout(function() {
+			messagediv.html('').removeClass();
+		}, 5000);
+}
+</script>
+<link href="/style/user/css/container.css" rel="stylesheet">
+<link href="/style/user/css/domain.css" rel="stylesheet">
+<div id="show_error"></div>
+<div class="wrap">
+	<div class="contain">
+	   <span ><h3>购买产品---  {[$containerPInfo.name]}</h3></span>
+	   <div class="line"></div>
+		<form class="form-horizontal" id="form" action="?c=containerproduct&a=buy&pid={[$containerPInfo.id]}" method="post" style="margin-left:20%;">
+		     <div class="control-group">
+			    <label class="control-label" for="inputPassword">产品价格</label>
+			    <div class="controls">
+			       ￥{[$containerPInfo.price/100]}/月
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="inputPassword">选择月数</label>
+			    <div class="controls">
+			      <i class="icon-minus" id="minus"></i><input type="text" name="months"class="input-mini" value="1"/><i class="icon-plus" id="add"></i>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="inputPassword">优惠码</label>
+			    <div class="controls">
+			        <input type="text" name="keystr" id="inputEmail" placeholder="可为空">
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label" for="inputPassword">总计</label>
+			    <div class="controls">
+			       <span id="sum">￥{[$containerPInfo.price/100]}</span>
+			    </div>
+			  </div>
+			  <div class="control-group" style="padding:20px">
+			    <div class="controls">
+			      <!--<button class="btn btn-success btns"  onclick="submit({[$containerPInfo.id]})">立即购买</button>  -->
+			            <input type="submit" value="立即购买" class="btn btn-success btns"  />
+			            <a class="btn"  href="?c=public&a=container">返回</a>
+			    </div>
+			  </div>
+		</form>
+	</div>
+</div>
+ <div class="modal hide fade" id="piao-modal">
+    	<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    		<div style="font-size:16px;color:F5F5F5">购买成功</div>
+    	</div>
+    	<div class="modal-body">
+    		
+    	</div>
+    </div>
+{[include file='public/foot.html']}

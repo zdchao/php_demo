@@ -1,0 +1,210 @@
+{[include file='common/head.html']}
+
+<body bgcolor='#ffffff' text='#000000' leftmargin='0' topmargin='0'>
+
+<script type="text/template" id="piao-remark-template">
+
+<div id="piao-remark-div">
+
+	<div>备注:<textarea rows=10 cols=50 id="piao_remark">{{remark}}</textarea></div>
+
+	<div><input type="button" id="enter" value="备注"></div>
+
+</div>
+
+</script>
+
+<script type="text/template" id="piao-edit-passwd-template">
+
+<div id="edit-passwd-div">
+
+	新密码:<input id="piao_edit_passwd"><input type="button" id="enter" class="btn" value="修改">
+
+</div>
+
+</script>
+
+<script type="text/template" id="piao-del-server-template">
+
+<div id="del-server-div">
+
+	确定要删除{{name}}吗?
+
+	<input type=button value="确定" id="enter" class="btn green">
+
+	<input type=button value="取消" id="enterDia" class="btn">
+
+</div>
+
+</script>
+
+<script type="text/template" id="piao-add-server-template">
+
+<div id="add-server-div">
+
+	<div class="piao_div">名称:<input id="add_server_name" ></div>
+
+	<div class="piao_div">skey:<input id="add_server_skey"></div>
+
+	<div class="piao_div"><input type="button" id="enter" value="增加">
+
+</div>
+
+</script>
+
+<script type='text/template' id="edit-allowpid-template">
+
+<div id="edit-allowpid-div">
+
+	<div class="">
+
+		<span class="piao_left">server名称:</span>
+
+		<span class="piao_right">{{name}}</span>
+
+	</div>
+
+	<div class="piao_div">
+
+		{{{pid_radio_html}}}
+
+	</div>
+
+	<div class="piao_div">
+
+		<span class="pull-right">
+
+			<button class="btn" id='esc'>取消</button>
+
+			<button class="btn" id='enter'>确定</button>
+
+		</span>
+
+	</div>
+
+</div>
+
+</script>
+
+<script type='text/javascript'>
+
+	$(document).ready(function() {
+
+	});
+
+var dia;
+
+</script>
+
+<script type='text/javascript' src='{[$STATIC]}scripts/server.js'></script>
+
+	<div align="center">
+
+		<div class="wid_main mar_main" align="left">
+
+			<div class="block_top" align="left">当前位置：server列表<span class="red" id="show_msg"></span></div>
+
+			<table class="table_main2" cellpadding="0" cellspacing="1">
+
+				<tr>
+
+					<td colspan="7" class="bg_main">
+
+					{[if $operataccess]}
+
+					<a href="javascript:piao_add_server();" target='main'><b>[增加server]</b></a>
+
+					{[/if]}
+
+					<span id="show_msg"></span>
+
+					</td>
+
+				</tr>
+
+				<tr id="bg_yellow">
+
+					<td>操作</td>
+
+					<td>名称</td>
+
+					<td>产品ID</td>
+
+					<td>允许产品</td>
+
+					<td>管理邮箱</td>
+
+					<td>备注</td>
+
+				</tr>
+
+				{[foreach from=$list item=row key=key]}
+
+				<tr class='view_edit_tr' id='{[$key]}'>
+
+					<td>
+
+						{[if $operataccess]}
+
+						[<a href="javascript:piao_edit_passwd('{[$row.name]}')">修改密码</a>]
+
+						[<a href="javascript:piao_del_server('{[$row.name]}')">删除</a>]
+
+						{[/if]}
+
+					</td>
+
+					<td width="200px">
+
+						<!--<a href="?c=server&a=login&name={[$row.name]}" target=_blank>{[$row.name]}</a>-->
+
+						{[$row.name]}
+
+						<div style="float:right; margin-right:35px;">
+
+							[<a href="javascript:switch_server('{[$row.name]}')">切换登陆</a>]
+                        
+                        </div>
+
+					</td>
+
+					<td id="edit_pid{[$key]}">
+
+						<a href="?c=product&a=pagelist&pid={[$row.pid]}" title="点击查看套餐内容">{[$row.pid]}</a>
+
+						&nbsp;
+
+						<span class="pull-right">
+
+						[<a href="javascript:piao_edit_pid('{[$row.name]}',{[$row.pid]})">修改</a>]
+
+						</span>
+
+					</td>
+
+					<td >{[$row.allow_buy_pid]}<span class="pull-right">[<a href="javascript:piao_edit_allowpid('{[$row.name]}','{[$row.allow_buy_pid]}')">设置</a>]</span></td>
+
+					<td>{[$row.email]}</td>
+
+					<td><span>[<a href="javascript:piao_remark('{[$row.name]}')">备注</a>]</span>&nbsp;<span title="{[$row.remark]}">{[$row.remark|truncate:48]}</span></td>
+
+				</tr>
+
+				{[/foreach]}
+
+				<tr>
+
+					<td colspan="7" id="bg_yellow" align="right">共计 {[$count]} 条记录&nbsp;</td>
+
+				</tr>
+
+			</table>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
+

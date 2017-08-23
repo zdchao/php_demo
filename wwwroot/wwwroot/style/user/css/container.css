@@ -1,0 +1,105 @@
+.container_left{
+	width:70%;
+	text-decoration:none;
+	margin-left:8%;
+	display:inline-block;
+}
+.left_color{
+	color:#666;
+}
+.buy_message{
+	font-size:12px;
+	color:#A9A9A9;
+	padding:5px;
+	text-align:center
+}
+.buy_button{
+	border:2px solid #f6a683;
+	padding:5px 30px;
+	border-radius:15px;
+	background-color:#f6a683;
+	color:#fff;
+	cursor:pointer;
+	width:30%;
+	text-align:center;
+}
+.buynocontent{
+margin:20px 80px 20px 0px;
+width:100%;
+height:500px;
+padding:20px;
+background-image:url('/style/img/nocontent.jpg');
+background-size: cover;
+z-index:-1;
+}
+.show{
+	box-shadow: 10px 10px 5px #888888;
+}
+ .tips {
+    color: #777;
+    font-style: italic;
+    font-size:14px;
+    padding:12px 0px;
+}
+.icon_loading{ 
+	display:inline-block;
+	background: url('/style/busy.gif') no-repeat left center;
+	width:16px;
+    height:16px;
+}
+.tips-ul li{
+	height:30px;
+	line-height:30px;
+	font-size:14px;
+}
+.action_error{
+	color:#91918D;
+}
+.line{
+	border-top:1px solid #09a5cc;
+	padding:12px;
+}
+.buycontainer{
+	margin:0 auto;
+	z-index:10;
+	width:100%;
+	overflow: hidden;
+    padding-top: 35px;
+    position: relative;
+    text-align: center;
+}
+.buycontainer ul li{
+	float:left;
+	width:30%;
+	margin-right:3%;
+	background: none repeat scroll 0 0 #D5DDDF;
+    color: #707070;
+    margin-bottom:3%;
+}
+.buycontainer ul{
+    
+}
+.container_name{
+      color: #7099cd;
+}
+.container_price{
+	color: #ffffff;
+    font-size: 20px;
+    padding-bottom: 31px;
+    padding-top: 47px;
+    background: none repeat scroll 0 0 #317fc6;
+}
+.strong {
+    font-size: 40px;
+    font-weight: bolder;
+}
+.yuan{
+	 font-size: 27px;
+}
+.buycontainer .container_p{
+	font-size:20px;
+    padding-top: 8%;
+}
+.store{
+	font-size: 27px;
+}

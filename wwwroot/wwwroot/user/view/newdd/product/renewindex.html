@@ -1,0 +1,112 @@
+{[dispatch c='public'  a='head']}
+<script type='text/javascript'>
+	var price = '{[$pinfo.price]}';
+	var cprice = '{[$domaininfo.pid_price]}';
+	var money = '{[$user.money/100]}';
+	$(document).ready(function() {
+		show_price();
+		$(":radio").bind('click', function() {
+			show_price();
+		});
+	});
+	function checkSubmit() {
+		product_buy.submit();
+	}
+	function show_price() {
+		var month = $("[name=month]:checked").val();
+		var needprice = (parseInt(cprice) > 0 ? cprice : price) * month;
+		$("#show_price").html(needprice);
+		if (parseInt(needprice) > parseInt(money)) {
+			$("#show_price_div").addClass('red').removeClass('green');
+			$("#after_msg").html("&nbsp;<a href='?c=user&a=index' target=_blank>现在去充值</a>");
+			$("#show_renew_input").hide();
+		} else {
+			$("#show_price_div").addClass('green').removeClass('red');
+			$("#show_renew_input").show();
+		}
+		if (parseInt(cprice) > 0) {
+			$("#show_pid_price").html(cprice);
+		}
+	}
+</script>
+<div class="container">
+	<div class="row">
+		<fieldset>
+			<legend>套餐续费</legend>
+		</fieldset>
+	</div>
+	<div class="row">
+		<div class="span6">
+			<form action="?c=product&a=renew" method="POST" name="product_buy" class="form-horizontal">
+				
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">续费域名:</label>
+					<div class="controls">{[$domain]}</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">套餐名称:</label>
+					<div class="controls">{[$pinfo.name]}</div>
+				</div>
+				<!--  
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">套餐价格:</label>
+					<div class="controls"><span id="show_pid_price">{[$pinfo.price]}</span>元/月</span></div>
+				</div>
+				-->
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">过期时间:</label>
+					<div class="controls">{[$domaininfo.pid_expire_time]}</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">购买时间:</label>
+					<div class="controls">
+						<input type='radio' name="month" value=1>&nbsp;一月&nbsp; 
+						<input type='radio' name="month" value=3>&nbsp;三月&nbsp;
+						<input type='radio' name="month" value=6>&nbsp;六月&nbsp;  
+						<input type='radio' name="month" value=10 checked>&nbsp;一年 &nbsp;
+						<input type='radio' name="month" value=20>&nbsp;2年&nbsp; 
+						<input type='radio'	name="month" value=50>&nbsp;5年
+					</div>
+				</div>
+				
+				<div class="control-group" id="product-price-div">
+					<label class="control-label" for="inputEmail">所需金额:</label>
+					<div class="controls">
+						<span class="padd-buy" id="show_price"></span>元(当前账户余额{[$user.money/100]}元)
+						<span id="after_msg"></span>
+					</div>
+				</div>
+				
+				<div class="control-group" id="product-keystr-div">
+					<label class="control-label" for="keystr">优惠码:</label>
+					<div class="controls">
+						<span ><input type='text' name="keystr"></span>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">提示:</label>
+					<div class="controls">
+						<b class="btn-link">现在购买一年只需支付10个月</b>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label" for="inputEmail"></label>
+					<div class="controls">
+					<input type="button"  onclick="window.location='?c=public&a=index'" title="重选域名" value="返回" class="btn">
+					<span id="show_renew_input"><input type="button"
+						onclick="checkSubmit()" class="btn btn-primary" value="续费" /></span>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="span6">{[include file='product/right.html']}</div>
+	</div>
+	<fieldset>
+		<legend>
+			<!-- 一条线和foot分开 -->
+		</legend>
+	</fieldset>
+</div>
+{[include file='public/foot.html']}
